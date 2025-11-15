@@ -98,7 +98,13 @@
                    [ngClass]="getMarkerClass(marker)" 
                    [ngStyle]="getMarkerStyle(marker)"
                    (click)="selectMarker(marker, $event)">
-                <div class="marker-dot" [style.backgroundColor]="marker.color"></div>
+                <div class="marker-icon" 
+                     [style.backgroundColor]="getMarkerColor(marker)">
+                  <span class="material-icons" 
+                        [style.color]="getMarkerIconColor(marker)">
+                    {{ getMarkerIcon(marker) }}
+                  </span>
+                </div>
                 <div class="marker-label">{{ marker.title }}</div>
 
                 @if (selectedMarker?.id === marker.id) {

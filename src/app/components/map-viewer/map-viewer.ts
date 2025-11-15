@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameMapConfig, GameMarker } from '../../services/game-map';
+import { getMarkerConfig } from '../../config/marker-types.config';
 
 export interface DrawingLine {
   id: string;
@@ -82,6 +83,25 @@ export class MapViewerComponent {
       'marker-unit': marker.type === 'unit',
       'marker-selected': this.selectedMarker?.id === marker.id
     };
+  }
+
+  getMarkerIcon(marker: GameMarker): string {
+    const config = getMarkerConfig(marker.type);
+    return config.icon;
+  }
+
+  getMarkerColor(marker: GameMarker): string {
+    // Use custom color if provided, otherwise use config color
+    if (marker.color) {
+      return marker.color;
+    }
+    const config = getMarkerConfig(marker.type);
+    return config.color;
+  }
+
+  getMarkerIconColor(marker: GameMarker): string {
+    const config = getMarkerConfig(marker.type);
+    return config.iconColor;
   }
 
   getVisibleMarkers(): GameMarker[] {

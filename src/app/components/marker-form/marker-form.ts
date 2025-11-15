@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LanguageService } from '../../services/language.service';
+import { getMarkerTypes } from '../../config/marker-types.config';
 
 export interface MarkerFormData {
   x: number;
@@ -20,7 +21,7 @@ export interface MarkerFormData {
 export class MarkerFormComponent implements OnInit {
   @Input() x: number = 0;
   @Input() y: number = 0;
-  @Input() markerTypes: string[] = ['spawn', 'resource', 'wonder', 'unit', 'custom'];
+  @Input() markerTypes: string[] = getMarkerTypes();
   
   @Output() markerSaved = new EventEmitter<MarkerFormData>();
   @Output() formClosed = new EventEmitter<void>();

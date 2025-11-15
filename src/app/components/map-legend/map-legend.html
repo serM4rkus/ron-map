@@ -33,7 +33,11 @@
     (click)="toggleLegendItem(item.id)"
     [title]="'Click to ' + (item.visible ? 'hide' : 'show')"
   >
-    <span class="legend-color" [style.background-color]="item.color"></span>
+    <span class="legend-icon" [style.background-color]="item.color">
+      <span class="material-icons" [style.color]="getMarkerIconColor(item.id)">
+        {{ getMarkerIcon(item.id) }}
+      </span>
+    </span>
     <span class="legend-label">{{ translate(item.id) }}</span>
     <svg class="legend-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       @if (item.visible) {

@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LanguageService } from '../../services/language.service';
+import { getMarkerConfig } from '../../config/marker-types.config';
 
 export interface LegendItem {
   id: string;
@@ -45,5 +46,15 @@ export class MapLegendComponent {
 
   isAnyLegendItemVisible(): boolean {
     return this.legendItems.some(item => item.visible);
+  }
+
+  getMarkerIcon(itemId: string): string {
+    const config = getMarkerConfig(itemId);
+    return config.icon;
+  }
+
+  getMarkerIconColor(itemId: string): string {
+    const config = getMarkerConfig(itemId);
+    return config.iconColor;
   }
 }

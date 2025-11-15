@@ -4,6 +4,7 @@ import { GameMapService, GameMapConfig, GameMarker } from '../../services/game-m
 import { LanguageService } from '../../services/language.service';
 import { DrawingService } from '../../services/drawing.service';
 import { Language } from '../../config/languages.config';
+import { MARKER_TYPE_CONFIGS } from '../../config/marker-types.config';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MapSelectorComponent } from '../map-selector/map-selector';
@@ -43,12 +44,12 @@ export class GameMapComponent implements OnInit, OnDestroy {
   zoomStep = 0.1;
 
   // Legend properties
-  legendItems = [
-    { id: 'spawn', color: '#FF6B6B', label: 'Spawn point', visible: true },
-    { id: 'resource', color: '#FFD700', label: 'Resource', visible: true },
-    { id: 'wonder', color: '#95E1D3', label: 'Wonder', visible: true },
-    { id: 'unit', color: '#D62828', label: 'Unit', visible: true }
-  ];
+  legendItems = MARKER_TYPE_CONFIGS.map(config => ({
+    id: config.type,
+    color: config.color,
+    label: config.label,
+    visible: true
+  }));
 
   // Drawing properties
   isDrawingMode = false;
