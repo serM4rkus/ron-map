@@ -65,9 +65,11 @@ export class MapViewerComponent {
   }
 
   getMarkerStyle(marker: GameMarker): any {
+    // Use percentage-based positioning so markers scale with different screen sizes
+    // Marker coordinates are stored as percentages (0-100) of map dimensions
     return {
-      left: marker.x + 'px',
-      top: marker.y + 'px'
+      left: marker.x + '%',
+      top: marker.y + '%'
     };
   }
 
@@ -117,9 +119,13 @@ export class MapViewerComponent {
     const clickX = (event.clientX - rect.left) / this.zoomLevel;
     const clickY = (event.clientY - rect.top) / this.zoomLevel;
     
+    // Convert pixel coordinates to percentages for consistent positioning
+    const percentX = (clickX / rect.width) * 100 * this.zoomLevel;
+    const percentY = (clickY / rect.height) * 100 * this.zoomLevel;
+    
     this.mapClick.emit({
-      x: Math.round(clickX),
-      y: Math.round(clickY)
+      x: Math.round(percentX * 100) / 100, // Round to 2 decimal places
+      y: Math.round(percentY * 100) / 100
     });
   }
 
@@ -147,9 +153,13 @@ export class MapViewerComponent {
     const mouseX = (event.clientX - rect.left) / this.zoomLevel;
     const mouseY = (event.clientY - rect.top) / this.zoomLevel;
     
+    // Convert to percentage coordinates for consistent display
+    const percentX = (mouseX / rect.width) * 100 * this.zoomLevel;
+    const percentY = (mouseY / rect.height) * 100 * this.zoomLevel;
+    
     this.currentCoords = {
-      x: Math.round(mouseX),
-      y: Math.round(mouseY)
+      x: Math.round(percentX * 100) / 100, // Round to 2 decimal places
+      y: Math.round(percentY * 100) / 100
     };
     this.showCoords = true;
   }

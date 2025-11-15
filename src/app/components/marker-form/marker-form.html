@@ -1,5 +1,6 @@
 <div class="marker-form-overlay" (click)="onClose()">
   <div class="marker-form" (click)="$event.stopPropagation()">
+    <button class="close-icon-btn" (click)="onClose()" title="Close">×</button>
     <h3>{{ translate('addNewMarker') || 'Add New Marker' }}</h3>
     <p>{{ translate('coordinates') || 'Coordinates' }}: ({{ x }}, {{ y }})</p>
     

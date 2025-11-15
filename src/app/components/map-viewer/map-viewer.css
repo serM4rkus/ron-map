@@ -96,6 +96,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  text-align: center;
 }
 
 .layer-list-compact {
@@ -116,7 +117,7 @@
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  text-align: left;
+  text-align: center;
 }
 
 .layer-button:hover {
@@ -277,6 +278,9 @@
   cursor: pointer;
   pointer-events: all;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .marker-dot {
@@ -286,6 +290,7 @@
   border: 2px solid white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   transition: all 0.2s ease;
+  margin: 0 auto;
 }
 
 .marker-label {
@@ -293,7 +298,7 @@
   top: -25px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.9);
   color: white;
   padding: 4px 8px;
   border-radius: 4px;
@@ -302,6 +307,8 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7), 0 3px 8px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.9);
 }
 
 .marker-wrapper:hover .marker-dot {
@@ -325,9 +332,9 @@
   background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
   border: 2px solid rgba(124, 77, 255, 0.8);
   border-radius: 12px;
-  padding: 1.25rem;
-  min-width: 240px;
-  max-width: 320px;
+  padding: 0.75rem 1rem;
+  min-width: 200px;
+  max-width: 280px;
   box-shadow: 
     0 12px 32px rgba(0, 0, 0, 0.7), 
     0 0 30px rgba(124, 77, 255, 0.4),
@@ -379,23 +386,25 @@
 
 .marker-tooltip h4 {
   margin: 0 0 0.75rem 0;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: #ffffff;
   border-bottom: 2px solid rgba(124, 77, 255, 0.4);
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.65rem;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-align: center;
 }
 
 .marker-tooltip p {
-  margin: 0.75rem 0;
+  margin: 0.5rem 0;
   color: rgba(255, 255, 255, 0.9);
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: 0.85rem;
+  line-height: 1.4;
   word-wrap: break-word;
-  max-height: 120px;
+  max-height: 100px;
   overflow-y: auto;
   padding-right: 0.5rem;
+  text-align: center;
 }
 
 .marker-tooltip p::-webkit-scrollbar {
@@ -413,17 +422,19 @@
 }
 
 .marker-tooltip small {
-  display: inline-block;
-  margin-top: 0.75rem;
-  padding: 0.4rem 0.8rem;
+  display: block;
+  margin: 0.5rem auto 0;
+  padding: 0.3rem 0.6rem;
   background: rgba(124, 77, 255, 0.2);
   border: 1px solid rgba(124, 77, 255, 0.4);
   border-radius: 6px;
   color: rgba(255, 255, 255, 0.9);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  text-align: center;
+  width: fit-content;
 }
 
 /* Marker Type Animations */
