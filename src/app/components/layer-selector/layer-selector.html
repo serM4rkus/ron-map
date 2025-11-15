@@ -1,0 +1,18 @@
+@if (layers && layers.length > 1) {
+<div class="floating-layer-selector">
+  <div class="layer-selector-compact">
+    <h4>{{ translate('layers') }}</h4>
+    <div class="layer-list-compact">
+      @for (layer of layers; track layer.id) {
+      <button 
+        class="layer-button" 
+        [class.active]="layer.visible"
+        (click)="selectLayer(layer.id)"
+      >
+        {{ translate(layer.name) }}
+      </button>
+      }
+    </div>
+  </div>
+</div>
+}

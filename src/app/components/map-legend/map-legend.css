@@ -1,0 +1,109 @@
+.map-legend {
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.legend-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.legend-header h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: white;
+  font-weight: 600;
+}
+
+.legend-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.legend-control-btn {
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.legend-control-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: rgba(255, 255, 255, 0.8);
+}
+
+.legend-control-btn:hover:not(:disabled) {
+  background: rgba(124, 77, 255, 0.3);
+  border-color: #7c4dff;
+}
+
+.legend-control-btn:hover:not(:disabled) svg {
+  stroke: white;
+}
+
+.legend-control-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  padding: 0.35rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.legend-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.legend-item.disabled {
+  opacity: 0.4;
+}
+
+.legend-item.disabled:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.legend-label {
+  flex: 1;
+}
+
+.legend-toggle-icon {
+  width: 16px;
+  height: 16px;
+  stroke: rgba(255, 255, 255, 0.7);
+  flex-shrink: 0;
+}
+
+.legend-item:hover .legend-toggle-icon {
+  stroke: white;
+}
+
+.legend-color {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  flex-shrink: 0;
+}

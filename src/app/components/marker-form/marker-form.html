@@ -1,0 +1,40 @@
+<div class="marker-form-overlay" (click)="onClose()">
+  <div class="marker-form" (click)="$event.stopPropagation()">
+    <h3>{{ translate('addNewMarker') || 'Add New Marker' }}</h3>
+    <p>{{ translate('coordinates') || 'Coordinates' }}: ({{ x }}, {{ y }})</p>
+    
+    <div class="marker-form-field">
+      <label for="marker-title">{{ translate('title') || 'Title' }} *</label>
+      <input 
+        type="text" 
+        id="marker-title" 
+        [(ngModel)]="title" 
+        placeholder="Enter marker title"
+        required
+      />
+    </div>
+
+    <div class="marker-form-field">
+      <label for="marker-description">{{ translate('description') || 'Description' }}</label>
+      <textarea 
+        id="marker-description" 
+        [(ngModel)]="description" 
+        placeholder="Enter marker description (optional)"
+      ></textarea>
+    </div>
+
+    <div class="marker-form-field">
+      <label for="marker-type">{{ translate('type') || 'Type' }}</label>
+      <select id="marker-type" [(ngModel)]="type">
+        @for (markerType of markerTypes; track markerType) {
+        <option [value]="markerType">{{ translate(markerType) }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="marker-form-actions">
+      <button (click)="onSave()" class="save-btn">{{ translate('save') || 'Save' }}</button>
+      <button (click)="onClose()" class="close-btn">{{ translate('cancel') || 'Cancel' }}</button>
+    </div>
+  </div>
+</div>

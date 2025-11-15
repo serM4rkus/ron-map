@@ -1,0 +1,136 @@
+.drawing-tools {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  border-left: 4px solid #28a745;
+  margin-bottom: 1rem;
+}
+
+.drawing-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.drawing-tools h4 {
+  margin: 0;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.drawing-toggle-btn {
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.drawing-toggle-btn svg {
+  width: 100%;
+  height: 100%;
+  stroke: rgba(255, 255, 255, 0.8);
+}
+
+.drawing-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.drawing-toggle-btn:hover svg {
+  stroke: white;
+}
+
+.drawing-toggle-btn.active {
+  background: rgba(40, 167, 69, 0.3);
+  border-color: #28a745;
+}
+
+.drawing-toggle-btn.active svg {
+  stroke: #28a745;
+}
+
+.drawing-content {
+  margin-top: 0.75rem;
+}
+
+.color-picker {
+  margin-bottom: 0.75rem;
+}
+
+.color-picker label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.color-options {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.color-btn {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.color-btn:hover {
+  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.color-btn.selected {
+  border-color: white;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  transform: scale(1.15);
+}
+
+.clear-drawings-btn {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  background: rgba(220, 53, 69, 0.2);
+  border: 2px solid rgba(220, 53, 69, 0.5);
+  border-radius: 6px;
+  color: #ff6b6b;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.clear-drawings-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+}
+
+.clear-drawings-btn:hover:not(:disabled) {
+  background: rgba(220, 53, 69, 0.3);
+  border-color: #dc3545;
+  color: #ff8080;
+}
+
+.clear-drawings-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

@@ -1,113 +1,91 @@
 <div class="game-map-container">
   <div class="main-content">
-    <div class="map-viewer">
-      @if (currentMap) {
-      <div class="map-info">
-        <h2>{{ currentMap.name }}</h2>
-        <p>{{ currentMap.description }}</p>
-      </div>
-      } @else {
-      <div class="map-info">
-        <h2>Select a Map</h2>
-        <p>Choose a map from the panel on the right to begin exploring.</p>
-      </div>
-      }
+    <app-map-viewer
+      [currentMap]="currentMap"
+      [zoomLevel]="zoomLevel"
+      [panOffsetX]="panOffsetX"
+      [panOffsetY]="panOffsetY"
+      [markers]="markers"
+      [drawnLines]="drawnLines"
+      [isDrawingMode]="isDrawingMode"
+      [selectedMarker]="selectedMarker"
+      [selectedDrawColor]="selectedDrawColor"
+      [legendItems]="legendItems"
+      [isPanning]="isPanning"
+      [isDrawing]="isDrawing"
+      [drawingPath]="drawingPath"
+      [isLoading]="isLoading"
+      (mapClick)="onMapClick($event)"
+      (markerClick)="onMarkerClick($event)"
+      (mouseWheel)="onMouseWheel($event)"
+      (mouseDown)="onMouseDown($event)"
+      (layerSelected)="onLayerSelected($event)"
+    ></app-map-viewer>
 
-      <div class="map-canvas" #mapContainer (wheel)="onMouseWheel($event)">
-        @if (currentMap) {
-        <div class="map-zoom-container" 
-             [ngStyle]="getMapStyle()" 
-             (mousedown)="onMouseDown($event)"
-             [style.cursor]="isPanning ? 'grabbing' : (showMarkerForm ? 'crosshair' : 'grab')">
-          <img [src]="currentMap.imageUrl" 
-               [alt]="currentMap.name" 
-               class="map-image" 
-               (click)="onMapClick($event)"
-               draggable="false">
-          <!-- Game Markers -->
-          <div class="markers-container">
-            @for (marker of markers; track marker.id) {
-            <div class="marker-wrapper" [ngClass]="getMarkerClass(marker)" [ngStyle]="getMarkerStyle(marker)"
-              (click)="selectMarker(marker, $event)">
-              <div class="marker-dot" [style.backgroundColor]="marker.color"></div>
-              <div class="marker-label">{{ marker.title }}</div>
-
-              @if (selectedMarker?.id === marker.id) {
-              <div class="marker-tooltip">
-                <h4>{{ marker.title }}</h4>
-                <p>{{ marker.description }}</p>
-                <small>Type: {{ marker.type }}</small>
-              </div>
-              }
-            </div>
-            }
-          </div>
-        </div>
-        } @else {
-        <div class="no-map-selected">
-          <div class="no-map-content">
-            <h3>No Map Selected</h3>
-            <p>Select a map from the panel on the right to start exploring the interactive map features.</p>
-          </div>
-        </div>
-        }
-      </div>
-
-      @if (currentMap) {
-      <div class="zoom-controls">
-        <button class="zoom-btn" (click)="zoomOut()" [disabled]="zoomLevel <= minZoom" title="Zoom Out">-</button>
-        <span class="zoom-level">{{ getZoomPercentage() }}%</span>
-        <button class="zoom-btn" (click)="zoomIn()" [disabled]="zoomLevel >= maxZoom" title="Zoom In">+</button>
-        <button class="zoom-reset-btn" (click)="resetZoom()" title="Reset Zoom">Reset</button>
-      </div>
-      }
-    </div>
-
-  </div>
-
-  <div class="map-selector">
-    <header class="header">
-      <img src="assets/ReadyOrNotLogo_Black.png" alt="Ready or Not Logo">
-      <h2>RoN Interactive Map</h2>
-    </header>
-    <h3>Available Maps</h3>
-    <div class="map-buttons">
-      @for (map of availableMaps; track map.id) {
-      <button class="map-btn" [class.active]="currentMap?.id === map.id" (click)="loadMap(map.id)">
-        {{ map.name }}
-      </button>
-      }
-    </div>
     @if (currentMap) {
-    <div class="map-legend">
-      <h4>Legend</h4>
-      <div class="legend-item">
-        <span class="legend-color" style="background-color: #FF6B6B;"></span>
-        <span>City</span>
-      </div>
-      <div class="legend-item">
-        <span class="legend-color" style="background-color: #FFD700;"></span>
-        <span>Resource</span>
-      </div>
-      <div class="legend-item">
-        <span class="legend-color" style="background-color: #95E1D3;"></span>
-        <span>Wonder</span>
-      </div>
-      <div class="legend-item">
-        <span class="legend-color" style="background-color: #D62828;"></span>
-        <span>Unit</span>
-      </div>
-    </div>
+      <app-zoom-controls
+        [zoomLevel]="zoomLevel"
+        [minZoom]="minZoom"
+        [maxZoom]="maxZoom"
+        (zoomIn)="onZoomIn()"
+        (zoomOut)="onZoomOut()"
+        (resetZoom)="onResetZoom()"
+      ></app-zoom-controls>
     }
   </div>
 
-  @if (showMarkerForm) {
-  <div class="marker-form-overlay">
-    <div class="marker-form">
-      <h3>Add New Marker</h3>
-      <p>Coordinates: ({{ newMarkerX }}, {{ newMarkerY }})</p>
-      <button (click)="closeMarkerForm()" class="close-btn">Close</button>
+  <div class="sidebar">
+    <app-map-selector
+      [maps]="availableMaps"
+      [currentMapId]="currentMap?.id || null"
+      [availableLanguages]="availableLanguages"
+      [currentLanguage]="currentLanguage"
+      (mapSelected)="onMapSelected($event)"
+      (languageChanged)="onLanguageChanged($event)"
+    ></app-map-selector>
+
+    @if (currentMap) {
+      <app-drawing-tools
+        [isDrawingMode]="isDrawingMode"
+        [selectedColor]="selectedDrawColor"
+        [colors]="drawColors"
+        [hasDrawings]="drawnLines.length > 0"
+        (drawingModeToggled)="onDrawingModeToggled($event)"
+        (colorSelected)="onColorSelected($event)"
+        (clearDrawings)="onClearDrawings()"
+      ></app-drawing-tools>
+
+      <app-map-legend
+        [legendItems]="legendItems"
+        (legendItemToggled)="onLegendItemToggled($event)"
+        (showAll)="onShowAllLegend()"
+        (hideAll)="onHideAllLegend()"
+      ></app-map-legend>
+    }
+
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+      @for (lang of availableLanguages; track lang.code) {
+      <button 
+        class="language-button" 
+        [class.active]="currentLanguage === lang.code"
+        (click)="onLanguageChanged(lang.code)"
+        [title]="lang.name"
+      >
+        <span class="flag-emoji">{{ lang.flag }}</span>
+        <span class="flag-text">{{ lang.textCode || lang.code.toUpperCase() }}</span>
+      </button>
+      }
     </div>
   </div>
+
+  @if (showMarkerForm) {
+    <app-marker-form
+      [x]="newMarkerX"
+      [y]="newMarkerY"
+      [markerTypes]="['spawn', 'resource', 'wonder', 'unit', 'custom']"
+      (markerSaved)="onMarkerSaved($event)"
+      (formClosed)="onMarkerFormClosed()"
+    ></app-marker-form>
   }
 </div>

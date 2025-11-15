@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { GAME_MAPS } from '../config/game-maps.config';
 
 export interface GameMarker {
   id: string;
@@ -10,6 +11,15 @@ export interface GameMarker {
   type: 'spawn' | 'resource' | 'wonder' | 'unit' | 'custom';
   color?: string;
   icon?: string;
+  layerId?: string;
+}
+
+export interface MapLayer {
+  id: string;
+  name: string;
+  imageUrl: string;
+  visible: boolean;
+  zIndex: number;
 }
 
 export interface GameMapConfig {
@@ -20,6 +30,7 @@ export interface GameMapConfig {
   height: number;
   markers: GameMarker[];
   description?: string;
+  layers?: MapLayer[];
 }
 
 @Injectable({
@@ -27,53 +38,19 @@ export interface GameMapConfig {
 })
 
 export class GameMapService {
-  private currentMapSubject = new BehaviorSubject<GameMapConfig | null>(null);
+  private readonly currentMapSubject = new BehaviorSubject<GameMapConfig | null>(null);
   public currentMap$ = this.currentMapSubject.asObservable();
 
-  private markersSubject = new BehaviorSubject<GameMarker[]>([]);
+  private readonly markersSubject = new BehaviorSubject<GameMarker[]>([]);
   public markers$ = this.markersSubject.asObservable();
 
-  private gameMaps: GameMapConfig[] = [
-    {
-      id: 'ancient-world',
-      name: '4U Gas Station',
-      imageUrl: '/maps/4U_Gas_Station.png',
-      width: 1200,
-      height: 800,
-      description: 'Thank You, Come Again is the first mission in Ready or Not, chronologically and accessibly. On February 3, 2025, the Los Sueños Police Department responds to teenage meth addicts robbing a downtown 4U gas station. ',
-      markers: [
-        { id: 'm1', x: 1281, y: 1004, title: 'Main spawn point', description: 'Main spawn point', type: 'spawn', color: '#FF6B6B' },
-        { id: 'm2', x: 350, y: 500, title: 'Gold Deposit', description: 'Gold resource', type: 'resource', color: '#FFD700' },
-        { id: 'm3', x: 700, y: 600, title: 'Colossus', description: 'Wonder of the world', type: 'wonder', color: '#95E1D3' }
-      ]
-    },
-    {
-      id: 'medieval-realm',
-      name: 'Medieval Realm',
-      imageUrl: '/maps/medieval-realm.svg',
-      width: 1200,
-      height: 800,
-      description: 'Medieval fantasy-inspired map',
-      markers: [
-        { id: 'm1', x: 300, y: 200, title: 'Kingdom', description: 'Main kingdom', type: 'spawn', color: '#667BC6' },
-        { id: 'm2', x: 600, y: 300, title: 'Forest', description: 'Enchanted forest', type: 'resource', color: '#52B788' },
-        { id: 'm3', x: 900, y: 500, title: 'Dragon Lair', description: 'Ancient dragon lair', type: 'unit', color: '#D62828' }
-      ]
-    },
-    {
-      id: 'brisa-cove',
-      name: 'Brisa Cove',
-      imageUrl: '/maps/Brisa_Cove.png',
-      width: 1200,
-      height: 800,
-      description: 'Ides of March is the sixth playable mission in Ready or Not. A group of domestic terrorists have occupied the luxury Brisa Cove Apartments, taking several residents hostage. On October 1, 2025, D-Platoon have been dispatched to neutralize the threat and defuse the situation ahead of the Senator\'s upcoming presidential campaign. ',
-      markers: [
-        { id: 'm1', x: 300, y: 200, title: 'Kingdom', description: 'Main kingdom', type: 'spawn', color: '#667BC6' },
-        { id: 'm2', x: 600, y: 300, title: 'Forest', description: 'Enchanted forest', type: 'resource', color: '#52B788' },
-        { id: 'm3', x: 900, y: 500, title: 'Dragon Lair', description: 'Ancient dragon lair', type: 'unit', color: '#D62828' }
-      ]
-    }
-  ];
+  private readonly selectedMarkerSubject = new BehaviorSubject<GameMarker | null>(null);
+  public selectedMarker$ = this.selectedMarkerSubject.asObservable();
+
+  private readonly loadingSubject = new BehaviorSubject<boolean>(false);
+  public loading$ = this.loadingSubject.asObservable();
+
+  private readonly gameMaps: GameMapConfig[] = GAME_MAPS;
 
   getAvailableMaps(): GameMapConfig[] {
     return this.gameMaps;
@@ -82,12 +59,132 @@ export class GameMapService {
   loadMap(mapId: string): void {
     const map = this.gameMaps.find(m => m.id === mapId);
     if (map) {
-      this.currentMapSubject.next(map);
-      this.markersSubject.next(map.markers);
+      this.loadingSubject.next(true);
+      
+      // Simulate loading delay for better UX
+      setTimeout(() => {
+        // Reset layers to default visibility (first layer visible)
+        const resetMap = {
+          ...map,
+          layers: map.layers?.map((layer, index) => ({
+            ...layer,
+            visible: index === 0
+          }))
+        };
+        this.currentMapSubject.next(resetMap);
+        this.markersSubject.next(resetMap.markers);
+        this.loadingSubject.next(false);
+      }, 300);
     }
   }
 
   getCurrentMap(): GameMapConfig | null {
     return this.currentMapSubject.getValue();
+  }
+
+  // Marker Management
+  selectMarker(marker: GameMarker | null): void {
+    this.selectedMarkerSubject.next(marker);
+  }
+
+  getSelectedMarker(): GameMarker | null {
+    return this.selectedMarkerSubject.getValue();
+  }
+
+  addMarker(marker: GameMarker): void {
+    const currentMarkers = this.markersSubject.getValue();
+    const updatedMarkers = [...currentMarkers, marker];
+    this.markersSubject.next(updatedMarkers);
+    
+    // Update markers in the current map
+    const currentMap = this.currentMapSubject.getValue();
+    if (currentMap) {
+      const updatedMap = { ...currentMap, markers: updatedMarkers };
+      this.currentMapSubject.next(updatedMap);
+      
+      // Update the map reference in the gameMaps array
+      const mapIndex = this.gameMaps.findIndex(m => m.id === currentMap.id);
+      if (mapIndex !== -1) {
+        (this.gameMaps as any)[mapIndex] = updatedMap;
+      }
+    }
+  }
+
+  removeMarker(markerId: string): void {
+    const currentMarkers = this.markersSubject.getValue();
+    const updatedMarkers = currentMarkers.filter(m => m.id !== markerId);
+    this.markersSubject.next(updatedMarkers);
+    
+    // Clear selection if the removed marker was selected
+    if (this.selectedMarkerSubject.getValue()?.id === markerId) {
+      this.selectedMarkerSubject.next(null);
+    }
+    
+    // Update markers in the current map
+    const currentMap = this.currentMapSubject.getValue();
+    if (currentMap) {
+      const updatedMap = { ...currentMap, markers: updatedMarkers };
+      this.currentMapSubject.next(updatedMap);
+      
+      // Update the map reference in the gameMaps array
+      const mapIndex = this.gameMaps.findIndex(m => m.id === currentMap.id);
+      if (mapIndex !== -1) {
+        (this.gameMaps as any)[mapIndex] = updatedMap;
+      }
+    }
+  }
+
+  updateMarker(markerId: string, updates: Partial<GameMarker>): void {
+    const currentMarkers = this.markersSubject.getValue();
+    const updatedMarkers = currentMarkers.map(m => 
+      m.id === markerId ? { ...m, ...updates } : m
+    );
+    this.markersSubject.next(updatedMarkers);
+    
+    // Update selected marker if it was updated
+    const selectedMarker = this.selectedMarkerSubject.getValue();
+    if (selectedMarker?.id === markerId) {
+      this.selectedMarkerSubject.next({ ...selectedMarker, ...updates });
+    }
+    
+    // Update markers in the current map
+    const currentMap = this.currentMapSubject.getValue();
+    if (currentMap) {
+      const updatedMap = { ...currentMap, markers: updatedMarkers };
+      this.currentMapSubject.next(updatedMap);
+      
+      // Update the map reference in the gameMaps array
+      const mapIndex = this.gameMaps.findIndex(m => m.id === currentMap.id);
+      if (mapIndex !== -1) {
+        (this.gameMaps as any)[mapIndex] = updatedMap;
+      }
+    }
+  }
+
+  // Layer Management
+  selectLayer(layerId: string): void {
+    const currentMap = this.currentMapSubject.getValue();
+    if (currentMap?.layers) {
+      this.loadingSubject.next(true);
+      
+      // Simulate loading delay for better UX
+      setTimeout(() => {
+        // Set all layers to invisible except the selected one
+        const updatedLayers = currentMap.layers!.map(layer => ({
+          ...layer,
+          visible: layer.id === layerId
+        }));
+        const updatedMap = { ...currentMap, layers: updatedLayers };
+        this.currentMapSubject.next(updatedMap);
+        
+        // Update the map reference in the gameMaps array
+        const mapIndex = this.gameMaps.findIndex(m => m.id === currentMap.id);
+        if (mapIndex !== -1) {
+          (this.gameMaps as any)[mapIndex] = updatedMap;
+        }
+        
+        this.loadingSubject.next(false);
+      }, 200);
+    }
   }
 }

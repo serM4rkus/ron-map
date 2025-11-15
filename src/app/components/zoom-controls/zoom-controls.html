@@ -1,0 +1,26 @@
+<div class="zoom-controls">
+  <button 
+    class="zoom-btn" 
+    (click)="onZoomOut()" 
+    [disabled]="zoomLevel <= minZoom" 
+    title="Zoom Out"
+  >
+    -
+  </button>
+  <span class="zoom-level">{{ getZoomPercentage() }}%</span>
+  <button 
+    class="zoom-btn" 
+    (click)="onZoomIn()" 
+    [disabled]="zoomLevel >= maxZoom" 
+    title="Zoom In"
+  >
+    +
+  </button>
+  <button 
+    class="zoom-reset-btn" 
+    (click)="onResetZoom()" 
+    title="Reset Zoom"
+  >
+    Reset
+  </button>
+</div>
