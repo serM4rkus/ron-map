@@ -29,7 +29,7 @@
   width: 400px;
   flex-shrink: 0;
   overflow-y: auto;
-  border-left: 4px solid #dc3545;
+  border-left: 8px solid #FF001B;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
