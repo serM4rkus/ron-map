@@ -5,8 +5,8 @@ export const GAME_MAPS: GameMapConfig[] = [
     id: '4U_gas',
     name: 'Thank You, Come Again',
     imageUrl: '/maps/4U_Gas_Station.png',
-    width: 1200,
-    height: 800,
+    width: 3840,
+    height: 2160,
     description: 'Thank You, Come Again is the first mission in Ready or Not, chronologically and accessibly. On February 3, 2025, the Los Sueños Police Department responds to teenage meth addicts robbing a downtown 4U gas station. ',
     layers: [
       { id: 'ground', name: 'Ground Floor', imageUrl: '/maps/4U_gas/4U_Gas_Station.png', visible: true, zIndex: 1, isDefault: true }
@@ -22,8 +22,8 @@ export const GAME_MAPS: GameMapConfig[] = [
     id: '23_mb',
     name: '23 Megabytes a Second',
     imageUrl: '/maps/23_mb/23_mb_ground.png',
-    width: 1200, 
-    height: 800,
+    width: 2160, 
+    height: 3840,
     description: '23 Megabytes a Second is the second mission in Ready or Not. On December 8, 2025, the Los Sueños Police Department received a 911 call regarding a hostage situation at an apartment complex.',
     layers: [
       { id: 'floor2', name: 'Second Floor', imageUrl: '/maps/23_mb/23_mb_floor2.png', visible: false, zIndex: 1 },
@@ -49,7 +49,7 @@ export const GAME_MAPS: GameMapConfig[] = [
       { id: 'base', name: 'Base Map', imageUrl: '/maps/medieval-realm.svg', visible: true, zIndex: 1, isDefault: true }
     ],
     markers: [
-      // Coordinates are now percentages (0-100) of map dimensions for consistent positioning across screen sizes
+      // Coordinates are percentages (0-100) - work with ANY image size!
       { id: 'm1', x: 25, y: 25, title: 'Kingdom', description: 'Main kingdom', type: 'spawn', layerId: 'base' },
       { id: 'm2', x: 50, y: 37.5, title: 'Forest', description: 'Enchanted forest', type: 'hard_objective', layerId: 'base' }
     ]
@@ -58,14 +58,14 @@ export const GAME_MAPS: GameMapConfig[] = [
     id: 'brisa-cove',
     name: 'Brisa Cove',
     imageUrl: '/maps/Brisa_Cove.png',
-    width: 1200,
-    height: 800,
+    width: 2160,
+    height: 3840,
     description: 'Ides of March is the sixth playable mission in Ready or Not. A group of domestic terrorists have occupied the luxury Brisa Cove Apartments, taking several residents hostage. On October 1, 2025, D-Platoon have been dispatched to neutralize the threat and defuse the situation ahead of the Senator\'s upcoming presidential campaign. ',
     layers: [
       { id: 'base', name: 'Ground Floor', imageUrl: '/maps/Brisa_Cove.png', visible: true, zIndex: 1, isDefault: true }
     ],
     markers: [
-      // Coordinates are now percentages (0-100) of map dimensions for consistent positioning across screen sizes
+      // Coordinates are percentages (0-100) - work with ANY image size!
       { id: 'm1', x: 25, y: 25, title: 'Kingdom', description: 'Main kingdom', type: 'spawn', layerId: 'base' },
       { id: 'm2', x: 50, y: 37.5, title: 'Forest', description: 'Enchanted forest', type: 'hard_objective', layerId: 'base' }
     ]

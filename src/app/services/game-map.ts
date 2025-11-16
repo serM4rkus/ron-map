@@ -20,6 +20,7 @@ export interface MapLayer {
   imageUrl: string;
   visible: boolean;
   zIndex: number;
+  isDefault?: boolean; // Optional flag to mark the default layer to load first
 }
 
 export interface GameMapConfig {
@@ -63,12 +64,16 @@ export class GameMapService {
       
       // Simulate loading delay for better UX
       setTimeout(() => {
-        // Reset layers to default visibility (first layer visible)
+        // Find the default layer or fall back to the first layer
+        const defaultLayer = map.layers?.find(layer => layer.isDefault);
+        const defaultLayerId = defaultLayer?.id || map.layers?.[0]?.id;
+        
+        // Reset layers to default visibility
         const resetMap = {
           ...map,
-          layers: map.layers?.map((layer, index) => ({
+          layers: map.layers?.map(layer => ({
             ...layer,
-            visible: index === 0
+            visible: layer.id === defaultLayerId
           }))
         };
         this.currentMapSubject.next(resetMap);

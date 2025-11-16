@@ -50,71 +50,73 @@
         
         <!-- Layers Container with overlays -->
         <div class="layers-container">
-          <!-- Images -->
-          @for (layer of currentMap.layers; track layer.id) {
-            @if (layer.visible) {
-              <img 
-                [src]="layer.imageUrl" 
-                [alt]="layer.name" 
-                class="layer-image" 
-                [style.z-index]="layer.zIndex"
-                (click)="onMapClick($event)"
-                draggable="false" 
-              />
+          <div class="image-wrapper">
+            <!-- Images -->
+            @for (layer of currentMap.layers; track layer.id) {
+              @if (layer.visible) {
+                <img 
+                  [src]="layer.imageUrl" 
+                  [alt]="layer.name" 
+                  class="layer-image" 
+                  [style.z-index]="layer.zIndex"
+                  (click)="onMapClick($event)"
+                  draggable="false" 
+                />
+              }
             }
-          }
-          
-          <!-- Drawing Layer SVG -->
-          <svg class="drawing-layer" [style.pointer-events]="isDrawingMode ? 'none' : 'auto'">
-            <!-- Completed lines -->
-            @for (line of drawnLines; track $index) {
-              <path 
-                [attr.d]="getDrawingPathString(line.path)" 
-                [attr.stroke]="line.color" 
-                stroke-width="3" 
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round" 
-              />
-            }
-            <!-- Current drawing path -->
-            @if (isDrawing && drawingPath.length > 0) {
-              <path 
-                [attr.d]="getDrawingPathString(drawingPath)" 
-                [attr.stroke]="selectedDrawColor" 
-                stroke-width="3" 
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                opacity="0.7" 
-              />
-            }
-          </svg>
+            
+            <!-- Drawing Layer SVG -->
+            <svg class="drawing-layer" [style.pointer-events]="isDrawingMode ? 'none' : 'auto'">
+              <!-- Completed lines -->
+              @for (line of drawnLines; track $index) {
+                <path 
+                  [attr.d]="getDrawingPathString(line.path)" 
+                  [attr.stroke]="line.color" 
+                  stroke-width="3" 
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" 
+                />
+              }
+              <!-- Current drawing path -->
+              @if (isDrawing && drawingPath.length > 0) {
+                <path 
+                  [attr.d]="getDrawingPathString(drawingPath)" 
+                  [attr.stroke]="selectedDrawColor" 
+                  stroke-width="3" 
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  opacity="0.7" 
+                />
+              }
+            </svg>
 
-          <!-- Markers Container -->
-          <div class="markers-container">
-            @for (marker of getVisibleMarkers(); track marker.id) {
-              <div class="marker-wrapper" 
-                   [ngClass]="getMarkerClass(marker)" 
-                   [ngStyle]="getMarkerStyle(marker)"
-                   (click)="selectMarker(marker, $event)">
-                <div class="marker-icon" 
-                     [style.backgroundColor]="getMarkerColor(marker)">
-                  <span class="material-icons" 
-                        [style.color]="getMarkerIconColor(marker)">
-                    {{ getMarkerIcon(marker) }}
-                  </span>
-                </div>
-                <div class="marker-label">{{ marker.title }}</div>
-
-                @if (selectedMarker?.id === marker.id) {
-                  <div class="marker-tooltip">
-                    <h4>{{ marker.title }}</h4>
-                    <p>{{ marker.description }}</p>
+            <!-- Markers Container -->
+            <div class="markers-container">
+              @for (marker of getVisibleMarkers(); track marker.id) {
+                <div class="marker-wrapper" 
+                     [ngClass]="getMarkerClass(marker)" 
+                     [ngStyle]="getMarkerStyle(marker)"
+                     (click)="selectMarker(marker, $event)">
+                  <div class="marker-icon" 
+                       [style.backgroundColor]="getMarkerColor(marker)">
+                    <span class="material-icons" 
+                          [style.color]="getMarkerIconColor(marker)">
+                      {{ getMarkerIcon(marker) }}
+                    </span>
                   </div>
-                }
-              </div>
-            }
+                  <div class="marker-label">{{ marker.title }}</div>
+
+                  @if (selectedMarker?.id === marker.id) {
+                    <div class="marker-tooltip">
+                      <h4>{{ marker.title }}</h4>
+                      <p>{{ marker.description }}</p>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
           </div>
         </div>
       </div>

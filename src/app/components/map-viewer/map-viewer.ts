@@ -66,8 +66,8 @@ export class MapViewerComponent {
   }
 
   getMarkerStyle(marker: GameMarker): any {
-    // Use percentage-based positioning so markers scale with different screen sizes
-    // Marker coordinates are stored as percentages (0-100) of map dimensions
+    // With image-wrapper as inline-block, the wrapper matches the image dimensions exactly
+    // So percentage positioning works correctly across all aspect ratios
     return {
       left: marker.x + '%',
       top: marker.y + '%'
