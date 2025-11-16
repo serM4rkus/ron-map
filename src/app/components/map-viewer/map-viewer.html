@@ -34,20 +34,48 @@
       @if (showCoords && currentCoords) {
         <div class="coordinate-display">
           <span class="coord-label">X:</span>
-          <span class="coord-value">{{ currentCoords.x }}%</span>
+          <span class="coord-value">{{ currentCoords.x }}</span>
           <span class="coord-separator">|</span>
           <span class="coord-label">Y:</span>
-          <span class="coord-value">{{ currentCoords.y }}%</span>
+          <span class="coord-value">{{ currentCoords.y }}</span>
         </div>
       }
       
-      <div class="map-zoom-container" 
+        <div class="map-zoom-container" 
            [ngStyle]="getMapStyle()" 
            (mousedown)="onMouseDown($event)"
            (mousemove)="onMapMouseMove($event)"
            (mouseleave)="onMapMouseLeave()"
            [style.cursor]="getCursor()">
-        
+
+        <!-- Drawing Layer SVG moved here so it covers the whole map-canvas -->
+        <svg class="drawing-layer" viewBox="0 0 100 100" preserveAspectRatio="none" [style.pointer-events]="isDrawingMode ? 'none' : 'auto'">
+          <!-- Completed lines -->
+          @for (line of drawnLines; track $index) {
+            <path 
+              [attr.d]="getDrawingPathString(line.path)" 
+              [attr.stroke]="line.color" 
+              stroke-width="0.6" 
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round" 
+            />
+          }
+          <!-- Current drawing path -->
+          @if (isDrawing && drawingPath.length > 0) {
+            <path 
+              [attr.d]="getDrawingPathString(drawingPath)" 
+              [attr.stroke]="isEraserMode ? '#FF0000' : selectedDrawColor" 
+              [attr.stroke-width]="isEraserMode ? '1.5' : '0.6'"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              [attr.opacity]="isEraserMode ? '0.5' : '0.7'"
+              [attr.stroke-dasharray]="isEraserMode ? '2,2' : 'none'"
+            />
+          }
+        </svg>
+
         <!-- Layers Container with overlays -->
         <div class="layers-container">
           <div class="image-wrapper">
@@ -65,32 +93,7 @@
               }
             }
             
-            <!-- Drawing Layer SVG -->
-            <svg class="drawing-layer" [style.pointer-events]="isDrawingMode ? 'none' : 'auto'">
-              <!-- Completed lines -->
-              @for (line of drawnLines; track $index) {
-                <path 
-                  [attr.d]="getDrawingPathString(line.path)" 
-                  [attr.stroke]="line.color" 
-                  stroke-width="3" 
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round" 
-                />
-              }
-              <!-- Current drawing path -->
-              @if (isDrawing && drawingPath.length > 0) {
-                <path 
-                  [attr.d]="getDrawingPathString(drawingPath)" 
-                  [attr.stroke]="selectedDrawColor" 
-                  stroke-width="3" 
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  opacity="0.7" 
-                />
-              }
-            </svg>
+            
 
             <!-- Markers Container -->
             <div class="markers-container">

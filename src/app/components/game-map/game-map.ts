@@ -54,6 +54,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
   // Drawing properties
   isDrawingMode = false;
   isDrawing = false;
+  isEraserMode = false;
   drawingPath: { x: number; y: number }[] = [];
   drawnLines: DrawingLine[] = [];
   selectedDrawColor = '#FF0000';
@@ -193,11 +194,17 @@ export class GameMapComponent implements OnInit, OnDestroy {
     if (!this.isDrawingMode) {
       this.drawingPath = [];
       this.isDrawing = false;
+      this.isEraserMode = false;
     }
   }
 
   onColorSelected(color: string): void {
     this.selectedDrawColor = color;
+    this.isEraserMode = false;
+  }
+
+  onEraserModeToggled(enabled: boolean): void {
+    this.isEraserMode = enabled;
   }
 
   onClearDrawings(): void {
@@ -290,11 +297,16 @@ export class GameMapComponent implements OnInit, OnDestroy {
       
       if (this.isDrawingMode && !this.showMarkerForm) {
         this.isDrawing = true;
-        const rect = (event.target as HTMLElement).getBoundingClientRect();
-        this.drawingPath = [{
-          x: (event.clientX - rect.left) / this.zoomLevel,
-          y: (event.clientY - rect.top) / this.zoomLevel
-        }];
+        // Compute percent coords relative to the displayed image
+        const container = this.mapViewerComponent?.mapContainer?.nativeElement as HTMLElement | undefined;
+        const canvasRect = container?.getBoundingClientRect();
+        if (canvasRect) {
+          const sx = ((event.clientX - canvasRect.left) / canvasRect.width) * 100;
+          const sy = ((event.clientY - canvasRect.top) / canvasRect.height) * 100;
+          this.drawingPath = [{ x: Math.round(sx * 100) / 100, y: Math.round(sy * 100) / 100 }];
+        } else {
+          this.drawingPath = [{ x: 0, y: 0 }];
+        }
         event.preventDefault();
       } else if (!this.showMarkerForm) {
         this.isPanning = true;
@@ -310,12 +322,11 @@ export class GameMapComponent implements OnInit, OnDestroy {
     if (this.isDrawing && this.isDrawingMode) {
       this.hasMoved = true;
       const container = this.mapViewerComponent?.mapContainer?.nativeElement;
-      const rect = container?.querySelector('.layer-image')?.getBoundingClientRect();
-      if (rect) {
-        this.drawingPath.push({
-          x: (event.clientX - rect.left) / this.zoomLevel,
-          y: (event.clientY - rect.top) / this.zoomLevel
-        });
+      const canvasRect = container?.getBoundingClientRect();
+      if (canvasRect) {
+        const px = ((event.clientX - canvasRect.left) / canvasRect.width) * 100;
+        const py = ((event.clientY - canvasRect.top) / canvasRect.height) * 100;
+        this.drawingPath.push({ x: Math.round(px * 100) / 100, y: Math.round(py * 100) / 100 });
       }
       event.preventDefault();
     } else if (this.isPanning) {
@@ -336,21 +347,34 @@ export class GameMapComponent implements OnInit, OnDestroy {
   onMouseUp(event: MouseEvent): void {
     if (this.isDrawing) {
       this.isDrawing = false;
+      
       if (this.drawingPath.length > 1 && this.currentMap) {
         const visibleLayer = this.currentMap.layers?.find(l => l.visible);
         if (visibleLayer) {
-          const newDrawing: DrawingLine = {
-            id: 'd' + Date.now(),
-            path: [...this.drawingPath],
-            color: this.selectedDrawColor,
-            layerId: visibleLayer.id,
-            mapId: this.currentMap.id,
-            type: 'freehand',
-            timestamp: Date.now()
-          };
-          
-          this.drawingService.addDrawing(newDrawing);
-          this.drawnLines.push(newDrawing);
+          if (this.isEraserMode) {
+            // Erase drawings that intersect with the eraser path and match the selected color
+            this.drawingService.eraseDrawingsInArea(
+              this.currentMap.id,
+              visibleLayer.id,
+              this.drawingPath,
+              this.selectedDrawColor
+            );
+            this.loadDrawingsForCurrentMap();
+          } else {
+            // Add new drawing
+            const newDrawing: DrawingLine = {
+              id: 'd' + Date.now(),
+              path: [...this.drawingPath],
+              color: this.selectedDrawColor,
+              layerId: visibleLayer.id,
+              mapId: this.currentMap.id,
+              type: 'freehand',
+              timestamp: Date.now()
+            };
+            
+            this.drawingService.addDrawing(newDrawing);
+            this.drawnLines.push(newDrawing);
+          }
         }
       }
       this.drawingPath = [];

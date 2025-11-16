@@ -36,6 +36,7 @@ export class MapViewerComponent {
   @Input() markers: GameMarker[] = [];
   @Input() drawnLines: DrawingLine[] = [];
   @Input() isDrawingMode: boolean = false;
+  @Input() isEraserMode: boolean = false;
   @Input() selectedMarker: GameMarker | null = null;
   @Input() selectedDrawColor: string = '#FF0000';
   @Input() legendItems: LegendItem[] = [];
@@ -129,27 +130,31 @@ export class MapViewerComponent {
 
   getCursor(): string {
     if (this.isPanning) return 'grabbing';
-    if (this.isDrawingMode) return 'crosshair';
+    if (this.isDrawingMode) {
+      return this.isEraserMode ? 'not-allowed' : 'crosshair';
+    }
     return 'grab';
   }
 
   onMapClick(event: MouseEvent): void {
-    const img = event.target as HTMLImageElement;
+    // Find the actual image element and compute percent coords relative to it
+    const current = event.currentTarget as HTMLElement | null;
+    let img: HTMLImageElement | null = null;
+
+    if (current) img = current.querySelector('.layer-image');
+    if (!img) {
+      const target = event.target as HTMLElement | null;
+      img = target?.closest('.image-wrapper')?.querySelector('.layer-image') || null;
+    }
+    if (!img) return;
+
     const rect = img.getBoundingClientRect();
-    
-    // Account for zoom level in click position
     const clickX = event.clientX - rect.left;
     const clickY = event.clientY - rect.top;
-    
-    // Convert to percentage of the actual rendered image size
-    // No need to divide by zoomLevel as rect already accounts for the transform
     const percentX = (clickX / rect.width) * 100;
     const percentY = (clickY / rect.height) * 100;
-    
-    this.mapClick.emit({
-      x: Math.round(percentX * 100) / 100, // Round to 2 decimal places
-      y: Math.round(percentY * 100) / 100
-    });
+
+    this.mapClick.emit({ x: Math.round(percentX * 100) / 100, y: Math.round(percentY * 100) / 100 });
   }
 
   selectMarker(marker: GameMarker, event: MouseEvent): void {

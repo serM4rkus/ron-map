@@ -23,13 +23,41 @@
         @for (color of colors; track color) {
         <button 
           class="color-btn" 
-          [class.selected]="selectedColor === color"
+          [class.selected]="selectedColor === color && !isEraserMode"
           [style.background-color]="color"
           (click)="selectColor(color)"
           [title]="color"
         ></button>
         }
       </div>
+    </div>
+    <div class="tool-selector">
+      <button 
+        class="tool-btn" 
+        [class.active]="!isEraserMode"
+        (click)="selectDrawMode()"
+        title="Draw Mode"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+          <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+          <path d="M2 2l7.586 7.586"></path>
+          <circle cx="11" cy="11" r="2"></circle>
+        </svg>
+        <span>{{ translate('draw') }}</span>
+      </button>
+      <button 
+        class="tool-btn eraser-btn" 
+        [class.active]="isEraserMode"
+        (click)="selectEraserMode()"
+        title="Eraser Mode"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 20H7L3 16L12 7L17 12M12 7L15 4L20 9L17 12M12 7L17 12"></path>
+          <path d="M11.5 13.5L6.5 18.5"></path>
+        </svg>
+        <span>{{ translate('eraser') }}</span>
+      </button>
     </div>
     <button 
       class="clear-drawings-btn" 

@@ -12,9 +12,9 @@ export const GAME_MAPS: GameMapConfig[] = [
       { id: 'ground', name: 'Ground Floor', imageUrl: '/maps/4U_gas/4U_Gas_Station.png', visible: true, zIndex: 1, isDefault: true }
     ],
     markers: [
-      { id: 'm1', x: 58.39, y: 76.26, title: 'Main spawn point', description: 'Main spawn point', type: 'spawn', layerId: 'ground' },
-      { id: 'm2', x: 59.07, y: 30.01, title: 'Veteran', description: 'Dead veteran', type: 'soft_objective', layerId: 'ground' },
-      { id: 'm3', x: 48.05, y: 32.4, title: 'Girl', description: 'Hiden girl', type: 'hard_objective', layerId: 'ground' },
+      { id: 'm1', x: 58.36, y: 81.82, title: 'Main spawn point', description: 'Main spawn point', type: 'spawn', layerId: 'ground' },
+      { id: 'm2', x: 59.07, y: 28.8, title: 'Veteran', description: 'Dead veteran', type: 'soft_objective', layerId: 'ground' },
+      { id: 'm3', x: 48.05, y: 30.99, title: 'Girl', description: 'Hiden girl', type: 'hard_objective', layerId: 'ground' },
       { id: 'm4', x: 55.88, y: 41.67, title: 'Dead cachier', description: 'Dead cachier', type: 'hard_objective', layerId: 'ground' }
     ]
   },
@@ -36,22 +36,6 @@ export const GAME_MAPS: GameMapConfig[] = [
       { id: 'm3', x: 35.94, y: 61.45, title: 'Streamer PC', description: 'Streamer PC', type: 'soft_objective', layerId: 'floor2' },
       { id: 'm4', x: 41.5, y: 62.61, title: 'Mindjot documents', description: 'Mindjot documents', type: 'soft_objective', layerId: 'floor2' },
       { id: 'm5', x: 41.98, y: 39.58, title: 'Arest Michael', description: 'Michael is main target and he is usually located in his appartment on second floor. Check all rooms. He wears headset with kitty ears.', type: 'hard_objective', layerId: 'floor2' }
-    ]
-  },
-  {
-    id: 'medieval-realm',
-    name: 'Medieval Realm',
-    imageUrl: '/maps/medieval-realm.svg',
-    width: 1200,
-    height: 800,
-    description: 'Medieval fantasy-inspired map',
-    layers: [
-      { id: 'base', name: 'Base Map', imageUrl: '/maps/medieval-realm.svg', visible: true, zIndex: 1, isDefault: true }
-    ],
-    markers: [
-      // Coordinates are percentages (0-100) - work with ANY image size!
-      { id: 'm1', x: 25, y: 25, title: 'Kingdom', description: 'Main kingdom', type: 'spawn', layerId: 'base' },
-      { id: 'm2', x: 50, y: 37.5, title: 'Forest', description: 'Enchanted forest', type: 'hard_objective', layerId: 'base' }
     ]
   },
   {

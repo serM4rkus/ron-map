@@ -13,10 +13,12 @@ export class DrawingToolsComponent {
   @Input() selectedColor: string = '#FF0000';
   @Input() colors: string[] = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF'];
   @Input() hasDrawings: boolean = false;
+  @Input() isEraserMode: boolean = false;
 
   @Output() drawingModeToggled = new EventEmitter<boolean>();
   @Output() colorSelected = new EventEmitter<string>();
   @Output() clearDrawings = new EventEmitter<void>();
+  @Output() eraserModeToggled = new EventEmitter<boolean>();
 
   constructor(private readonly languageService: LanguageService) {}
 
@@ -30,6 +32,14 @@ export class DrawingToolsComponent {
 
   selectColor(color: string): void {
     this.colorSelected.emit(color);
+  }
+
+  selectDrawMode(): void {
+    this.eraserModeToggled.emit(false);
+  }
+
+  selectEraserMode(): void {
+    this.eraserModeToggled.emit(true);
   }
 
   onClearDrawings(): void {

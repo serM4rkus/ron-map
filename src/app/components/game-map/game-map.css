@@ -1,10 +1,14 @@
 /* Game Map Container - Main Layout */
 .game-map-container {
+  /* Make the whole app take the full viewport */
+  position: fixed;
+  inset: 0;
   display: flex;
   flex-direction: row;
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
   overflow: hidden;
+  background: #000; /* ensure a clean backdrop */
 }
 
 /* Main Content Area */
@@ -13,15 +17,19 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  padding: 0.5rem;
+  /* remove padding so the map-viewer can occupy full viewport area */
+  padding: 0;
   overflow: hidden;
-  background: #0a0a0a;
+  background: #2a2a2a;
   min-height: 0;
   min-width: 0;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Sidebar */
 .sidebar {
+  /* Overlay the sidebar on top of the map on the right */
   background: linear-gradient(135deg, #252525 0%, #0f0f0f 100%);
   padding: 1rem;
   padding-bottom: 80px;
@@ -33,7 +41,12 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  position: relative;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  z-index: 1200;
+  box-shadow: -8px 0 24px rgba(0,0,0,0.6);
 }
 
 /* Language Switcher */
@@ -120,7 +133,10 @@
     flex-direction: column;
   }
 
+
   .sidebar {
+    /* On small screens revert to stacked layout */
+    position: relative;
     width: 100%;
     order: -1;
     height: 200px;

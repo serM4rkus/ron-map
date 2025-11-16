@@ -1,35 +1,53 @@
 /* Map Viewer Container */
 .map-viewer {
-  background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
-  border-radius: 32px;
-  padding: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  position: absolute;
-  top: 0.5rem;
-  left: 0.5rem;
-  right: 0.5rem;
-  bottom: 0.5rem;
+  /* background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); */
+  box-shadow: none;
+  border: none;
+  --sidebar-width: var(--sidebar-width, 400px);
+  /* Use the full available viewport height (minus a small gutter) so the
+    viewer grows to the maximum device height; width is derived from height
+    to keep a strict 16:9 aspect ratio. */
+  --availableH: calc(100vh - 2rem);
+  position: relative;
+  height: var(--availableH);
+  width: min(calc(var(--availableH) * 16 / 9), calc(100vw - var(--sidebar-width) - 2rem));
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
+@supports not (min(1px)) {
+  /* Fallback for environments that don't support min(): compute viewer
+     height-first using viewport height and derive width from it to keep
+     the 16:9 aspect ratio. This avoids relying on min(). */
+  .map-viewer {
+    --availableH-fallback: calc(100vh - 2rem);
+    height: var(--availableH-fallback);
+    width: calc(var(--availableH-fallback) * 16 / 9);
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+}
+
 /* Floating Layer Selector */
 .floating-layer-selector {
-  position: absolute;
+  position: fixed;
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 100;
-  pointer-events: none;
+  z-index: 2000; /* keep above most content */
+  pointer-events: all; /* allow interaction when floating */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
 }
 
 /* Coordinate Display */
 .coordinate-display {
   position: absolute;
   bottom: 1rem;
-  right: 1rem;
+  left: 1rem;
   z-index: 100;
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(10px);
@@ -84,7 +102,7 @@
   border-radius: 8px;
   padding: 0.75rem 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   min-width: 150px;
   pointer-events: all;
 }
@@ -110,7 +128,7 @@
   width: 100%;
   padding: 0.5rem 0.75rem;
   background: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 6px;
   color: rgba(255, 255, 255, 0.9);
   font-size: 0.85rem;
@@ -146,13 +164,12 @@
   min-height: 0;
   min-width: 0;
   overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
+  border: none;
   background: #2a2a2a;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: none;
 }
 
 /* Loading Overlay */
@@ -239,17 +256,24 @@
 .image-wrapper {
   position: relative;
   display: inline-block;
+  /* Constrain the wrapper to the available container height so portrait images
+     can fill the vertical space instead of looking tiny. Keep width:auto so the
+     wrapper's width matches the rendered image width (maintains correct overlay alignment). */
   max-width: 100%;
   max-height: 100%;
-  width: 100%;
+  width: auto;
   height: 100%;
   line-height: 0;
 }
 
 .layer-image {
-  /* Image scales to fit while maintaining aspect ratio */
-  width: 100%;
+  /* Prefer filling the wrapper height (so portrait images use available vertical
+     space). Width is auto to preserve aspect ratio. Keep object-fit: contain to
+     avoid distortion when the wrapper and image sizes differ. */
+  width: auto;
   height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   display: block;
   cursor: pointer;
   user-select: none;
@@ -369,7 +393,7 @@
   left: 50%;
   transform: translateX(-50%);
   background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-  border: 2px solid rgba(124, 77, 255, 0.8);
+  border: none;
   border-radius: 12px;
   padding: 0.75rem 1rem;
   min-width: 200px;
@@ -515,7 +539,7 @@
 }
 
 /* No Map Selected */
-.no-map-selected {
+  .no-map-selected {
   width: 100%;
   height: 100%;
   display: flex;
@@ -530,7 +554,7 @@
   padding: 2rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
-  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border: none;
 }
 
 .no-map-content h3 {
