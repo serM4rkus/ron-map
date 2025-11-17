@@ -322,8 +322,8 @@
 
 /* Updated marker icon styling for Material Icons - Made smaller */
 .marker-icon {
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   border: 2px solid #212121;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 rgba(255, 255, 255, 0);
@@ -335,7 +335,7 @@
 }
 
 .marker-icon .material-icons {
-  font-size: 18px;
+  font-size: 20px;
   transition: all 0.3s ease;
   user-select: none;
 }
@@ -413,7 +413,7 @@
   border: none;
   border-radius: 12px;
   padding: 0.75rem 1rem;
-  min-width: 160px;
+  min-width: 290px;
   max-width: 320px; /* allow slightly wider tooltips for headings */
   box-shadow: 
     0 12px 32px rgba(0, 0, 0, 0.7), 
@@ -468,7 +468,7 @@
 
 .marker-tooltip h4 {
   margin: 0 0 0.75rem 0;
-  font-size: 1.05rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: #ffffff;
   border-bottom: 2px solid rgba(124, 77, 255, 0.4);
@@ -495,10 +495,10 @@
 .marker-tooltip p {
   margin: 0.5rem 0;
   color: rgba(255, 255, 255, 0.9);
-  font-size: 0.85rem;
+  font-size: 1.1rem;
   line-height: 1.4;
   word-wrap: break-word;
-  max-height: 100px;
+  max-height: 150px;
   overflow-y: auto;
   padding-right: 0.5rem;
   text-align: center;
