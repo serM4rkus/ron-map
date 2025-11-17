@@ -83,6 +83,9 @@ export class GameMapComponent implements OnInit, OnDestroy {
     private readonly drawingService: DrawingService
   ) { }
 
+  // Enable to print drawing coordinate diagnostics to the console
+  private readonly debugDrawing = false;
+
   ngOnInit(): void {
     this.availableMaps = this.gameMapService.getAvailableMaps();
     this.availableLanguages = this.languageService.getAvailableLanguages();
@@ -121,6 +124,32 @@ export class GameMapComponent implements OnInit, OnDestroy {
     if (this.availableMaps.length > 0) {
       this.loadMap(this.availableMaps[0].id);
     }
+  }
+
+  /**
+   * Return the bounding rect of the topmost visible .layer-image inside the
+   * provided container. Falls back to the container rect if no image found.
+   */
+  private getTopImageRect(container?: HTMLElement): DOMRect | undefined {
+    if (!container) return undefined;
+    // Prefer the `.image-wrapper` rect because it represents the displayed map area
+    // (all images are stacked inside it). Using an individual image's rect can
+    // cause different scaling when images have different intrinsic sizes which
+    // makes drawing feel faster/slower when multiple layers are visible.
+    const wrapper = container.querySelector<HTMLElement>('.image-wrapper');
+    if (wrapper && (wrapper.offsetWidth || wrapper.offsetHeight)) {
+      return wrapper.getBoundingClientRect();
+    }
+
+    // Fallback: pick the last visible image in DOM order
+    const imgs = Array.from(container.querySelectorAll<HTMLImageElement>('.layer-image'));
+    for (let idx = imgs.length - 1; idx >= 0; idx--) {
+      const img = imgs[idx];
+      if (img.offsetWidth || img.offsetHeight) {
+        return img.getBoundingClientRect();
+      }
+    }
+    return container.getBoundingClientRect();
   }
 
   ngOnDestroy(): void {
@@ -299,12 +328,13 @@ export class GameMapComponent implements OnInit, OnDestroy {
         this.isDrawing = true;
         // Compute percent coords relative to the displayed image
         const container = this.mapViewerComponent?.mapContainer?.nativeElement as HTMLElement | undefined;
-        // Prefer measuring the actual displayed image element (it reflects CSS transforms)
-        const img = container?.querySelector('.layer-image') as HTMLImageElement | null;
-        const rect = img ? img.getBoundingClientRect() : container?.getBoundingClientRect();
+        const rect = this.getTopImageRect(container);
         if (rect) {
           const sx = ((event.clientX - rect.left) / rect.width) * 100;
           const sy = ((event.clientY - rect.top) / rect.height) * 100;
+          if (this.debugDrawing) {
+            console.debug('[draw start] rect=', rect, 'client=', { x: event.clientX, y: event.clientY }, 'percent=', { sx, sy }, 'zoom=', this.zoomLevel);
+          }
           this.drawingPath = [{ x: Math.round(sx * 100) / 100, y: Math.round(sy * 100) / 100 }];
         } else {
           this.drawingPath = [{ x: 0, y: 0 }];
@@ -324,12 +354,13 @@ export class GameMapComponent implements OnInit, OnDestroy {
     if (this.isDrawing && this.isDrawingMode) {
       this.hasMoved = true;
       const container = this.mapViewerComponent?.mapContainer?.nativeElement as HTMLElement | undefined;
-      // Use displayed image bounding rect (already affected by CSS transform)
-      const img = container?.querySelector('.layer-image') as HTMLImageElement | null;
-      const rect = img ? img.getBoundingClientRect() : container?.getBoundingClientRect();
+      const rect = this.getTopImageRect(container);
       if (rect) {
         const px = ((event.clientX - rect.left) / rect.width) * 100;
         const py = ((event.clientY - rect.top) / rect.height) * 100;
+        if (this.debugDrawing) {
+          console.debug('[draw move] rect=', rect, 'client=', { x: event.clientX, y: event.clientY }, 'percent=', { px, py }, 'zoom=', this.zoomLevel);
+        }
         this.drawingPath.push({ x: Math.round(px * 100) / 100, y: Math.round(py * 100) / 100 });
       }
       event.preventDefault();
