@@ -1,16 +1,19 @@
 /* Map Viewer Container */
 .map-viewer {
-  /* background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); */
+  background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
   box-shadow: none;
   border: none;
   --sidebar-width: var(--sidebar-width, 400px);
-  /* Use the full available viewport height (minus a small gutter) so the
-    viewer grows to the maximum device height; width is derived from height
-    to keep a strict 16:9 aspect ratio. */
-  --availableH: calc(100vh - 2rem);
+  /* Use a viewer that's always larger than the user's screen: compute a
+    base height as double the viewport height (minus a small gutter), then
+    derive the width to keep a strict 16:9 aspect ratio. */
+  --availableH: calc((100vh - 2rem) * 1.4);
   position: relative;
   height: var(--availableH);
-  width: min(calc(var(--availableH) * 16 / 9), calc(100vw - var(--sidebar-width) - 2rem));
+  /* Width derived from height to preserve 16:9 aspect ratio; keep a small
+    clamp to avoid exceeding viewport width by too much (leave some horizontal
+    gutter based on sidebar). */
+  width: calc(var(--availableH) * 16 / 9);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -22,7 +25,7 @@
      height-first using viewport height and derive width from it to keep
      the 16:9 aspect ratio. This avoids relying on min(). */
   .map-viewer {
-    --availableH-fallback: calc(100vh - 2rem);
+    --availableH-fallback: calc((100vh - 2rem) * 1.4);
     height: var(--availableH-fallback);
     width: calc(var(--availableH-fallback) * 16 / 9);
     margin: 0 auto;
@@ -45,10 +48,11 @@
 
 /* Coordinate Display */
 .coordinate-display {
-  position: absolute;
+  /* Fix to viewport bottom-left so it stays visible outside the map container */
+  position: fixed;
   bottom: 1rem;
   left: 1rem;
-  z-index: 100;
+  z-index: 3000; /* above floating controls */
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(10px);
   border-radius: 8px;
@@ -60,7 +64,7 @@
   gap: 0.5rem;
   font-family: 'Courier New', monospace;
   animation: slideUp 0.2s ease;
-  pointer-events: none;
+  pointer-events: none; /* allow clicks to pass through */
 }
 
 @keyframes slideUp {
@@ -315,8 +319,8 @@
 
 /* Updated marker icon styling for Material Icons - Made smaller */
 .marker-icon {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   border: 2px solid #212121;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 rgba(255, 255, 255, 0);
@@ -328,9 +332,18 @@
 }
 
 .marker-icon .material-icons {
-  font-size: 14px;
+  font-size: 18px;
   transition: all 0.3s ease;
   user-select: none;
+}
+
+/* Custom SVG marker image styling */
+.marker-icon img.marker-svg {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
 }
 
 .marker-label {
@@ -340,15 +353,16 @@
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.9);
   color: white;
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 0.85rem;
+  padding: 6px 12px; /* slightly larger padding for bigger text */
+  border-radius: 6px;
+  font-size: 1.05rem; /* bigger font for improved readability */
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease, top 0.2s ease;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7), 0 3px 8px rgba(0, 0, 0, 0.5);
-  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.9);
+  /* stronger box and text shadows to ensure text is legible on busy maps */
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.75), 0 6px 12px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 0 rgba(0,0,0,0.95), 0 6px 12px rgba(0, 0, 0, 0.6);
   z-index: 10;
 }
 
@@ -396,8 +410,8 @@
   border: none;
   border-radius: 12px;
   padding: 0.75rem 1rem;
-  min-width: 200px;
-  max-width: 280px;
+  min-width: 160px;
+  max-width: 320px; /* allow slightly wider tooltips for headings */
   box-shadow: 
     0 12px 32px rgba(0, 0, 0, 0.7), 
     0 0 30px rgba(124, 77, 255, 0.4),
@@ -406,6 +420,8 @@
   pointer-events: auto;
   animation: tooltipFadeIn 0.3s ease;
   backdrop-filter: blur(10px);
+  box-sizing: border-box;
+  overflow: hidden; /* keep contents inside the rounded box */
 }
 
 @keyframes tooltipFadeIn {
@@ -456,6 +472,21 @@
   padding-bottom: 0.65rem;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   text-align: center;
+  /* Allow long headings to wrap onto multiple lines and avoid overlap */
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+  display: block;
+  width: 100%;
+  line-height: 1.15;
+  /* ensure the border-bottom always sits after the text, even on multiple lines */
+  box-decoration-break: clone;
+}
+
+/* When the tooltip grows taller, ensure the arrow stays visually aligned by nudging it downward */
+.marker-tooltip.multiline::after {
+  bottom: -14px;
 }
 
 .marker-tooltip p {

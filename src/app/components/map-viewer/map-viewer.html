@@ -30,16 +30,7 @@
         </div>
       }
 
-      <!-- Coordinate Display -->
-      @if (showCoords && currentCoords) {
-        <div class="coordinate-display">
-          <span class="coord-label">X:</span>
-          <span class="coord-value">{{ currentCoords.x }}</span>
-          <span class="coord-separator">|</span>
-          <span class="coord-label">Y:</span>
-          <span class="coord-value">{{ currentCoords.y }}</span>
-        </div>
-      }
+      <!-- Coordinate Display removed from map-canvas; moved to fixed container below -->
       
         <div class="map-zoom-container" 
            [ngStyle]="getMapStyle()" 
@@ -104,10 +95,14 @@
                      (click)="selectMarker(marker, $event)">
                   <div class="marker-icon" 
                        [style.backgroundColor]="getMarkerColor(marker)">
-                    <span class="material-icons" 
-                          [style.color]="getMarkerIconColor(marker)">
-                      {{ getMarkerIcon(marker) }}
-                    </span>
+                    @if (marker.svgIconUrl) {
+                      <img class="marker-svg" [src]="marker.svgIconUrl" [alt]="marker.title" draggable="false" />
+                    } @else {
+                      <span class="material-icons" 
+                            [style.color]="getMarkerIconColor(marker)">
+                        {{ getMarkerIcon(marker) }}
+                      </span>
+                    }
                   </div>
                   <div class="marker-label">{{ marker.title }}</div>
 
@@ -130,6 +125,17 @@
         <h3>No Map Selected</h3>
         <p>Select a map from the panel on the right to start exploring.</p>
       </div>
+    </div>
+  }
+
+  <!-- Coordinate Display (fixed to viewport) -->
+  @if (showCoords && currentCoords) {
+    <div class="coordinate-display" aria-hidden="true">
+      <span class="coord-label">X:</span>
+      <span class="coord-value">{{ currentCoords.x }}</span>
+      <span class="coord-separator">|</span>
+      <span class="coord-label">Y:</span>
+      <span class="coord-value">{{ currentCoords.y }}</span>
     </div>
   }
 </div>

@@ -11,6 +11,10 @@ export interface GameMarker {
   type: 'spawn' | 'hard_objective' | 'soft_objective';
   color?: string;
   icon?: string;
+  /** Optional URL to a custom SVG image to use as the marker icon. If provided,
+   * the SVG will be rendered instead of the material icon name. Use relative
+   * or absolute URLs. Example: '/assets/icons/custom-flag.svg' */
+  svgIconUrl?: string;
   layerId?: string;
 }
 

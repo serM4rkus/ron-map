@@ -299,10 +299,12 @@ export class GameMapComponent implements OnInit, OnDestroy {
         this.isDrawing = true;
         // Compute percent coords relative to the displayed image
         const container = this.mapViewerComponent?.mapContainer?.nativeElement as HTMLElement | undefined;
-        const canvasRect = container?.getBoundingClientRect();
-        if (canvasRect) {
-          const sx = ((event.clientX - canvasRect.left) / canvasRect.width) * 100;
-          const sy = ((event.clientY - canvasRect.top) / canvasRect.height) * 100;
+        // Prefer measuring the actual displayed image element (it reflects CSS transforms)
+        const img = container?.querySelector('.layer-image') as HTMLImageElement | null;
+        const rect = img ? img.getBoundingClientRect() : container?.getBoundingClientRect();
+        if (rect) {
+          const sx = ((event.clientX - rect.left) / rect.width) * 100;
+          const sy = ((event.clientY - rect.top) / rect.height) * 100;
           this.drawingPath = [{ x: Math.round(sx * 100) / 100, y: Math.round(sy * 100) / 100 }];
         } else {
           this.drawingPath = [{ x: 0, y: 0 }];
@@ -321,11 +323,13 @@ export class GameMapComponent implements OnInit, OnDestroy {
   onMouseMove(event: MouseEvent): void {
     if (this.isDrawing && this.isDrawingMode) {
       this.hasMoved = true;
-      const container = this.mapViewerComponent?.mapContainer?.nativeElement;
-      const canvasRect = container?.getBoundingClientRect();
-      if (canvasRect) {
-        const px = ((event.clientX - canvasRect.left) / canvasRect.width) * 100;
-        const py = ((event.clientY - canvasRect.top) / canvasRect.height) * 100;
+      const container = this.mapViewerComponent?.mapContainer?.nativeElement as HTMLElement | undefined;
+      // Use displayed image bounding rect (already affected by CSS transform)
+      const img = container?.querySelector('.layer-image') as HTMLImageElement | null;
+      const rect = img ? img.getBoundingClientRect() : container?.getBoundingClientRect();
+      if (rect) {
+        const px = ((event.clientX - rect.left) / rect.width) * 100;
+        const py = ((event.clientY - rect.top) / rect.height) * 100;
         this.drawingPath.push({ x: Math.round(px * 100) / 100, y: Math.round(py * 100) / 100 });
       }
       event.preventDefault();

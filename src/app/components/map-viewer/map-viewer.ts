@@ -31,6 +31,7 @@ export class MapViewerComponent {
 
   @Input() currentMap: GameMapConfig | null = null;
   @Input() zoomLevel: number = 1;
+  @Input() baseScale: number = 1;
   @Input() panOffsetX: number = 0;
   @Input() panOffsetY: number = 0;
   @Input() markers: GameMarker[] = [];
@@ -58,8 +59,9 @@ export class MapViewerComponent {
   showCoords: boolean = false;
 
   getMapStyle(): any {
+    const effectiveScale = (this.baseScale || 1) * (this.zoomLevel || 1);
     return {
-      transform: `scale(${this.zoomLevel}) translate(${this.panOffsetX / this.zoomLevel}px, ${this.panOffsetY / this.zoomLevel}px)`,
+      transform: `scale(${effectiveScale}) translate(${this.panOffsetX / effectiveScale}px, ${this.panOffsetY / effectiveScale}px)`,
       'transform-origin': 'center center',
       transition: this.isPanning || this.isDrawing ? 'none' : 'transform 0.1s ease-out',
       'will-change': this.isPanning || this.isDrawing ? 'transform' : 'auto'
