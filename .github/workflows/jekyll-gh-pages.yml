@@ -40,11 +40,14 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      - name: Add CNAME for custom domain
+        run: echo "readyormaps.com" > ./dist/ron-map-app/browser/CNAME
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
           path: './dist/ron-map-app/browser'
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4

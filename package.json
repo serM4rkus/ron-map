@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "ci-build": "ng build --base-href /ron-map/"
+    "ci-build": "ng build --base-href /"
   },
   "prettier": {
     "printWidth": 100,
