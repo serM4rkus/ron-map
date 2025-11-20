@@ -28,7 +28,6 @@
                 "input": "public"
               }
             ],
-            "baseHref": "/ron-map/",
             "styles": [
               "src/styles.css"
             ]
