@@ -1,74 +1,36 @@
 <div class="game-map-container">
   <div class="main-content">
-    <app-map-viewer
-      [baseScale]="0.75"
-      [currentMap]="currentMap"
-      [zoomLevel]="zoomLevel"
-      [panOffsetX]="panOffsetX"
-      [panOffsetY]="panOffsetY"
-      [markers]="markers"
-      [drawnLines]="drawnLines"
-      [isDrawingMode]="isDrawingMode"
-      [isEraserMode]="isEraserMode"
-      [selectedMarker]="selectedMarker"
-      [selectedDrawColor]="selectedDrawColor"
-      [legendItems]="legendItems"
-      [isPanning]="isPanning"
-      [isDrawing]="isDrawing"
-      [drawingPath]="drawingPath"
-      [isLoading]="isLoading"
-      (mapClick)="onMapClick($event)"
-      (markerClick)="onMarkerClick($event)"
-      (mouseWheel)="onMouseWheel($event)"
-      (mouseDown)="onMouseDown($event)"
-      (layerSelected)="onLayerSelected($event)"
-    ></app-map-viewer>
+    <app-map-viewer [baseScale]="0.75" [currentMap]="currentMap" [zoomLevel]="zoomLevel" [panOffsetX]="panOffsetX"
+      [panOffsetY]="panOffsetY" [markers]="markers" [drawnLines]="drawnLines" [isDrawingMode]="isDrawingMode"
+      [isEraserMode]="isEraserMode" [selectedMarker]="selectedMarker" [selectedDrawColor]="selectedDrawColor"
+      [legendItems]="legendItems" [isPanning]="isPanning" [isDrawing]="isDrawing" [drawingPath]="drawingPath"
+      [isLoading]="isLoading" (mapClick)="onMapClick($event)" (markerClick)="onMarkerClick($event)"
+      (mouseWheel)="onMouseWheel($event)" (mouseDown)="onMouseDown($event)"
+      (layerSelected)="onLayerSelected($event)"></app-map-viewer>
 
     @if (currentMap) {
-      <app-zoom-controls
-        [zoomLevel]="zoomLevel"
-        [minZoom]="minZoom"
-        [maxZoom]="maxZoom"
-        (zoomIn)="onZoomIn()"
-        (zoomOut)="onZoomOut()"
-        (resetZoom)="onResetZoom()"
-      ></app-zoom-controls>
+    <app-zoom-controls [zoomLevel]="zoomLevel" [minZoom]="minZoom" [maxZoom]="maxZoom" (zoomIn)="onZoomIn()"
+      (zoomOut)="onZoomOut()" (resetZoom)="onResetZoom()"></app-zoom-controls>
     }
   </div>
 
   <div class="sidebar">
-    <app-map-selector
-      [maps]="availableMaps"
-      [currentMapId]="currentMap?.id || null"
-      [availableLanguages]="availableLanguages"
-      [currentLanguage]="currentLanguage"
-      (mapSelected)="onMapSelected($event)"
-      (languageChanged)="onLanguageChanged($event)"
-    ></app-map-selector>
+    <app-map-selector [maps]="availableMaps" [currentMapId]="currentMap?.id || null"
+      [availableLanguages]="availableLanguages" [currentLanguage]="currentLanguage"
+      (mapSelected)="onMapSelected($event)" (languageChanged)="onLanguageChanged($event)"></app-map-selector>
 
     @if (currentMap) {
-      <app-drawing-tools
-        [isDrawingMode]="isDrawingMode"
-        [selectedColor]="selectedDrawColor"
-        [colors]="drawColors"
-        [hasDrawings]="drawnLines.length > 0"
-        [isEraserMode]="isEraserMode"
-        (drawingModeToggled)="onDrawingModeToggled($event)"
-        (colorSelected)="onColorSelected($event)"
-        (clearDrawings)="onClearDrawings()"
-        (eraserModeToggled)="onEraserModeToggled($event)"
-      ></app-drawing-tools>
+    <app-drawing-tools [isDrawingMode]="isDrawingMode" [selectedColor]="selectedDrawColor" [colors]="drawColors"
+      [hasDrawings]="drawnLines.length > 0" [isEraserMode]="isEraserMode"
+      (drawingModeToggled)="onDrawingModeToggled($event)" (colorSelected)="onColorSelected($event)"
+      (clearDrawings)="onClearDrawings()" (eraserModeToggled)="onEraserModeToggled($event)"></app-drawing-tools>
 
-      <app-map-legend
-        [legendItems]="legendItems"
-        (legendItemToggled)="onLegendItemToggled($event)"
-        (showAll)="onShowAllLegend()"
-        (hideAll)="onHideAllLegend()"
-      ></app-map-legend>
+    <app-map-legend [legendItems]="legendItems" (legendItemToggled)="onLegendItemToggled($event)"
+      (showAll)="onShowAllLegend()" (hideAll)="onHideAllLegend()"></app-map-legend>
     }
 
     <!-- Language Switcher -->
-    <div class="language-switcher">
+    <!-- <div class="language-switcher">
       @for (lang of availableLanguages; track lang.code) {
       <button 
         class="language-button" 
@@ -81,15 +43,24 @@
       </button>
       }
     </div>
-  </div>
+  </div> -->
 
-  @if (showMarkerForm) {
-    <app-marker-form
-      [x]="newMarkerX"
-      [y]="newMarkerY"
-      [markerTypes]="['spawn', 'hard_objective', 'soft_objective']"
-      (markerSaved)="onMarkerSaved($event)"
-      (formClosed)="onMarkerFormClosed()"
-    ></app-marker-form>
-  }
-</div>
+    <div class="copyright">
+      <p class="copyright-disclaimer">
+        Ready or Not is a trademark of <a href="https://voidinteractive.net/">VOID Interactive</a>. This is a fan-made project.
+      </p>
+      <p class="copyright-developer">
+        Site development and design by <strong>serM4rkus</strong><br>
+        Blueprints development and design by <strong>eNex and Daan</strong><br>
+        <a href="http://steamcommunity.com/sharedfiles/filedetails/?id=3137562299">Blueprints Steam Guide</a>
+      </p>
+      <p class="copyright-text">
+        © 2025 Ready or Maps.
+      </p>
+    </div>
+
+    @if (showMarkerForm) {
+    <app-marker-form [x]="newMarkerX" [y]="newMarkerY" [markerTypes]="['spawn', 'hard_objective', 'soft_objective']"
+      (markerSaved)="onMarkerSaved($event)" (formClosed)="onMarkerFormClosed()"></app-marker-form>
+    }
+  </div>

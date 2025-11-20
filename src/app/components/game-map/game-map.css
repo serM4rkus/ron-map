@@ -32,7 +32,6 @@
   /* Overlay the sidebar on top of the map on the right */
   background: linear-gradient(135deg, #252525 0%, #0f0f0f 100%);
   padding: 1rem;
-  padding-bottom: 80px;
   color: white;
   width: 400px;
   flex-shrink: 0;
@@ -125,6 +124,63 @@
   background: rgba(124, 77, 255, 0.1);
   border-color: #7c4dff;
   box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.2);
+}
+
+.copyright {
+  text-align: center;
+  margin-top: auto;
+  padding: clamp(12px, 3vw, 20px);
+  background-color: #f5f5f5;
+  border-top: 1px solid #ddd;
+}
+
+.copyright-text {
+  margin: 0;
+  color: #666;
+  font-size: clamp(12px, 2vw, 14px);
+}
+
+.copyright-disclaimer {
+  margin: 5px 0;
+  color: #888;
+  font-size: clamp(10px, 1.8vw, 12px);
+  line-height: 1.4;
+}
+
+.copyright-developer {
+  margin: 10px 0 0 0;
+  color: #555;
+  font-size: clamp(11px, 1.9vw, 13px);
+}
+
+.copyright-developer strong {
+  color: #333;
+}
+
+a {
+  color: #0066cc;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #0066cc;
+  transition: width 0.3s ease;
+}
+
+a:hover {
+  color: #004499;
+}
+
+a:hover::after {
+  width: 100%;
 }
 
 /* Responsive Design */
