@@ -1,0 +1,414 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease-out;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+}
+
+.modal-content {
+  background: #2c2c2c;
+  color: #e0e0e0;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 1000px;
+  width: 100%;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  position: relative;
+  animation: slideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  margin: auto;
+}
+
+.close-button {
+  position: sticky;
+  top: 0;
+  float: right;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: #aaa;
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  margin: -0.5rem -0.5rem 0 0;
+}
+
+.close-button:hover {
+  color: white;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+body {
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+  color: #e2e8f0;
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  margin: 0 auto;
+  background: rgba(15, 52, 96, 0.3);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  max-width: 250px;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+h1 {
+  color: #fff;
+  font-size: 2rem;
+  margin-bottom: 8px;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  line-height: 1.2;
+}
+
+.tagline {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 1rem;
+  margin-bottom: 25px;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+hr {
+  border: none;
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+  margin: 25px 0;
+}
+
+h2 {
+  color: #60a5fa;
+  font-size: 1.5rem;
+  margin-top: 25px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.3;
+}
+
+h3 {
+  color: #a78bfa;
+  font-size: 1.2rem;
+  margin-top: 18px;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+p {
+  margin-bottom: 12px;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+ul {
+  margin: 12px 0;
+  padding-left: 22px;
+}
+
+li {
+  margin: 8px 0;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+strong,
+b {
+  color: #fff;
+  font-weight: 600;
+}
+
+.section {
+  margin-bottom: 25px;
+}
+
+.feature-list,
+.coming-soon-list,
+.issues-list {
+  background: rgba(15, 52, 96, 0.2);
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #60a5fa;
+}
+
+.coming-soon-list {
+  border-left-color: #4ade80;
+}
+
+.issues-list {
+  border-left-color: #f59e0b;
+}
+
+.copyright {
+  margin-top: 30px;
+  padding-top: 25px;
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.credits {
+  background: rgba(15, 52, 96, 0.2);
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+.credits p {
+  margin-bottom: 8px;
+}
+
+.copyright a {
+  color: #0066cc;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.copyright a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #0066cc;
+  transition: width 0.3s ease;
+}
+
+.copyright a:hover {
+  color: #4d94db;
+}
+
+.copyright a:hover::after {
+  width: 100%;
+}
+
+.last-updated {
+  text-align: center;
+  color: #64748b;
+  font-size: 0.85rem;
+  margin-top: 15px;
+  font-style: italic;
+}
+
+.warning-box {
+  background: rgba(245, 158, 11, 0.1);
+  border: 2px solid #f59e0b;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 12px 0;
+}
+
+.warning-box strong {
+  color: #fbbf24;
+}
+
+/* Tablet styles */
+@media (max-width: 992px) {
+  .modal-content {
+    max-width: 90%;
+    padding: 1.5rem;
+  }
+
+  .container {
+    padding: 25px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  .logo {
+    max-width: 220px;
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 10px;
+  }
+
+  .modal-content {
+    padding: 1.2rem;
+    max-height: calc(100vh - 20px);
+  }
+
+  .container {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    margin-top: 20px;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  .logo {
+    max-width: 180px;
+  }
+
+  .tagline {
+    font-size: 0.95rem;
+  }
+
+  .close-button {
+    font-size: 1.5rem;
+    width: 32px;
+    height: 32px;
+  }
+
+  .feature-list,
+  .coming-soon-list,
+  .issues-list {
+    padding: 12px;
+  }
+
+  .credits {
+    padding: 12px;
+  }
+
+  ul {
+    padding-left: 18px;
+  }
+
+  li {
+    font-size: 0.95rem;
+  }
+}
+
+/* Small mobile styles */
+@media (max-width: 480px) {
+  .modal-overlay {
+    padding: 5px;
+  }
+
+  .modal-content {
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  h3 {
+    font-size: 1rem;
+  }
+
+  .logo {
+    max-width: 150px;
+  }
+
+  .tagline {
+    font-size: 0.9rem;
+  }
+
+  p, li {
+    font-size: 0.9rem;
+  }
+
+  .section {
+    margin-bottom: 20px;
+  }
+
+  .copyright {
+    font-size: 0.85rem;
+  }
+}
+
+/* Ensure scrollbar styling */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: rgba(96, 165, 250, 0.5);
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(96, 165, 250, 0.7);
+}

@@ -1,0 +1,99 @@
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-button" (click)="onClose()" title="Close">&times;</button>
+
+    <div class="container">
+      <div class="logo-container">
+        <img src="./ReadyOrMaps.png" alt="Ready or Maps Logo" class="logo">
+      </div>
+
+      <h1>Ready or Maps</h1>
+      <p class="tagline">Fan made project to plan your game runs in Ready or Not and find some hidden details.</p>
+
+      <div class="section">
+        <h2>📍 Overview</h2>
+        <p>
+          I created this project because I spend considerable time studying blueprints to prepare for runs with my
+          friends.
+          I also recognize that sometimes it's difficult to know where to look when searching for hidden objectives, and
+          having
+          guidance can be invaluable. This is the perfect resource where everything is compiled in one place.
+        </p>
+        <p>
+          Currently, the app features <strong>21 out of 25 available maps</strong>, as I unfortunately lack the skills
+          to
+          create
+          floor plans myself. All maps were sourced from eNex's Steam guide and are used in this project with his
+          permission.
+        </p>
+        <p>
+          If you're able to create high-quality floor plans for existing or missing levels, please reach out via Discord
+          →
+          <strong>serM4rkus</strong>. Will be happy to add your map and also mention in credits.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>✨ Features</h2>
+        <div class="feature-list">
+          <ul>
+            <li><strong>Interactive Maps</strong>: Browse detailed maps with zoom and pan functionality</li>
+            <li><strong>Route Planning</strong>: You can draw lines and plan each teammeber route. After just take
+              screenshot and share with friends.</li>
+            <li><strong>Soft objectives details and description</strong>: Detailed location of all soft objectives on
+              available maps</li>
+            <li><strong>Some achivement details</strong>: Location of all comms on Survilian's Slope</li>
+          </ul>
+        </div>
+      </div>
+      <div class="section">
+        <h2>🔜 Coming Soon</h2>
+        <div class="coming-soon-list">
+          <ul>
+            <li><strong>Main objectives</strong>: Add section with hard/soft objectives to each maps</li>
+            <li><strong>Items counts</strong>: Implement count of markers on each level and show near level marker</li>
+          </ul>
+        </div>
+      </div>
+      <div class="section">
+        <h2>⚠️ Known Issues</h2>
+        <div class="issues-list">
+          <ul>
+            <li>
+              <strong>Eraser not clearing all lines</strong>: You can only erase latest selected color
+              (need rewrite whole drawing system, may take some time)
+            </li>
+            <li><strong>Map Rendering</strong>: Possible delay for map loading</li>
+            <li>
+              <strong>Not able to turn back stairs markers</strong>: When hiding all markers stairs also disappear.
+              <br><em>WORKAROUND: Just press "show all" and disable items one by one.</em>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        <h3>© Copyright</h3>
+        <p>
+          Ready or Not is a trademark of
+          <a href="https://voidinteractive.net/" target="_blank" rel="noopener noreferrer">VOID Interactive</a>.
+          This is a fan-made project.
+        </p>
+
+        <div class="credits">
+          <p>Site development and design by <strong>serM4rkus</strong></p>
+          <p>Blueprints development and design by <strong>eNex and Daan</strong></p>
+          <p>
+            <a href="http://steamcommunity.com/sharedfiles/filedetails/?id=3137562299" target="_blank"
+              rel="noopener noreferrer">
+              Ready or Not blueprints Steam Guide
+            </a>
+          </p>
+          <p style="margin-top: 15px;">© 2025 Ready or Maps.</p>
+        </div>
+
+        <p class="last-updated"><strong>Last Updated:</strong> November 2025</p>
+      </div>
+    </div>
+  </div>
+</div>

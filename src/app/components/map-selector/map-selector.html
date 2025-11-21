@@ -2,9 +2,13 @@
   <header class="header">
     <img src="./ReadyOrMaps.png" alt="Ready or Maps Logo">
     <h2>Interactive Map</h2>
+    <button class="about-btn" (click)="openAboutModal()">
+      <span class="material-symbols-outlined">info_i</span>
+      <span class="text">About</span>
+    </button>
   </header>
 
-  <div class="map-info">
+  <div class=" map-info">
     @if (currentMap) {
     <h3>{{ translate(currentMap.name) }}</h3>
     <div class="divider"></div>
@@ -50,4 +54,8 @@
       }
     </div>
   </div>
+
+  @if (isAboutModalOpen) {
+  <app-about-modal (close)="closeAboutModal()"></app-about-modal>
+  }
 </div>

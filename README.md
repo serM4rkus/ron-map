@@ -45,7 +45,7 @@ If you're able to create high-quality floor plans for existing or missing levels
 Ready or Not is a trademark of <a href="https://voidinteractive.net/" target="_blank">VOID Interactive</a>. This is a fan-made project.
 
 Site development and design by <b>serM4rkus</b><br>
-Blueprints development and design by <b>Enex and Daan</b><br>
+Blueprints development and design by <b>eNex and Daan</b><br>
 <a href="http://steamcommunity.com/sharedfiles/filedetails/?id=3137562299" target="_blank">Ready or Not blueprints Steam Guide</a>
 
 © 2025 Ready or Maps.

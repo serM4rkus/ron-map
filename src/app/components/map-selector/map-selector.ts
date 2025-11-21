@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { GameMapConfig } from '../../services/game-map';
 import { LanguageService } from '../../services/language.service';
 import { Language } from '../../config/languages.config';
+import { AboutModalComponent } from '../about-modal/about-modal';
 
 @Component({
   selector: 'app-map-selector',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, AboutModalComponent],
   templateUrl: './map-selector.html',
   styleUrl: './map-selector.css',
 })
@@ -23,6 +24,7 @@ export class MapSelectorComponent implements OnChanges {
   @Output() languageChanged = new EventEmitter<string>();
 
   dropdownOpen = false;
+  isAboutModalOpen = false;
   searchQuery = '';
   filteredMaps: GameMapConfig[] = [];
   highlightedIndex = -1;
@@ -41,6 +43,14 @@ export class MapSelectorComponent implements OnChanges {
 
   translate(key: string): string {
     return this.languageService.translate(key);
+  }
+
+  openAboutModal(): void {
+    this.isAboutModalOpen = true;
+  }
+
+  closeAboutModal(): void {
+    this.isAboutModalOpen = false;
   }
 
   toggleDropdown(event: Event): void {
