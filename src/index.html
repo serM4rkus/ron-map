@@ -3,18 +3,54 @@
 
 <head>
   <meta charset="utf-8">
-  <title>RoN Interactive map</title>
+  <title>Ready or Maps - Interactive Maps for Ready or Not</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive maps for Ready or Not tactical shooter. Plan your missions with detailed floor plans, objectives, and tactical entry points for all maps.">
+  <meta http-equiv="content-language" content="en">
+  
+  <!-- Icons and Theme -->
   <link rel="icon" type="image/x-icon" href="favico.ico">
+  <meta name="theme-color" content="#9575cd">
+  <meta name="msapplication-TileColor" content="#9575cd">
+  
+  <!-- Mobile App Capable -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Ready or Maps">
+  
+  <!-- Performance Hints -->
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  
   <!-- Google Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- Open Graph / Discord Preview Tags -->
-  <meta property="og:title" content="Ready Or Maps" />
-  <meta property="og:description" content="Interactive map for Ready or Not" />
+  <meta property="og:title" content="Ready or Maps - Interactive Maps for Ready or Not" />
+  <meta property="og:description" content="Interactive maps for Ready or Not tactical shooter. Plan your missions with detailed floor plans, objectives, and tactical entry points for all maps." />
   <meta property="og:image" content="https://readyormaps.com/ReadyOrMaps.png" />
   <meta property="og:url" content="https://readyormaps.com" />
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Ready or Maps" />
+  <meta property="og:locale" content="en_US" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Ready or Maps - Interactive Maps for Ready or Not" />
+  <meta name="twitter:description" content="Interactive maps for Ready or Not tactical shooter. Plan your missions with detailed floor plans, objectives, and tactical entry points for all maps." />
+  <meta name="twitter:image" content="https://readyormaps.com/ReadyOrMaps.png" />
+  
+  <!-- GitHub Pages SPA redirect script -->
+  <script>
+    // Restore the URL from sessionStorage if we were redirected from 404.html
+    (function(){
+      var redirect = sessionStorage.redirect;
+      delete sessionStorage.redirect;
+      if (redirect && redirect != location.href) {
+        history.replaceState(null, null, redirect);
+      }
+    })();
+  </script>
 </head>
 
 <body>

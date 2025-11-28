@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, OnDestroy, HostListener, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Meta, Title } from '@angular/platform-browser';
 import { GameMapService, GameMapConfig, GameMarker, GameMapMetadata } from '../../services/game-map';
 import { LanguageService } from '../../services/language.service';
 import { DrawingService } from '../../services/drawing.service';
@@ -79,7 +81,11 @@ export class GameMapComponent implements OnInit, OnDestroy {
     private readonly drawingService: DrawingService,
     private readonly mapInteractionService: MapInteractionService,
     private readonly mapStateService: MapStateService,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly meta: Meta,
+    private readonly titleService: Title
   ) { }
 
   // Enable to print drawing coordinate diagnostics to the console
@@ -88,6 +94,23 @@ export class GameMapComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.availableMaps = this.gameMapService.getAvailableMaps();
     this.availableLanguages = this.languageService.getAvailableLanguages();
+
+    // Subscribe to route parameters to load map from URL
+    this.route.paramMap
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(params => {
+        const routeParam = params.get('route');
+        if (routeParam) {
+          // Find map by route parameter
+          const mapMetadata = this.availableMaps.find(m => m.route === routeParam);
+          if (mapMetadata) {
+            this.loadMap(mapMetadata.id);
+          }
+        } else if (this.availableMaps.length > 0 && !this.currentMap) {
+          // Load first map if no route parameter and no map loaded yet
+          this.loadMapAndNavigate(this.availableMaps[0].id);
+        }
+      });
 
     // Subscribe to language changes
     this.languageService.currentLanguage$
@@ -102,6 +125,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(map => {
         this.currentMap = map;
+        this.updateMetaTags();
         this.loadDrawingsForCurrentMap();
         this.cdr.markForCheck();
       });
@@ -164,10 +188,6 @@ export class GameMapComponent implements OnInit, OnDestroy {
         this.legendItems = state.legendItems;
         this.cdr.markForCheck();
       });
-
-    if (this.availableMaps.length > 0) {
-      this.loadMap(this.availableMaps[0].id);
-    }
   }
 
   /**
@@ -201,6 +221,108 @@ export class GameMapComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  private updateMetaTags(): void {
+    if (this.currentMap) {
+      const mapMetadata = this.availableMaps.find(m => m.id === this.currentMap?.id);
+      if (mapMetadata) {
+        const canonicalUrl = `https://readyormaps.com/map/${mapMetadata.route}`;
+        
+        // Update page title
+        this.titleService.setTitle(`${mapMetadata.name} - Ready or Maps`);
+        
+        // Update canonical URL
+        this.updateCanonical(canonicalUrl);
+        
+        // Update meta description
+        this.meta.updateTag({ 
+          name: 'description', 
+          content: mapMetadata.metaDescription 
+        });
+        
+        // Update Open Graph tags for social sharing
+        this.meta.updateTag({ 
+          property: 'og:title', 
+          content: `${mapMetadata.name} - Ready or Maps` 
+        });
+        this.meta.updateTag({ 
+          property: 'og:description', 
+          content: mapMetadata.metaDescription 
+        });
+        this.meta.updateTag({ 
+          property: 'og:url', 
+          content: canonicalUrl 
+        });
+        this.meta.updateTag({ 
+          property: 'og:site_name', 
+          content: 'Ready or Maps' 
+        });
+        this.meta.updateTag({ 
+          property: 'og:locale', 
+          content: 'en_US' 
+        });
+        this.meta.updateTag({ 
+          property: 'og:type', 
+          content: 'article' 
+        });
+        
+        // Update Twitter Card tags
+        this.meta.updateTag({ 
+          name: 'twitter:title', 
+          content: `${mapMetadata.name} - Ready or Maps` 
+        });
+        this.meta.updateTag({ 
+          name: 'twitter:description', 
+          content: mapMetadata.metaDescription 
+        });
+      }
+    } else {
+      // Default meta tags when no map is selected
+      const canonicalUrl = 'https://readyormaps.com/';
+      
+      this.titleService.setTitle('Ready or Maps - Interactive Maps for Ready or Not');
+      this.updateCanonical(canonicalUrl);
+      
+      this.meta.updateTag({ 
+        name: 'description', 
+        content: 'Interactive maps for Ready or Not tactical shooter. Plan your missions with detailed floor plans, objectives, and tactical entry points for all maps.' 
+      });
+      this.meta.updateTag({ 
+        property: 'og:title', 
+        content: 'Ready or Maps - Interactive Maps for Ready or Not' 
+      });
+      this.meta.updateTag({ 
+        property: 'og:description', 
+        content: 'Interactive maps for Ready or Not tactical shooter. Plan your missions with detailed floor plans, objectives, and tactical entry points for all maps.' 
+      });
+      this.meta.updateTag({ 
+        property: 'og:url', 
+        content: canonicalUrl 
+      });
+      this.meta.updateTag({ 
+        property: 'og:site_name', 
+        content: 'Ready or Maps' 
+      });
+      this.meta.updateTag({ 
+        property: 'og:locale', 
+        content: 'en_US' 
+      });
+      this.meta.updateTag({ 
+        property: 'og:type', 
+        content: 'website' 
+      });
+    }
+  }
+
+  private updateCanonical(url: string): void {
+    let link: HTMLLinkElement | null = document.querySelector('link[rel="canonical"]');
+    if (!link) {
+      link = document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      document.head.appendChild(link);
+    }
+    link.setAttribute('href', url);
+  }
+
   // Map Selection
   loadMap(mapId: string): void {
     this.gameMapService.loadMap(mapId);
@@ -208,7 +330,14 @@ export class GameMapComponent implements OnInit, OnDestroy {
   }
 
   onMapSelected(mapId: string): void {
-    this.loadMap(mapId);
+    this.loadMapAndNavigate(mapId);
+  }
+
+  private loadMapAndNavigate(mapId: string): void {
+    const mapMetadata = this.availableMaps.find(m => m.id === mapId);
+    if (mapMetadata) {
+      this.router.navigate(['/map', mapMetadata.route]);
+    }
   }
 
   // Zoom Controls

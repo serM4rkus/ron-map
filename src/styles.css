@@ -39,12 +39,12 @@
   --color-text-primary: #ffffff;
   --color-text-secondary: rgba(255, 255, 255, 0.9);
   --color-text-medium: rgba(255, 255, 255, 0.8);
-  --color-text-muted: rgba(255, 255, 255, 0.7);
+  --color-text-muted: rgba(255, 255, 255, 0.75);
   --color-text-disabled: rgba(255, 255, 255, 0.5);
   --color-text-faded: rgba(255, 255, 255, 0.3);
   --color-text-dark: #333;
   --color-text-gray: #666;
-  --color-text-light-gray: #888;
+  --color-text-light-gray: #999;
   
   /* Background Colors */
   --bg-dark-primary: #0a0a0a;
@@ -179,9 +179,9 @@
   --font-family-mono: 'Courier New', monospace;
   --font-family-emoji: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
   
-  --font-size-xs: 0.7rem;
-  --font-size-sm: 0.75rem;
-  --font-size-base: 0.85rem;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.8rem;
+  --font-size-base: 0.875rem;
   --font-size-md: 0.9rem;
   --font-size-regular: 0.95rem;
   --font-size-lg: 1rem;
@@ -230,12 +230,14 @@ body {
    ================================== */
 
 a {
-  color: var(--color-primary);
+  color: var(--color-primary-lighter);
   text-decoration: none;
   position: relative;
   transition: color var(--transition-medium);
+  display: inline-block;
 }
 
+/* Animated underline effect */
 a::after {
   content: '';
   position: absolute;
@@ -243,7 +245,7 @@ a::after {
   left: 0;
   width: 0;
   height: 2px;
-  background-color: var(--color-primary);
+  background: linear-gradient(90deg, var(--color-primary-lighter), var(--color-primary-light));
   transition: width var(--transition-medium);
 }
 
@@ -252,6 +254,16 @@ a:hover {
 }
 
 a:hover::after {
+  width: 100%;
+}
+
+a:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+a:focus::after {
   width: 100%;
 }
 
@@ -273,6 +285,20 @@ a:hover::after {
   align-items: center;
   justify-content: center;
   gap: var(--spacing-sm);
+}
+
+.btn-base:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.btn-base:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.btn-base:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .btn-base:disabled {

@@ -1,7 +1,10 @@
-<div class="modal-overlay" (click)="onClose()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <button class="close-button" (click)="onClose()" title="Close">&times;</button>
+<div class="about-page">
+  <button class="back-button" (click)="goBack()" title="Back to Maps">
+    <span class="material-symbols-outlined">arrow_back</span>
+    <span>Back to Maps</span>
+  </button>
 
+  <div class="page-content">
     <div class="container">
       <div class="logo-container">
         <img src="./ReadyOrMaps.png" alt="Ready or Maps Logo" class="logo">
