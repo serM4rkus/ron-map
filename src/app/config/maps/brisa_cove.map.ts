@@ -20,6 +20,7 @@ export const MAP_BRISA_COVE: GameMapConfig = {
   objectives: [
     { id: 'obj_order', title: 'Bring order to chaos.', description: 'Arrest or neutralize any contact at the scene', type: 'hard' },
     { id: 'obj_rescue', title: 'Rescue all civilians.', description: 'Detain any unarmed contacts at the scene', type: 'hard' },
+    { id: 'obj_arrest', title: 'Arrest 3 Suspects.', description: 'Arrest 3 suspects at the scene.', type: 'hard' },
     { id: 'obj1', title: 'Locate Sniper Rifle in Room 1204', description: 'Find the rifle on the southern side of the building, where a sniper killed multiple civilians from the hotel window', type: 'hard', markerIds: ['hard_objective1'], floorName: 'Ground Floor' },
     { id: 'obj2', title: 'Locate Sniper Rifle in Room 1201', description: 'Find the rifle on the northern side of the building, where a sniper killed two officers and three civilians', type: 'hard', markerIds: ['hard_objective2'], floorName: 'Ground Floor' },
     { id: 'obj3', title: 'Find the Music Producer', description: 'Locate Laurie, resident of apartment 1202. Usually in main room hiding in wardrobe or under bed or in his music studio.', type: 'hard', markerIds: ['hard_objective3'], floorName: 'Ground Floor' },

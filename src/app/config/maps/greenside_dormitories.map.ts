@@ -22,6 +22,7 @@ export const MAP_GREENSIDE_DORMITORIES: GameMapConfig = {
   objectives: [
     { id: 'obj_order', title: 'Bring order to chaos.', description: 'Arrest or neutralize any contact at the scene', type: 'hard' },
     { id: 'obj_rescue', title: 'Rescue all civilians.', description: 'Detain any unarmed contacts at the scene', type: 'hard' },
+    { id: 'obj_arrest', title: 'Arrest 5 Suspects.', description: 'Apprehend and secure five suspects at the scene.', type: 'hard' },
     { id: 'obj1', title: 'Report Drug Paraphernalia', description: 'Report proof of drug use found in the building. (on lectern)', type: 'soft', markerIds: ['soft_objective1'], floorName: 'First Floor' }
   ]
 };

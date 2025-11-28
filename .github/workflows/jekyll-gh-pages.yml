@@ -4,7 +4,7 @@ name: Build and Deploy app
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["master"]
+    branches: ["add-objectives"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
