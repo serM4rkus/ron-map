@@ -12,8 +12,7 @@
     </button>
   </div>
 
-  @if (isExpanded) {
-    <div class="objectives-content">
+    <div class="objectives-content" [class.collapsed]="!isExpanded">
       @if (hardObjectives.length > 0) {
         <div class="objectives-section">
           <div class="section-header" (click)="toggleHardSection($event)">
@@ -25,8 +24,7 @@
               <span class="material-icons">{{ isHardSectionExpanded ? 'expand_less' : 'expand_more' }}</span>
             </button>
           </div>
-          @if (isHardSectionExpanded) {
-          <ul class="objectives-list">
+          <ul class="objectives-list" [class.collapsed]="!isHardSectionExpanded">
             @for (objective of hardObjectives; track objective.id) {
               <li class="objective-item" 
                   [class.completed]="objective.completed"
@@ -49,7 +47,6 @@
               </li>
             }
           </ul>
-          }
         </div>
       }
 
@@ -64,8 +61,7 @@
               <span class="material-icons">{{ isSoftSectionExpanded ? 'expand_less' : 'expand_more' }}</span>
             </button>
           </div>
-          @if (isSoftSectionExpanded) {
-          <ul class="objectives-list">
+          <ul class="objectives-list" [class.collapsed]="!isSoftSectionExpanded">
             @for (objective of softObjectives; track objective.id) {
               <li class="objective-item" 
                   [class.completed]="objective.completed"
@@ -88,7 +84,6 @@
               </li>
             }
           </ul>
-          }
         </div>
       }
 
@@ -99,5 +94,4 @@
         </div>
       }
     </div>
-  }
 </div>

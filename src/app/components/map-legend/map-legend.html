@@ -1,5 +1,14 @@
-<div class="map-legend">
+<div class="map-legend" [class.collapsed]="!isExpanded">
   <div class="legend-header">
+    <button 
+      class="legend-control-btn legend-collapse-btn" 
+      (click)="toggleExpanded()" 
+      [title]="isExpanded ? 'Collapse' : 'Expand'"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" [class.rotated]="!isExpanded">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
     <h4>{{ translate('legend') }}</h4>
     <div class="legend-controls">
       <button 
@@ -26,28 +35,30 @@
       </button>
     </div>
   </div>
-  @for (item of filteredLegendItems; track item.id) {
-  <div 
-    class="legend-item" 
-    [class.disabled]="!item.visible"
-    (click)="toggleLegendItem(item.id)"
-    [title]="'Click to ' + (item.visible ? 'hide' : 'show')"
-  >
-    <span class="legend-icon" [style.background-color]="item.color">
-      <span class="material-icons" [style.color]="getMarkerIconColor(item.id)">
-        {{ getMarkerIcon(item.id) }}
+  <div class="legend-content">
+    @for (item of filteredLegendItems; track item.id) {
+    <div 
+      class="legend-item" 
+      [class.disabled]="!item.visible"
+      (click)="toggleLegendItem(item.id)"
+      [title]="'Click to ' + (item.visible ? 'hide' : 'show')"
+    >
+      <span class="legend-icon" [style.background-color]="item.color">
+        <span class="material-icons" [style.color]="getMarkerIconColor(item.id)">
+          {{ getMarkerIcon(item.id) }}
+        </span>
       </span>
-    </span>
-    <span class="legend-label">{{ translate(item.id) }}</span>
-    <svg class="legend-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      @if (item.visible) {
-      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-      <circle cx="12" cy="12" r="3"></circle>
-      } @else {
-      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-      <line x1="1" y1="1" x2="23" y2="23"></line>
-      }
-    </svg>
+      <span class="legend-label">{{ translate(item.id) }}</span>
+      <svg class="legend-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        @if (item.visible) {
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+        <circle cx="12" cy="12" r="3"></circle>
+        } @else {
+        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+        <line x1="1" y1="1" x2="23" y2="23"></line>
+        }
+      </svg>
+    </div>
+    }
   </div>
-  }
 </div>
