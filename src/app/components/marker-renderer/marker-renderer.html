@@ -38,10 +38,10 @@
             <button class="connection-close-btn" (click)="closeConnectionMenu()">×</button>
           </div>
           <div class="connection-options">
-            @for (connectionId of marker.connections; track connectionId) {
-              <button class="connection-option" (click)="navigateToMarker(connectionId)">
+            @for (connection of marker.connections; track connection) {
+              <button class="connection-option" (click)="navigateToMarker(getConnectionTargetId(connection), marker.id)">
                 <span class="material-icons">arrow_forward</span>
-                {{ getConnectionTitle(connectionId) }}
+                {{ getConnectionTitle(connection) }}
               </button>
             }
           </div>

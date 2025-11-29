@@ -5,6 +5,14 @@ import { GAME_MAPS_METADATA, GameMapMetadata } from '../config/game-maps-metadat
 // Re-export for convenience
 export type { GameMapMetadata };
 
+export interface MarkerConnection {
+  /** ID of the target marker to connect to */
+  targetId: string;
+  /** Optional custom label to display in navigation modal. 
+   * If not provided, the target marker's title will be used. */
+  label?: string;
+}
+
 export interface GameMarker {
   id: string;
   x: number;
@@ -19,8 +27,13 @@ export interface GameMarker {
    * or absolute URLs. Example: '/assets/icons/custom-flag.svg' */
   svgIconUrl?: string;
   layerId?: string;
-  /** Array of marker IDs that this marker connects to. Used for stairs navigation. */
-  connections?: string[];
+  /** Array of connections for stairs navigation. Supports both simple string array (marker IDs)
+   * for backward compatibility, or connection objects with targetId and optional label.
+   * Example: ['marker1', 'marker2'] or [{ targetId: 'marker1', label: 'Go to Floor 2' }] */
+  connections?: (string | MarkerConnection)[];
+  /** If true, automatically navigate to first connection without showing modal,
+   * and pulse all connected markers on the target floor. Useful for showing all stairs on a floor at once. */
+  autoNavigateAll?: boolean;
 }
 
 export interface MapLayer {
@@ -70,12 +83,16 @@ export class GameMapService {
   private readonly loadingSubject = new BehaviorSubject<boolean>(false);
   public loading$ = this.loadingSubject.asObservable();
 
-  private readonly pulsingMarkerSubject = new BehaviorSubject<string | null>(null);
-  public pulsingMarker$ = this.pulsingMarkerSubject.asObservable();
+  private readonly pulsingMarkersSubject = new BehaviorSubject<string[]>([]);
+  public pulsingMarkers$ = this.pulsingMarkersSubject.asObservable();
 
   private readonly gameMapsMetadata: GameMapMetadata[] = GAME_MAPS_METADATA;
   private readonly loadedMaps = new Map<string, GameMapConfig>();
   private pulsingTimeout: any = null;
+  
+  // Constants for navigation timing
+  private readonly LAYER_SWITCH_DELAY = 250;
+  private readonly PULSE_DURATION = 2000;
 
   getAvailableMaps(): GameMapMetadata[] {
     return this.gameMapsMetadata;
@@ -228,38 +245,54 @@ export class GameMapService {
   }
 
   // Stairs Navigation
-  navigateToConnectedMarker(targetMarkerId: string): void {
-    const currentMarkers = this.markersSubject.getValue();
-    const targetMarker = currentMarkers.find(m => m.id === targetMarkerId);
+  navigateToConnectedMarker(targetMarkerId: string, sourceMarkerId?: string): void {
+    const markerIds = sourceMarkerId ? [sourceMarkerId, targetMarkerId] : [targetMarkerId];
+    this.navigateAndPulseMarkers(targetMarkerId, markerIds);
+  }
+
+  navigateAndPulseAllConnections(sourceMarkerId: string, connectionIds: string[]): void {
+    if (connectionIds.length === 0) return;
+    const markerIds = [sourceMarkerId, ...connectionIds];
+    this.navigateAndPulseMarkers(connectionIds[0], markerIds);
+  }
+
+  private navigateAndPulseMarkers(targetMarkerId: string, markerIds: string[]): void {
+    const targetMarker = this.markersSubject.getValue().find(m => m.id === targetMarkerId);
     
-    if (targetMarker && targetMarker.layerId) {
-      // Switch to the target marker's layer
+    if (targetMarker?.layerId) {
       this.selectLayer(targetMarker.layerId);
       
-      // Start pulsing the target marker after layer switch
+      // Use Set for O(1) deduplication instead of O(n²) filter
+      const uniqueMarkerIds = Array.from(new Set(markerIds));
+      
       setTimeout(() => {
-        this.startPulsingMarker(targetMarkerId);
-      }, 250);
+        this.startPulsingMarkers(uniqueMarkerIds);
+      }, this.LAYER_SWITCH_DELAY);
     }
   }
 
   startPulsingMarker(markerId: string): void {
+    this.startPulsingMarkers([markerId]);
+  }
+
+  startPulsingMarkers(markerIds: string[]): void {
     // Clear any existing pulsing timeout
     if (this.pulsingTimeout) {
       clearTimeout(this.pulsingTimeout);
+      this.pulsingTimeout = null;
     }
     
-    // Set the pulsing marker
-    this.pulsingMarkerSubject.next(markerId);
+    // Set the pulsing markers
+    this.pulsingMarkersSubject.next(markerIds);
     
-    // Stop pulsing after 2 seconds
+    // Stop pulsing after configured duration
     this.pulsingTimeout = setTimeout(() => {
-      this.pulsingMarkerSubject.next(null);
+      this.pulsingMarkersSubject.next([]);
       this.pulsingTimeout = null;
-    }, 2000);
+    }, this.PULSE_DURATION);
   }
 
-  getPulsingMarker(): string | null {
-    return this.pulsingMarkerSubject.getValue();
+  getPulsingMarkers(): string[] {
+    return this.pulsingMarkersSubject.getValue();
   }
 }

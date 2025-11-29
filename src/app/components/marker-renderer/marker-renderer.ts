@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GameMarker, GameMapService } from '../../services/game-map';
+import { GameMarker, GameMapService, MarkerConnection } from '../../services/game-map';
 import { getMarkerConfig } from '../../config/marker-types.config';
 import { LegendItem } from '../map-viewer/map-viewer';
 import { ComputedCache } from '../../utils/memoize.util';
@@ -23,7 +23,7 @@ export class MarkerRendererComponent implements OnInit, OnDestroy {
   @Output() markerClick = new EventEmitter<GameMarker>();
 
   hoveredMarkerId: string | null = null;
-  pulsingMarkerId: string | null = null;
+  private pulsingMarkerIds = new Set<string>();
   showingConnectionsForMarkerId: string | null = null;
   private destroy$ = new Subject<void>();
 
@@ -60,11 +60,11 @@ export class MarkerRendererComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Subscribe to pulsing marker changes
-    this.gameMapService.pulsingMarker$
+    // Subscribe to pulsing markers changes
+    this.gameMapService.pulsingMarkers$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(markerId => {
-        this.pulsingMarkerId = markerId;
+      .subscribe(markerIds => {
+        this.pulsingMarkerIds = new Set(markerIds);
         this.cdr.markForCheck();
       });
   }
@@ -85,7 +85,7 @@ export class MarkerRendererComponent implements OnInit, OnDestroy {
       'marker-stairs-up-down': marker.type === 'stairs_up_down',
       'marker-comms': marker.type === 'comms',
       'marker-selected': this.selectedMarker?.id === marker.id,
-      'marker-pulsing': this.pulsingMarkerId === marker.id
+      'marker-pulsing': this.pulsingMarkerIds.has(marker.id)
     };
   }
 
@@ -154,9 +154,17 @@ export class MarkerRendererComponent implements OnInit, OnDestroy {
       return;
     }
 
+    // If autoNavigateAll is true, navigate to first connection and pulse all targets
+    if (marker.autoNavigateAll && marker.connections.length > 0) {
+      const connectionIds = marker.connections.map(conn => this.getConnectionTargetId(conn));
+      this.gameMapService.navigateAndPulseAllConnections(marker.id, connectionIds);
+      return;
+    }
+
     // If marker has only one connection, navigate directly
     if (marker.connections.length === 1) {
-      this.navigateToMarker(marker.connections[0]);
+      const targetId = this.getConnectionTargetId(marker.connections[0]);
+      this.navigateToMarker(targetId, marker.id);
     } else {
       // If marker has multiple connections, show selection menu
       this.showingConnectionsForMarkerId = marker.id;
@@ -164,8 +172,8 @@ export class MarkerRendererComponent implements OnInit, OnDestroy {
     }
   }
 
-  navigateToMarker(targetMarkerId: string): void {
-    this.gameMapService.navigateToConnectedMarker(targetMarkerId);
+  navigateToMarker(targetMarkerId: string, sourceMarkerId?: string): void {
+    this.gameMapService.navigateToConnectedMarker(targetMarkerId, sourceMarkerId);
     this.showingConnectionsForMarkerId = null;
     this.cdr.markForCheck();
   }
@@ -175,8 +183,25 @@ export class MarkerRendererComponent implements OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 
-  getConnectionTitle(connectionId: string): string {
-    const connectionMarker = this.markers.find(m => m.id === connectionId);
+  getConnectionTargetId(connection: string | MarkerConnection): string {
+    return typeof connection === 'string' ? connection : connection.targetId;
+  }
+
+  getConnectionLabel(connection: string | MarkerConnection): string | undefined {
+    return typeof connection === 'string' ? undefined : connection.label;
+  }
+
+  getConnectionTitle(connection: string | MarkerConnection): string {
+    const targetId = this.getConnectionTargetId(connection);
+    const customLabel = this.getConnectionLabel(connection);
+    
+    // Use custom label if provided
+    if (customLabel) {
+      return customLabel;
+    }
+    
+    // Fall back to the connection marker's title
+    const connectionMarker = this.markers.find(m => m.id === targetId);
     return connectionMarker?.title || 'Unknown';
   }
 
