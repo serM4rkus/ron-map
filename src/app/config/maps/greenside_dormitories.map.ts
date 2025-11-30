@@ -14,10 +14,10 @@ export const MAP_GREENSIDE_DORMITORIES: GameMapConfig = {
     { id: 'spawn1', x: 15.29, y: 46.68, title: 'North exit', description: 'North exit', type: 'spawn', layerId: 'ground' },
     { id: 'spawn2', x: 83.61, y: 74.31, title: 'South exit', description: 'South exit', type: 'spawn', layerId: 'ground' },
     { id: 'soft_objective1', x: 80.84, y: 51.95, title: 'Report Drug Paraphernalia', description: 'Report proof of drug use found in the building. (on lectern)', type: 'soft_objective', layerId: 'floor1' },
-    { id: 'stairs_up1', x: 55.93, y: 32.45, title: 'To First Floor', type: 'stairs_up', layerId: 'ground' },
-    { id: 'stairs_up2', x: 19.37, y: 57.51, title: 'To First Floor', type: 'stairs_up', layerId: 'ground' },
-    { id: 'stairs_down1', x: 15.27, y: 62.74, title: 'To Ground Floor', type: 'stairs_down', layerId: 'floor1' },
-    { id: 'stairs_down2', x: 53.55, y: 31.12, title: 'To Ground Floor', type: 'stairs_down', layerId: 'floor1' }
+    { id: 'stairs_up1', x: 55.93, y: 32.45, title: 'To First Floor', type: 'stairs_up', layerId: 'ground', connections: ['stairs_down2'] },
+    { id: 'stairs_up2', x: 19.37, y: 57.51, title: 'To First Floor', type: 'stairs_up', layerId: 'ground', connections: ['stairs_down1'] },
+    { id: 'stairs_down1', x: 15.27, y: 62.74, title: 'To Ground Floor', type: 'stairs_down', layerId: 'floor1', connections: ['stairs_up2'] },
+    { id: 'stairs_down2', x: 53.55, y: 31.12, title: 'To Ground Floor', type: 'stairs_down', layerId: 'floor1', connections: ['stairs_up1'] }
   ],
   objectives: [
     { id: 'obj_order', title: 'Bring order to chaos.', description: 'Arrest or neutralize any contact at the scene', type: 'hard' },

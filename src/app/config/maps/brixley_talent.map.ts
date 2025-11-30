@@ -13,10 +13,10 @@ export const MAP_BRIXLEY_TALENT: GameMapConfig = {
   markers: [
     { id: 'spawn1', x: 44.41, y: 32.18, title: 'Main spawn point', description: 'Main spawn point', type: 'spawn', layerId: 'ground' },
     { id: 'hard_objective1', x: 61.47, y: 57.21, title: 'Apprehend George Brixley', description: 'Apprehend and secure the owner of Brixley Talent Time. Usually located in his office, but maybe be in other areas of the building.', type: 'hard_objective', layerId: 'ground' },
-    { id: 'stairs_up1', x: 51.26, y: 51.16, title: 'To Roof', type: 'stairs_up', layerId: 'ground' },
-    { id: 'stairs_up2', x: 55.17, y: 66.77, title: 'To Roof', type: 'stairs_up', layerId: 'ground' },
-    { id: 'stairs_down1', x: 47.18, y: 58.33, title: 'To Ground Floor', type: 'stairs_down', layerId: 'roof' },
-    { id: 'stairs_down2', x: 50.88, y: 83.35, title: 'To Grounf Floor', type: 'stairs_down', layerId: 'roof' }
+    { id: 'stairs_up1', x: 51.26, y: 51.16, title: 'To Roof', type: 'stairs_up', layerId: 'ground', connections: ['stairs_down1'] },
+    { id: 'stairs_up2', x: 55.17, y: 66.77, title: 'To Roof', type: 'stairs_up', layerId: 'ground', connections: ['stairs_down2'] },
+    { id: 'stairs_down1', x: 47.18, y: 58.33, title: 'To Ground Floor', type: 'stairs_down', layerId: 'roof', connections: ['stairs_up1'] },
+    { id: 'stairs_down2', x: 50.88, y: 83.35, title: 'To Grounf Floor', type: 'stairs_down', layerId: 'roof', connections: ['stairs_up2'] }
   ],
   objectives: [
     { id: 'obj_order', title: 'Bring order to chaos.', description: 'Arrest or neutralize any contact at the scene', type: 'hard' },

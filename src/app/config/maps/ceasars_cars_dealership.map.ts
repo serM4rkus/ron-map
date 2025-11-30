@@ -16,10 +16,10 @@ export const MAP_CEASARS_CARS_DEALERSHIP: GameMapConfig = {
     { id: 'soft_objective1', x: 64.79, y: 15.45, title: 'Report Contraband in Storage', description: 'Locate narcotics and illegal firearms in the garages and storage room', type: 'soft_objective', layerId: 'ground' },
     { id: 'soft_objective2', x: 51.47, y: 22.7, title: 'Report Trafficking Records', description: 'Locate evidence concerning organised criminal behaviour including records of human trafficking', type: 'soft_objective', layerId: 'ground' },
     { id: 'hard_objective1', x: 42.35, y: 22.4, title: 'Locate Undercover Officer', description: 'Locate undercover Officer Brian, restrained and killed in the meeting room', type: 'hard_objective', layerId: 'floor1' },
-    { id: 'stairs_down1', x: 20.29, y: 46, title: 'To First Floor', type: 'stairs_down', layerId: 'floor1' },
-    { id: 'stairs_down2', x: 74.29, y: 19.86, title: 'To First Floor', type: 'stairs_down', layerId: 'floor1' },
-    { id: 'stairs_up1', x: 43.4, y: 40.33, title: 'To First Floor', type: 'stairs_up', layerId: 'ground' },
-    { id: 'stairs_up2', x: 56.64, y: 34.43, title: 'To First Floor', type: 'stairs_up', layerId: 'ground' }
+    { id: 'stairs_down1', x: 20.29, y: 46, title: 'To First Floor', type: 'stairs_down', layerId: 'floor1', connections: ['stairs_up1'] },
+    { id: 'stairs_down2', x: 74.29, y: 19.86, title: 'To First Floor', type: 'stairs_down', layerId: 'floor1', connections: ['stairs_up2'] },
+    { id: 'stairs_up1', x: 43.4, y: 40.33, title: 'To First Floor', type: 'stairs_up', layerId: 'ground', connections: ['stairs_down1'] },
+    { id: 'stairs_up2', x: 56.64, y: 34.43, title: 'To First Floor', type: 'stairs_up', layerId: 'ground', connections: ['stairs_down2'] }
   ],
   objectives: [
     { id: 'obj_order', title: 'Bring order to chaos.', description: 'Arrest or neutralize any contact at the scene', type: 'hard' },

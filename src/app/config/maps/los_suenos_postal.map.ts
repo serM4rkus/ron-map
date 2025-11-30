@@ -18,10 +18,10 @@ export const MAP_LOS_SUENOS_POSTAL: GameMapConfig = {
     { id: 'hard_objective4', x: 44.76, y: 43.54, title: 'Locate the FISA Office', description: 'Find the FISA Office within the Postal facility', type: 'hard_objective', layerId: 'ground' },
     { id: 'soft_objective1', x: 45.98, y: 47.6, title: 'Report Suspected Shooter', description: 'Locate the incapacitated suspect, responsible for shooting an LSPD officer outside the Postal office', type: 'soft_objective', layerId: 'ground' },
     { id: 'soft_objective2', x: 52.04, y: 33.26, title: 'Report Weapons Cache', description: 'Locate a cache of illegal firearms in the Postal facility loading bay', type: 'soft_objective', layerId: 'ground' },
-    { id: 'stairs_up1', x: 44.1, y: 54.77, title: 'To First Floor', type: 'stairs_up', layerId: 'ground' },
-    { id: 'stairs_up2', x: 47.71, y: 43.14, title: 'To First Floor', type: 'stairs_up', layerId: 'ground' },
-    { id: 'stairs_down1', x: 40.59, y: 74.54, title: 'To Ground Floor', type: 'stairs_down', layerId: 'floor1' },
-    { id: 'stairs_down2', x: 62.77, y: 12.61, title: 'To Ground Floor', type: 'stairs_down', layerId: 'floor1' }
+    { id: 'stairs_up1', x: 44.1, y: 54.77, title: 'To First Floor', type: 'stairs_up', layerId: 'ground', connections: ['stairs_down1'] },
+    { id: 'stairs_up2', x: 47.71, y: 43.14, title: 'To First Floor', type: 'stairs_up', layerId: 'ground', connections: ['stairs_down2'] },
+    { id: 'stairs_down1', x: 40.59, y: 74.54, title: 'To Ground Floor', type: 'stairs_down', layerId: 'floor1', connections: ['stairs_up1'] },
+    { id: 'stairs_down2', x: 62.77, y: 12.61, title: 'To Ground Floor', type: 'stairs_down', layerId: 'floor1', connections: ['stairs_up2'] }
   ],
   objectives: [
     { id: 'obj_order', title: 'Bring order to chaos.', description: 'Arrest or neutralize any contact at the scene', type: 'hard' },

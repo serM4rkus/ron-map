@@ -16,12 +16,12 @@ export const MAP_KAWAYU_BEACH: GameMapConfig = {
     { id: 'spawn2', x: 66.26, y: 95.18, title: 'Beach', description: 'Beach', type: 'spawn', layerId: 'ground' },
     { id: 'hard_objective1', x: 45.71, y: 23.67, title: 'Locate Weapon Manufactory', description: 'Find the weapon manufactory, the suspects were using to design and modify home built weaponry', type: 'hard_objective', layerId: 'floor2' },
     { id: 'soft_objective1', x: 49.33, y: 27.55, title: 'Report Bag of Money', description: 'Locate bag of cash as evidence of selling illegal firearms', type: 'soft_objective', layerId: 'floor1' },
-    { id: 'stairs_up1', x: 51.97, y: 43.99, title: 'To First Floor', type: 'stairs_up', layerId: 'ground' },
-    { id: 'stairs_up2', x: 44.75, y: 37.41, title: 'To First Floor', type: 'stairs_up', layerId: 'ground' },
-    { id: 'stairs_up3', x: 55.13, y: 46.9, title: 'To Second Floor', type: 'stairs_up', layerId: 'floor1' },
-    { id: 'stairs_down1', x: 52.77, y: 47.72, title: 'To Ground Floor', type: 'stairs_down', layerId: 'floor1' },
-    { id: 'stairs_down2', x: 39.66, y: 34.57, title: 'To Ground Floor', type: 'stairs_down', layerId: 'floor1' },
-    { id: 'stairs_down3', x: 52.69, y: 46.68, title: 'To First Floor', type: 'stairs_down', layerId: 'floor2' }
+    { id: 'stairs_up1', x: 51.97, y: 43.99, title: 'To First Floor', type: 'stairs_up', layerId: 'ground', connections: ['stairs_down1'] },
+    { id: 'stairs_up2', x: 44.75, y: 37.41, title: 'To First Floor', type: 'stairs_up', layerId: 'ground', connections: ['stairs_down2'] },
+    { id: 'stairs_up3', x: 55.13, y: 46.9, title: 'To Second Floor', type: 'stairs_up', layerId: 'floor1', connections: ['stairs_down3'] },
+    { id: 'stairs_down1', x: 52.77, y: 47.72, title: 'To Ground Floor', type: 'stairs_down', layerId: 'floor1', connections: ['stairs_up1'] },
+    { id: 'stairs_down2', x: 39.66, y: 34.57, title: 'To Ground Floor', type: 'stairs_down', layerId: 'floor1', connections: ['stairs_up2'] },
+    { id: 'stairs_down3', x: 52.69, y: 46.68, title: 'To First Floor', type: 'stairs_down', layerId: 'floor2', connections: ['stairs_up3'] }
   ],
   objectives: [
     { id: 'obj_order', title: 'Bring order to chaos.', description: 'Arrest or neutralize any contact at the scene', type: 'hard' },

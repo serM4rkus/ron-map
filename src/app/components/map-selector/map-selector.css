@@ -32,6 +32,7 @@
   margin-bottom: var(--spacing-sm);
 }
 
+.steam-btn,
 .about-btn {
   display: inline-flex;
   align-items: center;
@@ -46,9 +47,10 @@
   font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: all var(--transition-medium);
-  margin-top: var(--spacing-xs);
+  text-decoration: none;
 }
 
+.steam-btn:hover,
 .about-btn:hover {
   background: var(--bg-white-overlay-light);
   color: var(--color-text-primary);
@@ -56,8 +58,20 @@
   box-shadow: var(--shadow-md);
 }
 
+.steam-btn:active,
 .about-btn:active {
   transform: scale(0.98);
+}
+
+.steam-logo {
+  width: 16px;
+  height: 16px;
+  transition: all var(--transition-medium);
+  filter: brightness(0) saturate(100%) invert(58%) sepia(8%) saturate(438%) hue-rotate(169deg) brightness(91%) contrast(87%);
+}
+
+.steam-btn:hover .steam-logo {
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
 }
 
 .about-btn .icon {
@@ -79,6 +93,7 @@
     'opsz' 20;
 }
 
+.steam-btn .text,
 .about-btn .text {
   font-weight: var(--font-weight-semibold);
   letter-spacing: 0.02em;
