@@ -252,6 +252,10 @@ export class GameMapComponent implements OnInit, OnDestroy {
           property: 'og:url', 
           content: canonicalUrl 
         });
+        this.meta.updateTag({
+          property: 'og:image',
+          content: 'https://readyormaps.com/ReadyOrMaps.png'
+        });
         this.meta.updateTag({ 
           property: 'og:site_name', 
           content: 'Ready or Maps' 

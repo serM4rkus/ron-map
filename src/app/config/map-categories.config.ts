@@ -66,11 +66,19 @@ export const MAP_CATEGORIES = {
   'dlc-home-invasion': {
     id: 'dlc-home-invasion',
     displayName: 'Home Invasion DLC',
-    shortName: 'DLC',
+    shortName: 'DLC 1',
     description: 'Home Invasion expansion pack missions',
     badgeColor: '#dc2626', // Red - intense, action-focused
     order: 2
   }
+  // 'dlc-dark-waters': {
+  //   id: 'dlc-dark-waters',
+  //   displayName: 'Dark Waters DLC',
+  //   shortName: 'DLC 2',
+  //   description: 'Dark Waters expansion pack missions',
+  //   badgeColor: '#059669', // Emerald Green - tactical, stealthy
+  //   order: 3
+  // }
   // Add more DLC categories here - no need to update types!
   // 'dlc-special-ops': { id: 'dlc-special-ops', displayName: 'Special Ops DLC', badgeColor: '#059669', ... },
 } as const satisfies Record<string, MapCategoryInfo>;
