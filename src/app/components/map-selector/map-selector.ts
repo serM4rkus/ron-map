@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { GameMapMetadata, GameMapConfig } from '../../services/game-map';
 import { LanguageService } from '../../services/language.service';
 import { Language } from '../../config/languages.config';
+import { getAllCategories, MapCategoryInfo, MapCategoryId } from '../../config/map-categories.config';
 
 @Component({
   selector: 'app-map-selector',
@@ -29,15 +30,25 @@ export class MapSelectorComponent implements OnChanges {
   searchQuery = '';
   filteredMaps: GameMapMetadata[] = [];
   highlightedIndex = -1;
+  
+  // Category filter state
+  filterOpen = false;
+  allCategories: MapCategoryInfo[] = [];
+  selectedCategories: Set<MapCategoryId> = new Set();
 
   constructor(
     private readonly languageService: LanguageService,
     private readonly router: Router
-  ) {}
+  ) {
+    // Initialize categories
+    this.allCategories = getAllCategories();
+    // Select all categories by default
+    this.allCategories.forEach(cat => this.selectedCategories.add(cat.id as MapCategoryId));
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['maps']) {
-      this.filteredMaps = [...this.maps];
+      this.applyFilters();
     }
   }
 
@@ -59,31 +70,73 @@ export class MapSelectorComponent implements OnChanges {
     
     if (this.dropdownOpen) {
       setTimeout(() => this.searchInput?.nativeElement?.focus(), 100);
+      // Close filter if open
+      if (this.filterOpen) {
+        this.filterOpen = false;
+      }
     } else {
       this.searchQuery = '';
-      this.filteredMaps = [...this.maps];
+      this.applyFilters();
       this.highlightedIndex = -1;
     }
   }
 
   filterMaps(): void {
+    this.applyFilters();
+    this.highlightedIndex = -1;
+  }
+  
+  applyFilters(): void {
     const query = this.searchQuery.toLowerCase().trim();
-    if (!query) {
-      this.filteredMaps = [...this.maps];
-    } else {
-      this.filteredMaps = this.maps.filter(map =>
+    
+    // Filter by category first
+    let maps = this.maps.filter(map => this.selectedCategories.has(map.category));
+    
+    // Then filter by search query
+    if (query) {
+      maps = maps.filter(map =>
         this.translate(map.name).toLowerCase().includes(query)
       );
     }
-    this.highlightedIndex = -1;
+    
+    this.filteredMaps = maps;
   }
 
   selectMap(mapId: string): void {
     this.mapSelected.emit(mapId);
     this.dropdownOpen = false;
     this.searchQuery = '';
-    this.filteredMaps = [...this.maps];
+    this.applyFilters();
     this.highlightedIndex = -1;
+  }
+  
+  toggleFilter(event: Event): void {
+    event.stopPropagation();
+    this.filterOpen = !this.filterOpen;
+    
+    // Close dropdown if open
+    if (this.filterOpen && this.dropdownOpen) {
+      this.dropdownOpen = false;
+      this.searchQuery = '';
+    }
+  }
+  
+  toggleCategory(categoryId: string): void {
+    const catId = categoryId as MapCategoryId;
+    if (this.selectedCategories.has(catId)) {
+      this.selectedCategories.delete(catId);
+    } else {
+      this.selectedCategories.add(catId);
+    }
+    this.applyFilters();
+  }
+  
+  isCategorySelected(categoryId: string): boolean {
+    return this.selectedCategories.has(categoryId as MapCategoryId);
+  }
+  
+  getMapCountForCategory(categoryId: string): number {
+    return this.maps.filter(map => map.category === categoryId).length;
   }
 
   switchLanguage(langCode: string): void {
@@ -95,8 +148,11 @@ export class MapSelectorComponent implements OnChanges {
     if (this.dropdownOpen) {
       this.dropdownOpen = false;
       this.searchQuery = '';
-      this.filteredMaps = [...this.maps];
+      this.applyFilters();
       this.highlightedIndex = -1;
+    }
+    if (this.filterOpen) {
+      this.filterOpen = false;
     }
   }
 
@@ -123,7 +179,7 @@ export class MapSelectorComponent implements OnChanges {
         event.preventDefault();
         this.dropdownOpen = false;
         this.searchQuery = '';
-        this.filteredMaps = [...this.maps];
+        this.applyFilters();
         this.highlightedIndex = -1;
         break;
     }

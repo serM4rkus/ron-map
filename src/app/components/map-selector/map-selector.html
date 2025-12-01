@@ -2,10 +2,15 @@
   <header class="header">
     <img src="./ReadyOrMaps.png" alt="Ready or Maps Logo">
     <h2>Interactive Map</h2>
-    <button class="about-btn" (click)="openAboutPage()">
-      <span class="material-symbols-outlined">info_i</span>
-      <span class="text">About</span>
-    </button>
+    <div class="button-group">
+      <button class="about-btn" (click)="openAboutPage()">
+        <span class="material-symbols-outlined">info_i</span>
+        <span class="text">About</span>
+      </button>
+      <a href="https://store.steampowered.com/app/1144200/Ready_or_Not/" target="_blank" rel="noopener noreferrer" class="steam-btn">
+        <img src="./svg/steam-logo.svg" alt="Steam" class="steam-logo">
+      </a>
+    </div>
   </header>
 
   <div class=" map-info">
@@ -21,33 +26,72 @@
   </div>
 
   <h3 class="section-title">{{ translate('selectMap') }}</h3>
-  <div class="map-dropdown">
-    <div class="custom-dropdown" [class.open]="dropdownOpen" (click)="toggleDropdown($event)">
-      <div class="dropdown-selected">
-        <span>{{ currentMapMetadata ? translate(currentMapMetadata.name) : translate('selectMap') + '...' }}</span>
-        <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="6 9 12 15 18 9"></polyline>
-        </svg>
-      </div>
-      @if (dropdownOpen) {
-      <div class="dropdown-menu" (click)="$event.stopPropagation()">
-        <input type="text" class="dropdown-search" [placeholder]="translate('search')" [(ngModel)]="searchQuery"
-          (input)="filterMaps()" (click)="$event.stopPropagation()" #searchInput />
-        <div class="dropdown-options">
-          @for (map of filteredMaps; track map.id) {
-          <div class="dropdown-option" [class.selected]="currentMapId === map.id"
-            [class.highlighted]="highlightedIndex === $index" (click)="selectMap(map.id)"
-            (mouseenter)="highlightedIndex = $index">
-            <span class="map-name">{{ translate(map.name) }}</span>
-            @if (currentMapId === map.id) {
-            <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-              <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
+  <div class="map-dropdown-container">
+    <div class="map-dropdown">
+      <div class="custom-dropdown" [class.open]="dropdownOpen" (click)="toggleDropdown($event)">
+        <div class="dropdown-selected">
+          <span>{{ currentMapMetadata ? translate(currentMapMetadata.name) : translate('selectMap') + '...' }}</span>
+          <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+        @if (dropdownOpen) {
+        <div class="dropdown-menu" (click)="$event.stopPropagation()">
+          <input type="text" class="dropdown-search" [placeholder]="translate('search')" [(ngModel)]="searchQuery"
+            (input)="filterMaps()" (click)="$event.stopPropagation()" #searchInput />
+          <div class="dropdown-options">
+            @for (map of filteredMaps; track map.id) {
+            <div class="dropdown-option" [class.selected]="currentMapId === map.id"
+              [class.highlighted]="highlightedIndex === $index" (click)="selectMap(map.id)"
+              (mouseenter)="highlightedIndex = $index">
+              <span class="map-name">{{ translate(map.name) }}</span>
+              @if (currentMapId === map.id) {
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              }
+            </div>
+            }
+            @if (filteredMaps.length === 0) {
+            <div class="dropdown-empty">No maps found</div>
             }
           </div>
-          }
-          @if (filteredMaps.length === 0) {
-          <div class="dropdown-empty">No maps found</div>
+        </div>
+        }
+      </div>
+    </div>
+    
+    <!-- Category Filter Button -->
+    <div class="filter-button-wrapper">
+      <button class="filter-button" [class.active]="filterOpen" (click)="toggleFilter($event)" title="Filter by category">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+          <line x1="14" y1="3" x2="14" y2="9"></line>
+          <line x1="8" y1="9" x2="8" y2="15"></line>
+          <line x1="16" y1="15" x2="16" y2="21"></line>
+        </svg>
+        <span class="filter-count">{{ selectedCategories.size }}/{{ allCategories.length }}</span>
+      </button>
+      @if (filterOpen) {
+      <div class="filter-menu" (click)="$event.stopPropagation()">
+        <div class="filter-header">
+          <span class="filter-title">Filter by Category</span>
+        </div>
+        <div class="filter-options">
+          @for (category of allCategories; track category.id) {
+          <label class="filter-option">
+            <input 
+              type="checkbox" 
+              [checked]="isCategorySelected(category.id)"
+              (change)="toggleCategory(category.id)"
+            />
+            <span class="category-badge" [style.background-color]="category.badgeColor">
+              <span class="category-name">{{ category.displayName }}</span>
+              <span class="category-count">{{ getMapCountForCategory(category.id) }}</span>
+            </span>
+          </label>
           }
         </div>
       </div>

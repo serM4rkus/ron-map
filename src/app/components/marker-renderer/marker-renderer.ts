@@ -1,9 +1,11 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GameMarker } from '../../services/game-map';
+import { GameMarker, GameMapService, MarkerConnection } from '../../services/game-map';
 import { getMarkerConfig } from '../../config/marker-types.config';
 import { LegendItem } from '../map-viewer/map-viewer';
 import { ComputedCache } from '../../utils/memoize.util';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-marker-renderer',
@@ -12,7 +14,7 @@ import { ComputedCache } from '../../utils/memoize.util';
   styleUrl: './marker-renderer.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MarkerRendererComponent {
+export class MarkerRendererComponent implements OnInit, OnDestroy {
   @Input() markers: GameMarker[] = [];
   @Input() currentMapLayers: any[] = [];
   @Input() legendItems: LegendItem[] = [];
@@ -21,6 +23,14 @@ export class MarkerRendererComponent {
   @Output() markerClick = new EventEmitter<GameMarker>();
 
   hoveredMarkerId: string | null = null;
+  private pulsingMarkerIds = new Set<string>();
+  showingConnectionsForMarkerId: string | null = null;
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    private gameMapService: GameMapService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   // Memoized computation for visible markers
   private readonly visibleMarkersCache = new ComputedCache<GameMarker[]>(
@@ -49,6 +59,21 @@ export class MarkerRendererComponent {
     };
   }
 
+  ngOnInit(): void {
+    // Subscribe to pulsing markers changes
+    this.gameMapService.pulsingMarkers$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(markerIds => {
+        this.pulsingMarkerIds = new Set(markerIds);
+        this.cdr.markForCheck();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   getMarkerClass(marker: GameMarker): any {
     return {
       'marker': true,
@@ -59,7 +84,8 @@ export class MarkerRendererComponent {
       'marker-stairs-up': marker.type === 'stairs_up',
       'marker-stairs-up-down': marker.type === 'stairs_up_down',
       'marker-comms': marker.type === 'comms',
-      'marker-selected': this.selectedMarker?.id === marker.id
+      'marker-selected': this.selectedMarker?.id === marker.id,
+      'marker-pulsing': this.pulsingMarkerIds.has(marker.id)
     };
   }
 
@@ -97,10 +123,18 @@ export class MarkerRendererComponent {
   }
 
   onMarkerClick(marker: GameMarker, event: Event): void {
+    // Handle stairs navigation
     if (marker.type === 'stairs_down' || 
         marker.type === 'stairs_up' || 
-        marker.type === 'stairs_up_down' || 
-        marker.type === 'comms') {
+        marker.type === 'stairs_up_down') {
+      event.stopPropagation();
+      event.preventDefault();
+      this.handleStairsClick(marker);
+      return;
+    }
+    
+    // Handle comms markers (keep original behavior)
+    if (marker.type === 'comms') {
       event.stopPropagation();
       event.preventDefault();
       return;
@@ -112,6 +146,63 @@ export class MarkerRendererComponent {
     } else {
       this.selectMarker(marker, event as unknown as MouseEvent);
     }
+  }
+
+  handleStairsClick(marker: GameMarker): void {
+    if (!marker.connections || marker.connections.length === 0) {
+      console.warn(`Stairs marker ${marker.id} has no connections defined`);
+      return;
+    }
+
+    // If autoNavigateAll is true, navigate to first connection and pulse all targets
+    if (marker.autoNavigateAll && marker.connections.length > 0) {
+      const connectionIds = marker.connections.map(conn => this.getConnectionTargetId(conn));
+      this.gameMapService.navigateAndPulseAllConnections(marker.id, connectionIds);
+      return;
+    }
+
+    // If marker has only one connection, navigate directly
+    if (marker.connections.length === 1) {
+      const targetId = this.getConnectionTargetId(marker.connections[0]);
+      this.navigateToMarker(targetId, marker.id);
+    } else {
+      // If marker has multiple connections, show selection menu
+      this.showingConnectionsForMarkerId = marker.id;
+      this.cdr.markForCheck();
+    }
+  }
+
+  navigateToMarker(targetMarkerId: string, sourceMarkerId?: string): void {
+    this.gameMapService.navigateToConnectedMarker(targetMarkerId, sourceMarkerId);
+    this.showingConnectionsForMarkerId = null;
+    this.cdr.markForCheck();
+  }
+
+  closeConnectionMenu(): void {
+    this.showingConnectionsForMarkerId = null;
+    this.cdr.markForCheck();
+  }
+
+  getConnectionTargetId(connection: string | MarkerConnection): string {
+    return typeof connection === 'string' ? connection : connection.targetId;
+  }
+
+  getConnectionLabel(connection: string | MarkerConnection): string | undefined {
+    return typeof connection === 'string' ? undefined : connection.label;
+  }
+
+  getConnectionTitle(connection: string | MarkerConnection): string {
+    const targetId = this.getConnectionTargetId(connection);
+    const customLabel = this.getConnectionLabel(connection);
+    
+    // Use custom label if provided
+    if (customLabel) {
+      return customLabel;
+    }
+    
+    // Fall back to the connection marker's title
+    const connectionMarker = this.markers.find(m => m.id === targetId);
+    return connectionMarker?.title || 'Unknown';
   }
 
   selectMarker(marker: GameMarker, event: MouseEvent): void {

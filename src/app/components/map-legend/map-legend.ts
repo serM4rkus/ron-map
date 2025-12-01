@@ -24,6 +24,9 @@ export class MapLegendComponent {
   @Output() hideAll = new EventEmitter<void>();
   // Types to hide from the legend UI
   private readonly hiddenLegendTypes = new Set<string>(['stairs_down', 'stairs_up', 'stairs_up_down', 'comms']);
+  
+  // Collapse/expand state (expanded by default)
+  isExpanded = true;
 
   // Legend items after filtering out hidden types
   get filteredLegendItems(): LegendItem[] {
@@ -64,5 +67,9 @@ export class MapLegendComponent {
   getMarkerIconColor(itemId: string): string {
     const config = getMarkerConfig(itemId);
     return config.iconColor;
+  }
+
+  toggleExpanded(): void {
+    this.isExpanded = !this.isExpanded;
   }
 }

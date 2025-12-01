@@ -117,6 +117,44 @@ export class MapInteractionService {
     return wasPanning && !hadMoved;
   }
 
+  /**
+   * Centers the viewport on a marker with given percentage coordinates
+   * @param markerXPercent - Marker X position as percentage (0-100)
+   * @param markerYPercent - Marker Y position as percentage (0-100)
+   */
+  centerOnMarker(markerXPercent: number, markerYPercent: number): void {
+    const current = this.interactionState.getValue();
+    
+    // Get viewport dimensions
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    // Calculate the center of the viewport
+    const viewportCenterX = viewportWidth / 2;
+    const viewportCenterY = viewportHeight / 2;
+    
+    // Convert marker percentage coordinates to viewport pixels
+    // We need to consider that the map is scaled and positioned
+    // The marker position is relative to the map's original size
+    // We want to move the map so that the marker ends up in the viewport center
+    
+    // Calculate offset needed to center the marker
+    // Since the marker is at markerXPercent% of the map width,
+    // and we want it centered in the viewport, we need to offset the map
+    // The offset calculation considers the current zoom level
+    const effectiveScale = current.zoomLevel;
+    
+    // Calculate how much to shift the map to center the marker
+    // This is an approximation that works well for typical viewport/map ratios
+    const mapCenterOffsetX = (50 - markerXPercent) * (viewportWidth / 100) * effectiveScale;
+    const mapCenterOffsetY = (50 - markerYPercent) * (viewportHeight / 100) * effectiveScale;
+    
+    this.updateState({
+      panOffsetX: mapCenterOffsetX,
+      panOffsetY: mapCenterOffsetY
+    });
+  }
+
   // State management
   private updateState(partial: Partial<MapInteractionState>): void {
     const current = this.interactionState.getValue();

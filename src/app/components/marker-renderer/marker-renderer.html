@@ -30,6 +30,23 @@
           }
         </div>
       }
+
+      @if (showingConnectionsForMarkerId === marker.id && marker.connections && marker.connections.length > 1) {
+        <div class="connection-menu" (click)="$event.stopPropagation()">
+          <div class="connection-menu-header">
+            <h4>Choose Destination</h4>
+            <button class="connection-close-btn" (click)="closeConnectionMenu()">×</button>
+          </div>
+          <div class="connection-options">
+            @for (connection of marker.connections; track connection) {
+              <button class="connection-option" (click)="navigateToMarker(getConnectionTargetId(connection), marker.id)">
+                <span class="material-icons">arrow_forward</span>
+                {{ getConnectionTitle(connection) }}
+              </button>
+            }
+          </div>
+        </div>
+      }
     </div>
   }
 </div>
