@@ -61,6 +61,15 @@ const OBJECTIVE_MARKERS: GameMarker[] = [
     type: 'hard_objective', 
     layerId: 'ground' 
   },
+  { 
+    id: 'hard_objective4', 
+    x: 38.66, 
+    y: 11.05, 
+    title: 'Possible Informant location', 
+    description: 'Locate and secure the Informant', 
+    type: 'hard_objective', 
+    layerId: 'ground' 
+  },
   
   // Soft Objectives - Evidence
   { 
@@ -113,7 +122,7 @@ const OBJECTIVES: MapObjective[] = [
     title: 'Locate and Secure the Informant', 
     description: 'Locate and secure the Informant', 
     type: 'hard', 
-    markerIds: ['hard_objective1', 'hard_objective2', 'hard_objective3'], 
+    markerIds: ['hard_objective1', 'hard_objective2', 'hard_objective3', 'hard_objective4'], 
     floorName: 'Ground Floor' 
   },
   { 

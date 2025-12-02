@@ -236,5 +236,23 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 21,
     category: 'dlc-home-invasion',
     loader: () => import('./maps/155_playa_vista_lane.map').then(m => m.MAP_155_PLAYA_VISTA_LANE)
+  },
+  {
+    id: 'sergalio',
+    route: 'Mirage_at_Sea',
+    name: 'Mirage at Sea / The Seraglio',
+    metaDescription: 'Interactive map for Mirage at Sea DLC mission at The Seraglio yaht. Detailed blueprints for strategic tactical operations.',
+    order: 22,
+    category: 'dlc-dark-waters',
+    loader: () => import('./maps/seraglio.map').then(m => m.MAP_SERGALIO)
+  },
+  {
+    id: 'heavywell_rig',
+    route: 'Leviathan',
+    name: 'Leviathan / HeavyWell A-101 Rig',
+    metaDescription: 'Interactive map for Leviathan DLC mission at HeavyWell A-101 Rig. Detailed blueprints for strategic tactical operations.',
+    order: 23,
+    category: 'dlc-dark-waters',
+    loader: () => import('./maps/heavywell_rig.map').then(m => m.MAP_HEAVYWELL_RIG)
   }
 ];
