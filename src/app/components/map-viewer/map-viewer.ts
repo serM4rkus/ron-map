@@ -5,6 +5,7 @@ import { MarkerRendererComponent } from '../marker-renderer/marker-renderer';
 import { CoordinateTrackerComponent } from '../coordinate-tracker/coordinate-tracker';
 import { DrawingLayerComponent } from '../drawing-layer/drawing-layer';
 import { ComputedCache } from '../../utils/memoize.util';
+import { MARKER_TYPE_CONFIGS } from '../../config/marker-types.config';
 
 export interface DrawingLine {
   id: string;
@@ -137,27 +138,27 @@ export class MapViewerComponent {
     // Get the actual image element to calculate coordinates relative to it
     const target = event.currentTarget as HTMLElement;
     const imgElement = target.querySelector('.layer-image') as HTMLImageElement;
-    
+
     if (!imgElement) {
       this.showCoords = false;
       return;
     }
-    
+
     const rect = imgElement.getBoundingClientRect();
     const mouseX = event.clientX - rect.left;
     const mouseY = event.clientY - rect.top;
-    
+
     // Check if mouse is within the image bounds
     if (mouseX < 0 || mouseX > rect.width || mouseY < 0 || mouseY > rect.height) {
       this.showCoords = false;
       this.currentCoords = null;
       return;
     }
-    
+
     // Convert to percentage coordinates
     const percentX = (mouseX / rect.width) * 100;
     const percentY = (mouseY / rect.height) * 100;
-    
+
     this.currentCoords = {
       x: Math.round(percentX * 100) / 100, // Round to 2 decimal places
       y: Math.round(percentY * 100) / 100
@@ -181,13 +182,13 @@ export class MapViewerComponent {
 
     // Get IDs of markers that should be hidden (from completed objectives)
     const hiddenMarkerIds = new Set<string>();
-    
+
     this.objectives.forEach(objective => {
       // Skip obj_order and obj_rescue - their markers are always visible
       if (objective.id === 'obj_order' || objective.id === 'obj_rescue') {
         return;
       }
-      
+
       // If objective is completed and has associated markers, hide them
       if (objective.completed && objective.markerIds) {
         objective.markerIds.forEach(markerId => hiddenMarkerIds.add(markerId));
@@ -196,5 +197,16 @@ export class MapViewerComponent {
 
     // Filter out hidden markers
     return this.markers.filter(marker => !hiddenMarkerIds.has(marker.id));
+  }
+
+  /** 
+   * Check if layer has spawn markers
+   * @param  layerId - the layer ID to check
+   * @returns true if layer has at lease one spawn point
+   */
+  hasSpawnMarkers(layerId: string): boolean {
+    return this.markers.some( marker => 
+      marker.layerId === layerId && marker.type === 'spawn'
+    );
   }
 }

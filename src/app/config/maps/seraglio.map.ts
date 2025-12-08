@@ -7,29 +7,25 @@ const LAYERS: MapLayer[] = [
   { 
     id: 'sun', 
     name: 'Sun Deck', 
-    imageUrl: './maps/22_Seraglio/Seraglio_sun_deck.png', 
-    visible: false, 
+    imageUrl: './maps/22_Seraglio/Seraglio_sun_deck.png',  
     zIndex: 1 
   },
   { 
     id: 'upper', 
     name: 'Upper Deck', 
-    imageUrl: './maps/22_Seraglio/Seraglio_upper_deck.png', 
-    visible: false, 
+    imageUrl: './maps/22_Seraglio/Seraglio_upper_deck.png',  
     zIndex: 2 
   },
   { 
     id: 'middle', 
     name: 'Middle Deck', 
-    imageUrl: './maps/22_Seraglio/Seraglio_middle_deck.png', 
-    visible: true, 
+    imageUrl: './maps/22_Seraglio/Seraglio_middle_deck.png',
     zIndex: 3
   },
   { 
     id: 'lower', 
-    name: 'Lover Deck', 
-    imageUrl: './maps/22_Seraglio/Seraglio_lower_deck.png', 
-    visible: false, 
+    name: 'Lower Deck', 
+    imageUrl: './maps/22_Seraglio/Seraglio_lower_deck.png',  
     zIndex: 4, 
     isDefault: true 
   },
@@ -37,7 +33,6 @@ const LAYERS: MapLayer[] = [
     id: 'engineering',
     name: 'Engineering Deck',
     imageUrl: './maps/22_Seraglio/Seraglio_engineering_deck.png',
-    visible: false,
     zIndex: 5
   }
 ];
@@ -114,6 +109,15 @@ const OBJECTIVE_MARKERS: GameMarker[] = [
     description: 'Found a dead body, looks to be one of Sah\'ids guards.', 
     type: 'soft_objective', 
     layerId: 'engineering' 
+  },
+  { 
+    id: 'soft_objective4', 
+    x: 48.57, 
+    y: 54.13, 
+    title: 'Possible Hidden Body location', 
+    description: 'Found a dead body, looks to be one of Sah\'ids guards.', 
+    type: 'soft_objective', 
+    layerId: 'middle' 
   }
 ];
 
@@ -369,7 +373,7 @@ const OBJECTIVES: MapObjective[] = [
     title: 'Hidden Body',
     description: 'Found a dead body, looks to be one of Sah\'ids guards.',
     type: 'soft',
-    markerIds: ['soft_objective2', 'soft_objective3'],
+    markerIds: ['soft_objective2', 'soft_objective3', 'soft_objective4'],
     floorName: 'Middle & Engineering Deck'
   }
 ];

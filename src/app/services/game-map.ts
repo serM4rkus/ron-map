@@ -41,7 +41,7 @@ export interface MapLayer {
   id: string;
   name: string;
   imageUrl: string;
-  visible: boolean;
+  visible?: boolean;
   zIndex: number;
   isDefault?: boolean; // Optional flag to mark the default layer to load first
 }

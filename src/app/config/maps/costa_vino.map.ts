@@ -7,16 +7,14 @@ const LAYERS: MapLayer[] = [
   { 
     id: 'ground', 
     name: 'Ground Floor', 
-    imageUrl: './maps/12_costa_vino/costa_vino_ground.png', 
-    visible: true, 
+    imageUrl: './maps/12_costa_vino/costa_vino_ground.png',
     zIndex: 1, 
     isDefault: true 
   },
   { 
     id: 'underground', 
     name: 'Underground', 
-    imageUrl: './maps/12_costa_vino/costa_vino_underground.png', 
-    visible: false, 
+    imageUrl: './maps/12_costa_vino/costa_vino_underground.png',  
     zIndex: 2 
   }
 ];

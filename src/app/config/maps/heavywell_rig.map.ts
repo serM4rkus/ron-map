@@ -8,21 +8,18 @@ const LAYERS: MapLayer[] = [
     id: 'second',
     name: 'Second Floor',
     imageUrl: './maps/23_HeavyWell_Rig/HeavyWell_Rig_second.png',
-    visible: false,
     zIndex: 1
   },
   {
     id: 'first',
     name: 'First Floor',
     imageUrl: './maps/23_HeavyWell_Rig/HeavyWell_Rig_first.png',
-    visible: false,
     zIndex: 2
   },
   {
     id: 'ground',
     name: 'Ground Floor',
     imageUrl: './maps/23_HeavyWell_Rig/HeavyWell_Rig_ground.png',
-    visible: true,
     zIndex: 3,
     isDefault: true
   }

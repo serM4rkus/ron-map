@@ -7,30 +7,26 @@ const LAYERS: MapLayer[] = [
   { 
     id: 'floor2', 
     name: 'Second Floor', 
-    imageUrl: './maps/3_213_park/213_park_floor2.png', 
-    visible: false, 
+    imageUrl: './maps/3_213_park/213_park_floor2.png',  
     zIndex: 1 
   },
   { 
     id: 'floor1', 
     name: 'First Floor', 
-    imageUrl: './maps/3_213_park/213_park_floor1.png', 
-    visible: false, 
+    imageUrl: './maps/3_213_park/213_park_floor1.png',  
     zIndex: 2 
   },
   { 
     id: 'ground', 
     name: 'Ground Floor', 
-    imageUrl: './maps/3_213_park/213_park_ground.png', 
-    visible: true, 
+    imageUrl: './maps/3_213_park/213_park_ground.png',
     zIndex: 3, 
     isDefault: true 
   },
   { 
     id: 'underground', 
     name: 'Underground', 
-    imageUrl: './maps/3_213_park/213_park_underground.png', 
-    visible: false, 
+    imageUrl: './maps/3_213_park/213_park_underground.png',  
     zIndex: 4 
   }
 ];

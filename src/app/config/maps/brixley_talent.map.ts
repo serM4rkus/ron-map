@@ -7,15 +7,13 @@ const LAYERS: MapLayer[] = [
   { 
     id: 'roof', 
     name: 'Roof', 
-    imageUrl: './maps/4_brixley_talent/brixley_talent_floor1.png', 
-    visible: false, 
+    imageUrl: './maps/4_brixley_talent/brixley_talent_floor1.png',  
     zIndex: 1 
   },
   { 
     id: 'ground', 
     name: 'Ground Floor', 
-    imageUrl: './maps/4_brixley_talent/brixley_talent_ground.png', 
-    visible: true, 
+    imageUrl: './maps/4_brixley_talent/brixley_talent_ground.png',
     zIndex: 2, 
     isDefault: true 
   }

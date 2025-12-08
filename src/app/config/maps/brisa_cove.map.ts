@@ -7,8 +7,7 @@ const LAYERS: MapLayer[] = [
   { 
     id: 'ground', 
     name: 'Ground Floor', 
-    imageUrl: './maps/6_brisa_cove/brisa_cove_ground.png', 
-    visible: true, 
+    imageUrl: './maps/6_brisa_cove/brisa_cove_ground.png',
     zIndex: 1, 
     isDefault: true 
   }
