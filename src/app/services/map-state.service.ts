@@ -87,28 +87,10 @@ export class MapStateService {
     });
   }
 
-  getLegendItems(): LegendItem[] {
-    return this.uiStateSubject.getValue().legendItems;
-  }
-
   getColorForType(type: string): string {
     const legendItem = this.uiStateSubject.getValue().legendItems.find(
       item => item.id === type
     );
     return legendItem?.color || '#667BC6';
-  }
-
-  reset(): void {
-    this.uiStateSubject.next({
-      showMarkerForm: false,
-      newMarkerX: 0,
-      newMarkerY: 0,
-      legendItems: MARKER_TYPE_CONFIGS.map(config => ({
-        id: config.type,
-        color: config.color,
-        label: config.label,
-        visible: true
-      }))
-    });
   }
 }

@@ -7,22 +7,19 @@ const LAYERS: MapLayer[] = [
   { 
     id: 'floor2', 
     name: 'Second Floor', 
-    imageUrl: './maps/8_kawayu_beach/kawayu_beach_floor2.png', 
-    visible: false, 
+    imageUrl: './maps/8_kawayu_beach/kawayu_beach_floor2.png',  
     zIndex: 1 
   },
   { 
     id: 'floor1', 
     name: 'First Floor', 
-    imageUrl: './maps/8_kawayu_beach/kawayu_beach_floor1.png', 
-    visible: false, 
+    imageUrl: './maps/8_kawayu_beach/kawayu_beach_floor1.png',  
     zIndex: 2 
   },
   { 
     id: 'ground', 
     name: 'Ground Floor', 
-    imageUrl: './maps/8_kawayu_beach/kawayu_beach_ground.png', 
-    visible: true, 
+    imageUrl: './maps/8_kawayu_beach/kawayu_beach_ground.png',
     zIndex: 3, 
     isDefault: true 
   }

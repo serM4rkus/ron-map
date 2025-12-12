@@ -7,22 +7,19 @@ const LAYERS: MapLayer[] = [
   { 
     id: 'roof', 
     name: 'Roof', 
-    imageUrl: './maps/13_clemente_hotel/clemente_hotel_roof.png', 
-    visible: false, 
+    imageUrl: './maps/13_clemente_hotel/clemente_hotel_roof.png',  
     zIndex: 1 
   },
   { 
     id: 'floor2', 
     name: 'Second Floor', 
-    imageUrl: './maps/13_clemente_hotel/clemente_hotel_floor2.png', 
-    visible: false, 
+    imageUrl: './maps/13_clemente_hotel/clemente_hotel_floor2.png',  
     zIndex: 2 
   },
   { 
     id: 'floor1', 
     name: 'First Floor', 
-    imageUrl: './maps/13_clemente_hotel/clemente_hotel_floor1.png', 
-    visible: true, 
+    imageUrl: './maps/13_clemente_hotel/clemente_hotel_floor1.png',
     zIndex: 3, 
     isDefault: true 
   }

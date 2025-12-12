@@ -8,7 +8,8 @@
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background: #000; /* ensure a clean backdrop */
+  background: #000;
+  /* ensure a clean backdrop */
 }
 
 /* Main Content Area */
@@ -107,7 +108,7 @@
 
 /* Fallback for systems that don't render flag emojis properly */
 @media (prefers-reduced-motion: no-preference) {
-  .language-button:not(:hover) .flag-emoji:empty + .flag-text {
+  .language-button:not(:hover) .flag-emoji:empty+.flag-text {
     opacity: 1;
   }
 }

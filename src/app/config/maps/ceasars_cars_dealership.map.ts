@@ -7,15 +7,13 @@ const LAYERS: MapLayer[] = [
   { 
     id: 'floor1', 
     name: 'First Floor', 
-    imageUrl: './maps/15_ceasars_cars_dealership/ceasars_cars_dealership_floor1.png', 
-    visible: false, 
+    imageUrl: './maps/15_ceasars_cars_dealership/ceasars_cars_dealership_floor1.png',  
     zIndex: 1 
   },
   { 
     id: 'ground', 
     name: 'Ground Floor', 
-    imageUrl: './maps/15_ceasars_cars_dealership/ceasars_cars_dealership_ground.png', 
-    visible: true, 
+    imageUrl: './maps/15_ceasars_cars_dealership/ceasars_cars_dealership_ground.png',
     zIndex: 2, 
     isDefault: true 
   }
