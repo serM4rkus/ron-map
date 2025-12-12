@@ -108,7 +108,7 @@
 
 /* Fallback for systems that don't render flag emojis properly */
 @media (prefers-reduced-motion: no-preference) {
-  .language-button:not(:hover) .flag-emoji:empty+.flag-text {
+  .language-button:not(:hover) .flag-emoji:empty + .flag-text {
     opacity: 1;
   }
 }
