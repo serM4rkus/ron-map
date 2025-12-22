@@ -64,6 +64,7 @@ export interface GameMapConfig {
   description?: string;
   layers?: MapLayer[];
   objectives?: MapObjective[];
+  placeholderImage?: string; // Used when map is under construction
 }
 
 @Injectable({

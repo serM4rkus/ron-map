@@ -24,6 +24,17 @@
   object-fit: contain;
 }
 
+.logo-clickable {
+  cursor: pointer;
+  transition: all var(--transition-medium);
+}
+
+.logo-clickable:hover {
+  transform: scale(1.02);
+  filter: brightness(1.1);
+  opacity: 0.9;
+}
+
 .header h2 {
   margin: 0;
   font-size: var(--font-size-2xl);
@@ -41,7 +52,8 @@
 }
 
 .steam-btn,
-.about-btn {
+.about-btn,
+.home-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -60,7 +72,8 @@
 }
 
 .steam-btn:hover,
-.about-btn:hover {
+.about-btn:hover,
+.home-btn:hover {
   background: var(--bg-white-overlay-light);
   color: var(--color-text-primary);
   border-color: var(--border-color-primary-light);
@@ -75,8 +88,19 @@
 }
 
 .steam-btn:active,
-.about-btn:active {
+.about-btn:active,
+.home-btn:active {
   transform: scale(0.98);
+}
+
+.home-btn svg {
+  width: 16px;
+  height: 16px;
+  transition: all var(--transition-medium);
+}
+
+.home-btn:hover svg {
+  stroke: var(--color-text-primary);
 }
 
 .steam-logo {
@@ -114,7 +138,8 @@
 }
 
 .steam-btn .text,
-.about-btn .text {
+.about-btn .text,
+.home-btn .text {
   font-weight: var(--font-weight-semibold);
   letter-spacing: 0.02em;
   text-transform: uppercase;

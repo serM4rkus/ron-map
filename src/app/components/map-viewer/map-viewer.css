@@ -261,6 +261,93 @@
   object-fit: contain;
 }
 
+/* Responsive adjustments for under construction display */
+@media (max-width: 768px) {
+  .placeholder-image {
+    max-width: 300px;
+    max-height: 200px;
+  }
+  
+  .map-under-construction-badge {
+    padding: 16px 24px;
+    gap: 12px;
+  }
+  
+  .map-under-construction-badge .tools-icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .map-under-construction-badge .badge-title {
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Under Construction Container for Map Display */
+.under-construction-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  background: var(--bg-dark-tertiary);
+  z-index: 100;
+  pointer-events: none;
+  padding: 40px;
+}
+
+.map-under-construction-badge {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 32px;
+  background: rgba(245, 158, 11, 0.95);
+  border: 3px solid rgba(251, 191, 36, 0.9);
+  border-radius: var(--border-radius-xl);
+  color: var(--color-text-primary);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(245, 158, 11, 0.6);
+  animation: fadeIn var(--transition-medium) ease-out;
+}
+
+.map-under-construction-badge .tools-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.map-under-construction-badge .badge-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.map-under-construction-badge .badge-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.placeholder-image {
+  max-width: 400px;
+  max-height: 300px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 2px solid var(--border-color-subtle);
+  opacity: 0.8;
+}
+
 
 
 /* No Map Selected */

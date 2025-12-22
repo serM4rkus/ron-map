@@ -1,0 +1,193 @@
+<div class="home-page">
+  <div class="page-content">
+    <header class="header">
+      <div class="logo-section">
+        <img src="./ReadyOrMaps.png" alt="Ready or Maps Logo" class="logo">
+        <h1>Ready or Maps</h1>
+        <p class="tagline">Fan made project to plan your game runs in Ready or Not and find some hidden details.</p>
+      </div>
+
+      <button class="about-button" (click)="navigateToAbout()" title="About">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 16v-4"></path>
+          <path d="M12 8h.01"></path>
+        </svg>
+        <span>About</span>
+      </button>
+    </header>
+
+    <div class="challenge-promo-section">
+      <div class="challenge-promo-content">
+        <p class="challenge-promo-text">
+          You already know all maps better that anyone and do not know what to do in game? 
+          <br>Use this button to roll challenge for you and your team!
+        </p>
+        <app-random-challenge [maps]="allMaps"></app-random-challenge>
+      </div>
+    </div>
+
+    <div class="controls-section">
+      <div class="controls-row">
+        <div class="search-container">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          <input 
+            type="text" 
+            class="search-input" 
+            placeholder="Search maps by name or description..."
+            [(ngModel)]="searchQuery"
+            (input)="onSearchChange()"
+          >
+          @if (searchQuery) {
+          <button class="clear-button" (click)="clearSearch()" title="Clear search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+          }
+        </div>
+
+        <div class="control-buttons">
+          <span class="results-count">{{ totalMapsCount }} maps</span>
+          <button class="control-btn" (click)="toggleAllCategories()" [title]="allCollapsed ? 'Expand all categories' : 'Collapse all categories'">
+            @if (allCollapsed) {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
+            <span>Expand All</span>
+            } @else {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            <span>Collapse All</span>
+            }
+          </button>
+          <button 
+            class="control-btn view-toggle" 
+            (click)="toggleViewMode()" 
+            [title]="viewMode === 'grid' ? 'Switch to list view' : 'Switch to grid view'"
+          >
+            @if (viewMode === 'grid') {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="8" y1="6" x2="21" y2="6"></line>
+              <line x1="8" y1="12" x2="21" y2="12"></line>
+              <line x1="8" y1="18" x2="21" y2="18"></line>
+              <line x1="3" y1="6" x2="3.01" y2="6"></line>
+              <line x1="3" y1="12" x2="3.01" y2="12"></line>
+              <line x1="3" y1="18" x2="3.01" y2="18"></line>
+            </svg>
+            <span>List View</span>
+            } @else {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span>Grid View</span>
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="maps-section">
+      @if (filteredCategoryGroups.length === 0) {
+      <div class="no-results">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <h3>No maps found</h3>
+        <p>Try adjusting your search terms</p>
+      </div>
+      }
+
+      @for (group of filteredCategoryGroups; track group.category.id) {
+      <div class="category-group">
+        <div class="category-header" (click)="toggleCategory(group)">
+          <div class="category-info">
+            <h2>{{ group.category.displayName }}</h2>
+            <span class="category-badge" [style.background-color]="group.category.badgeColor">
+              {{ group.maps.length }} maps
+            </span>
+          </div>
+          <button class="collapse-btn" [class.collapsed]="group.collapsed">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        @if (!group.collapsed) {
+        <div class="maps-grid" [class.list-view]="viewMode === 'list'">
+          @for (map of group.maps; track map.id) {
+          <div class="map-card" (click)="navigateToMap(map)">
+            <div class="map-preview">
+              @if (map.preview_picture) {
+              <img [src]="map.preview_picture" [alt]="map.name" loading="lazy">
+              } @else {
+              <div class="map-preview-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+              </div>
+              }
+              <div class="map-overlay">
+                <span class="map-order">#{{ map.order }}</span>
+              </div>
+              @if (map.isReady === false) {
+              <div class="under-construction-overlay">
+                <div class="under-construction-badge">
+                  <svg class="tools-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                  </svg>
+                  <span>Under Construction</span>
+                </div>
+              </div>
+              }
+            </div>
+            <div class="map-info">
+              <h3 class="map-name">{{ map.name }}</h3>
+              <p class="map-description">{{ map.description }}</p>
+            </div>
+          </div>
+          }
+        </div>
+        }
+      </div>
+      }
+    </div>
+
+    <footer class="footer">
+      <div class="copyright">
+        <h3>© Copyright</h3>
+        <p>
+          Ready or Not is a trademark of
+          <a href="https://voidinteractive.net/" target="_blank" rel="noopener noreferrer">VOID Interactive</a>.
+          This is a fan-made project.
+        </p>
+
+        <div class="credits">
+          <p>Site development and design by <strong>serM4rkus</strong></p>
+          <p>Blueprints development and design by <strong>eNex and Daan</strong></p>
+          <p>
+            <a href="http://steamcommunity.com/sharedfiles/filedetails/?id=3137562299" target="_blank"
+              rel="noopener noreferrer">
+              Ready or Not blueprints Steam Guide
+            </a>
+          </p>
+          <p style="margin-top: 15px;">© 2025 Ready or Maps.</p>
+        </div>
+
+        <p class="last-updated"><strong>Last Updated:</strong> November 2025</p>
+      </div>
+    </footer>
+  </div>
+</div>

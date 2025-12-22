@@ -64,6 +64,10 @@ export class MapSelectorComponent implements OnChanges {
     this.router.navigate(['/about']);
   }
 
+  navigateToHome(): void {
+    this.router.navigate(['/']);
+  }
+
   toggleDropdown(event: Event): void {
     event.stopPropagation();
     this.dropdownOpen = !this.dropdownOpen;

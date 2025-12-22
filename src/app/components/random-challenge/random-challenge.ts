@@ -6,6 +6,7 @@ import { GameMapMetadata } from '../../config/game-maps-metadata.config';
 import { WEAPONS, Weapon } from '../../config/weapons.config';
 import { DIFFICULTIES, Difficulty } from '../../config/difficulties.config';
 import { ArmorConfig, generateRandomArmor, getArmorTypeName, getArmorCoverageName, getArmorMaterialName } from '../../config/armor.config';
+import { GameMarker } from '../../services/game-map';
 import { Logger } from '../../utils/logger.util';
 
 interface ChallengeResult {
@@ -13,6 +14,7 @@ interface ChallengeResult {
   weapon: Weapon;
   difficulty: Difficulty;
   armor: ArmorConfig;
+  spawnPoint: GameMarker | null;
 }
 
 @Component({
@@ -67,18 +69,30 @@ export class RandomChallengeComponent implements OnDestroy {
     this.result = null;
     this.cdr.markForCheck();
 
-    this.rollTimeout = setTimeout(() => {
+    this.rollTimeout = setTimeout(async () => {
       try {
         const randomMap = this.maps[Math.floor(Math.random() * this.maps.length)];
         const randomWeapon = WEAPONS[Math.floor(Math.random() * WEAPONS.length)];
         const randomDifficulty = DIFFICULTIES[Math.floor(Math.random() * DIFFICULTIES.length)];
         const randomArmor = generateRandomArmor();
 
+        let randomSpawn: GameMarker | null = null;
+        try {
+          const mapConfig = await randomMap.loader();
+          const spawnPoints = mapConfig.markers.filter(m => m.type === 'spawn');
+          if (spawnPoints.length > 0) {
+            randomSpawn = spawnPoints[Math.floor(Math.random() * spawnPoints.length)];
+          }
+        } catch (error) {
+          Logger.warn('Could not load spawn points for map:', randomMap.id, error);
+        }
+
         this.result = {
           map: randomMap,
           weapon: randomWeapon,
           difficulty: randomDifficulty,
-          armor: randomArmor
+          armor: randomArmor,
+          spawnPoint: randomSpawn
         };
       } catch (error) {
         Logger.error('Error generating random challenge:', error);

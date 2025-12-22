@@ -90,4 +90,8 @@ export class AboutPageComponent implements OnInit {
       this.router.navigate(['/']);
     }
   }
+
+  navigateToHome(): void {
+    this.router.navigate(['/']);
+  }
 }

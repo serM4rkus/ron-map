@@ -46,6 +46,7 @@ export interface GameMapMetadata {
   category: MapCategoryId;
   preview_picture?: string;
   loader: () => Promise<GameMapConfig>;
+  isReady?: boolean; // If false, map is under construction and will show placeholder
 }
 
 export const GAME_MAPS_METADATA: GameMapMetadata[] = [
@@ -229,7 +230,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     preview_picture: './maps/18_port/port_preview.png',
     loader: () => import('./maps/port.map').then(m => m.MAP_PORT)
   },
-  // Home invasion DLC
+  // Home Invasion DLC.
   {
     id: 'greenside_dormitories',
     route: 'Dorms',
@@ -259,26 +260,37 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     category: 'dlc-home-invasion',
     preview_picture: './maps/21_155_playa_vista_lane/155_playa_vista_lane_preview.png',
     loader: () => import('./maps/155_playa_vista_lane.map').then(m => m.MAP_155_PLAYA_VISTA_LANE)
+  },
+  // Dark Waters DLC.
+  {
+    id: 'sergalio',
+    route: 'Mirage_at_Sea',
+    name: 'Mirage at Sea / The Seraglio',
+    metaDescription: 'Interactive map for Mirage at Sea DLC mission at The Seraglio yaht. Detailed blueprints for strategic tactical operations.',
+    order: 22,
+    category: 'dlc-dark-waters',
+    preview_picture: './maps/22_Seraglio/Seraglio_preview.png',
+    loader: () => import('./maps/seraglio.map').then(m => m.MAP_SERGALIO)
+  },
+  {
+    id: 'heavywell_rig',
+    route: 'Leviathan',
+    name: 'Leviathan / HeavyWell A-101 Rig',
+    metaDescription: 'Interactive map for Leviathan DLC mission at HeavyWell A-101 Rig. Detailed blueprints for strategic tactical operations.',
+    order: 23,
+    category: 'dlc-dark-waters',
+    preview_picture: './maps/23_HeavyWell_Rig/HeavyWell_A-101_Rig_preview.png',
+    loader: () => import('./maps/heavywell_rig.map').then(m => m.MAP_HEAVYWELL_RIG)
+  },
+  {
+    id: 'elysian',
+    route: '3_Letter_Triad',
+    name: '3 Letter Triad / The Elysian',
+    metaDescription: 'Interactive map for 3 Letter Triad DLC mission at The Elysian not finished hotel. Detailed blueprints for strategic tactical operations.',
+    order: 24,
+    category: 'dlc-dark-waters',
+    preview_picture: './maps/23_HeavyWell_Rig/HeavyWell_A-101_Rig_preview.png',
+    loader: () => import('./maps/elysian.map').then(m => m.MAP_ELYSIAN),
+    isReady: false
   }
-  // Dark Waters DLC. Uncomment when all maps ready
-  // {
-  //   id: 'sergalio',
-  //   route: 'Mirage_at_Sea',
-  //   name: 'Mirage at Sea / The Seraglio',
-  //   metaDescription: 'Interactive map for Mirage at Sea DLC mission at The Seraglio yaht. Detailed blueprints for strategic tactical operations.',
-  //   order: 22,
-  //   category: 'dlc-dark-waters',
-  //   preview_picture: './maps/22_Seraglio/Seraglio_preview.png',
-  //   loader: () => import('./maps/seraglio.map').then(m => m.MAP_SERGALIO)
-  // },
-  // {
-  //   id: 'heavywell_rig',
-  //   route: 'Leviathan',
-  //   name: 'Leviathan / HeavyWell A-101 Rig',
-  //   metaDescription: 'Interactive map for Leviathan DLC mission at HeavyWell A-101 Rig. Detailed blueprints for strategic tactical operations.',
-  //   order: 23,
-  //   category: 'dlc-dark-waters',
-  //   preview_picture: './maps/23_HeavyWell_Rig/HeavyWell_A-101_Rig_preview.png',
-  //   loader: () => import('./maps/heavywell_rig.map').then(m => m.MAP_HEAVYWELL_RIG)
-  // }
 ];

@@ -1,12 +1,12 @@
 <div class="about-page">
   <button class="back-button" (click)="goBack()" title="Back to Maps">
     <span class="material-symbols-outlined">arrow_back</span>
-    <span>Back to Maps</span>
+    <span>Back</span>
   </button>
 
   <div class="page-content">
     <div class="container">
-      <div class="logo-container">
+      <div class="logo-container" (click)="navigateToHome()" title="Go to Home">
         <img src="./ReadyOrMaps.png" alt="Ready or Maps Logo" class="logo">
       </div>
 
@@ -47,6 +47,8 @@
             <li><strong>Soft objectives details and description</strong>: Detailed location of all soft objectives on
               available maps</li>
             <li><strong>Some achivement details</strong>: Location of all comms on Survilian's Slope</li>
+            <li><strong>Level navigation</strong>: You can navigate not only by shitching floor levels but also by clicking on stairs and it will help you understand were this stairs leading.</li>
+            <li><strong>Random challenge</strong>: If you do not know what to do you can roll a challange and finish map with rolled weapon on specific difficulty with predefined equipment</li>
           </ul>
         </div>
       </div>
@@ -55,7 +57,6 @@
         <div class="coming-soon-list">
           <ul>
             <li><strong>Remaining maps</strong>: Adding remaining maps as soon as possible</li>
-            <li><strong>Level navigation</strong>: Will add ability to switch to next floor on map were this stair locating</li>
             <li><strong>Additional advices</strong>: Add advices for new players for each map</li>
             <li><strong>Items counts</strong>: Implement count of markers on each level and show near level marker</li>
           </ul>

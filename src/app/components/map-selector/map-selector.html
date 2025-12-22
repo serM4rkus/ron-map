@@ -1,8 +1,14 @@
 <div class="map-selector">
   <header class="header">
-    <img src="./ReadyOrMaps.png" alt="Ready or Maps Logo">
+    <img src="./ReadyOrMaps.png" alt="Ready or Maps Logo" class="logo-clickable" (click)="navigateToHome()" title="Go to Home">
     <h2>Interactive Map</h2>
     <div class="button-group">
+      <button class="home-btn" (click)="navigateToHome()" title="Home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </button>
       <button class="about-btn" (click)="openAboutPage()">
         <span class="material-symbols-outlined">info_i</span>
         <span class="text">About</span>
