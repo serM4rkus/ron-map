@@ -41,3 +41,10 @@
   font-size: var(--font-size-md);
   margin: 0 var(--spacing-xs);
 }
+
+/* Hide coordinates on mobile devices */
+@media (max-width: 768px) {
+  .coordinate-display  {
+    display: none;
+  }
+}
