@@ -77,11 +77,21 @@ export class GameMapComponent implements OnInit, OnDestroy {
   // Random Challenge modal state
   isChallengeModalOpen = false;
 
+  // Mobile sidebar state
+  isSidebarCollapsed = false;
+
+  // Touch tracking
+  private touchStartX = 0;
+  private touchStartY = 0;
+  private touchMoved = false;
+
   private readonly destroy$ = new Subject<void>();
   
   // Conditional event listeners for better performance
   private mouseMoveListener?: (e: MouseEvent) => void;
   private mouseUpListener?: (e: MouseEvent) => void;
+  private touchMoveListener?: (e: TouchEvent) => void;
+  private touchEndListener?: (e: TouchEvent) => void;
   private listenersAttached = false;
 
   constructor(
@@ -224,23 +234,27 @@ export class GameMapComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Attach mouse event listeners conditionally when panning or drawing starts
-   * This prevents global listeners from firing on every mouse movement
+   * Attach mouse/touch event listeners conditionally when panning or drawing starts
+   * This prevents global listeners from firing on every mouse/touch movement
    */
   private attachMouseListeners(): void {
     if (this.listenersAttached) return;
 
     this.mouseMoveListener = (e: MouseEvent) => this.handleMouseMove(e);
     this.mouseUpListener = (e: MouseEvent) => this.handleMouseUp(e);
+    this.touchMoveListener = (e: TouchEvent) => this.handleTouchMove(e);
+    this.touchEndListener = (e: TouchEvent) => this.handleTouchEnd(e);
     
     document.addEventListener('mousemove', this.mouseMoveListener);
     document.addEventListener('mouseup', this.mouseUpListener);
+    document.addEventListener('touchmove', this.touchMoveListener, { passive: false });
+    document.addEventListener('touchend', this.touchEndListener);
     
     this.listenersAttached = true;
   }
 
   /**
-   * Detach mouse event listeners when panning or drawing ends
+   * Detach mouse/touch event listeners when panning or drawing ends
    */
   private detachMouseListeners(): void {
     if (!this.listenersAttached) return;
@@ -253,6 +267,16 @@ export class GameMapComponent implements OnInit, OnDestroy {
     if (this.mouseUpListener) {
       document.removeEventListener('mouseup', this.mouseUpListener);
       this.mouseUpListener = undefined;
+    }
+
+    if (this.touchMoveListener) {
+      document.removeEventListener('touchmove', this.touchMoveListener);
+      this.touchMoveListener = undefined;
+    }
+    
+    if (this.touchEndListener) {
+      document.removeEventListener('touchend', this.touchEndListener);
+      this.touchEndListener = undefined;
     }
     
     this.listenersAttached = false;
@@ -601,6 +625,60 @@ export class GameMapComponent implements OnInit, OnDestroy {
       // Trigger change detection
       this.cdr.markForCheck();
     }
+  }
+
+  // Touch Events for mobile support
+  onTouchStart(event: TouchEvent): void {
+    this.attachMouseListeners();
+    
+    // Store touch start position
+    if (event.touches.length === 1) {
+      this.touchStartX = event.touches[0].clientX;
+      this.touchStartY = event.touches[0].clientY;
+      this.touchMoved = false;
+    }
+    
+    if (!this.showMarkerForm) {
+      this.mapInteractionService.startTouch(event.touches);
+      // Don't preventDefault on touchstart to allow clicks on markers
+    }
+  }
+
+  private handleTouchMove(event: TouchEvent): void {
+    // Check if touch has moved significantly
+    if (event.touches.length === 1) {
+      const deltaX = Math.abs(event.touches[0].clientX - this.touchStartX);
+      const deltaY = Math.abs(event.touches[0].clientY - this.touchStartY);
+      if (deltaX > 5 || deltaY > 5) {
+        this.touchMoved = true;
+      }
+    }
+
+    this.mapInteractionService.updateTouch(event.touches);
+    
+    // Only preventDefault if touch moved (panning/zooming)
+    // This allows taps on markers to generate click events
+    if (this.touchMoved || event.touches.length > 1) {
+      event.preventDefault();
+    }
+  }
+
+  private handleTouchEnd(event: TouchEvent): void {
+    if (event.touches.length > 0) {
+      this.mapInteractionService.updateTouch(event.touches);
+      return;
+    }
+
+    this.detachMouseListeners();
+    this.mapInteractionService.endTouch();
+    
+    // Reset touch tracking
+    this.touchMoved = false;
+  }
+
+  toggleSidebar(): void {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+    this.cdr.markForCheck();
   }
 
 }

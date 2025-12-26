@@ -157,25 +157,87 @@
   color: var(--color-text-secondary);
 }
 
+/* Sidebar Toggle Button - hidden on desktop */
+.sidebar-toggle-btn {
+  display: none;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .game-map-container {
     flex-direction: column;
   }
 
+  /* Position objectives at top-right on mobile */
+  .objectives-mobile ::ng-deep .objectives-panel {
+    left: auto !important;
+    right: var(--spacing-sm) !important;
+    top: var(--spacing-sm) !important;
+  }
 
   .sidebar {
-    /* On small screens revert to stacked layout */
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     width: 100%;
-    order: -1;
-    height: 200px;
+    height: auto;
+    max-height: 75vh;
     border-left: none;
-    border-bottom: var(--border-width-thin) solid var(--border-color-light);
+    border-bottom: var(--border-width-extra) solid var(--color-accent-red);
+    z-index: var(--z-sidebar);
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: transform var(--transition-medium);
+    transform: translateY(0);
+  }
+
+  .sidebar.collapsed {
+    transform: translateY(-100%);
+  }
+
+  /* Toggle button - always visible and accessible */
+  .sidebar-toggle-btn {
+    display: flex;
+    position: fixed;
+    top: var(--spacing-sm);
+    left: var(--spacing-lg);
+    z-index: calc(var(--z-sidebar) + 2);
+    width: 50px;
+    height: 44px;
+    background: var(--gradient-dark);
+    border: var(--border-width-regular) solid var(--color-accent-red);
+    border-radius: var(--border-radius-lg);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    transition: all var(--transition-normal);
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sidebar-toggle-btn .material-icons {
+    font-size: 24px;
+    transition: transform var(--transition-normal);
+  }
+
+  .sidebar-toggle-btn.collapsed .material-icons {
+    transform: rotate(180deg);
+  }
+
+  .sidebar-toggle-btn:hover {
+    background: var(--bg-primary-medium);
+    transform: scale(1.05);
+  }
+
+  .sidebar-toggle-btn:active {
+    transform: scale(0.95);
   }
 
   .main-content {
     flex: 1;
     overflow: hidden;
+    padding-top: 40px;
   }
 }

@@ -9,6 +9,9 @@ export interface MapInteractionState {
   panStartX: number;
   panStartY: number;
   hasMoved: boolean;
+  isTouching: boolean;
+  initialPinchDistance: number;
+  initialZoomLevel: number;
 }
 
 @Injectable({
@@ -26,7 +29,10 @@ export class MapInteractionService {
     isPanning: false,
     panStartX: 0,
     panStartY: 0,
-    hasMoved: false
+    hasMoved: false,
+    isTouching: false,
+    initialPinchDistance: 0,
+    initialZoomLevel: 1
   });
 
   public readonly state$ = this.interactionState.asObservable();
@@ -165,7 +171,96 @@ export class MapInteractionService {
       isPanning: false,
       panStartX: 0,
       panStartY: 0,
-      hasMoved: false
+      hasMoved: false,
+      isTouching: false,
+      initialPinchDistance: 0,
+      initialZoomLevel: 1
     });
+  }
+
+  // Touch operations
+  startTouch(touches: TouchList): void {
+    if (touches.length === 1) {
+      // Single touch - pan
+      const touch = touches[0];
+      const current = this.interactionState.getValue();
+      this.updateState({
+        isTouching: true,
+        isPanning: true,
+        panStartX: touch.clientX - current.panOffsetX,
+        panStartY: touch.clientY - current.panOffsetY,
+        hasMoved: false
+      });
+    } else if (touches.length === 2) {
+      // Two touches - pinch zoom
+      const current = this.interactionState.getValue();
+      const distance = this.getTouchDistance(touches[0], touches[1]);
+      this.updateState({
+        isTouching: true,
+        isPanning: false,
+        initialPinchDistance: distance,
+        initialZoomLevel: current.zoomLevel,
+        hasMoved: false
+      });
+    }
+  }
+
+  updateTouch(touches: TouchList): void {
+    const current = this.interactionState.getValue();
+    if (!current.isTouching) return;
+
+    if (touches.length === 1 && current.isPanning) {
+      // Single touch - update pan
+      const touch = touches[0];
+      const newOffsetX = touch.clientX - current.panStartX;
+      const newOffsetY = touch.clientY - current.panStartY;
+
+      const hasMoved = 
+        Math.abs(newOffsetX - current.panOffsetX) > 3 || 
+        Math.abs(newOffsetY - current.panOffsetY) > 3;
+
+      this.updateState({
+        panOffsetX: newOffsetX,
+        panOffsetY: newOffsetY,
+        hasMoved: hasMoved || current.hasMoved
+      });
+    } else if (touches.length === 2) {
+      // Two touches - update pinch zoom
+      const distance = this.getTouchDistance(touches[0], touches[1]);
+      const scale = distance / current.initialPinchDistance;
+      const newZoomLevel = Math.max(
+        this.MIN_ZOOM,
+        Math.min(this.MAX_ZOOM, current.initialZoomLevel * scale)
+      );
+
+      this.updateState({
+        zoomLevel: newZoomLevel,
+        hasMoved: true
+      });
+    }
+  }
+
+  endTouch(): boolean {
+    const current = this.interactionState.getValue();
+    const wasTouching = current.isTouching;
+    const hadMoved = current.hasMoved;
+
+    this.updateState({
+      isTouching: false,
+      isPanning: false,
+      initialPinchDistance: 0
+    });
+
+    setTimeout(() => {
+      this.updateState({ hasMoved: false });
+    }, 50);
+
+    return wasTouching && !hadMoved;
+  }
+
+  private getTouchDistance(touch1: Touch, touch2: Touch): number {
+    const dx = touch2.clientX - touch1.clientX;
+    const dy = touch2.clientY - touch1.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
   }
 }

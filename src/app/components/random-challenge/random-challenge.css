@@ -428,13 +428,44 @@
 }
 
 @media (max-width: 768px) {
+  .challenge-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+  }
+
   .challenge-modal {
-    padding: var(--spacing-2xl);
+    padding: var(--spacing-lg);
     max-width: 95vw;
+    min-width: unset;
+    width: 95vw;
+    max-height: 85vh;
+    margin: var(--spacing-md);
+  }
+
+  .challenge-header {
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
   }
 
   .challenge-header h2 {
-    font-size: var(--font-size-2xl);
+    font-size: var(--font-size-xl);
+  }
+
+  .close-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .close-btn svg {
+    width: 18px;
+    height: 18px;
   }
 
   .unified-card {
@@ -442,14 +473,18 @@
   }
 
   .armor-section {
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm);
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
   .armor-icon {
     width: 48px;
     height: 48px;
     min-width: 48px;
-    margin-right: var(--spacing-md);
+    margin-right: 0;
+    margin-bottom: var(--spacing-sm);
   }
 
   .armor-icon svg {
@@ -457,29 +492,122 @@
     height: 28px;
   }
 
+  .armor-details {
+    width: 100%;
+  }
+
   .map-section {
-    min-height: 250px;
+    min-height: 200px;
+    max-height: 200px;
   }
 
   .map-preview,
   .map-preview-placeholder {
-    min-height: 250px;
+    min-height: 200px;
+  }
+
+  .map-overlay {
+    padding: var(--spacing-sm);
   }
 
   .map-name {
-    font-size: var(--font-size-base);
+    font-size: var(--font-size-sm);
+  }
+
+  .spawn-point {
+    font-size: 11px;
+  }
+
+  .map-difficulty {
+    padding: 6px 10px;
+    font-size: var(--font-size-sm);
   }
 
   .weapon-section {
-    padding: var(--spacing-md);
-    min-height: 150px;
+    padding: var(--spacing-sm);
+    min-height: 120px;
   }
 
   .weapon-image {
-    max-height: 120px;
+    max-height: 100px;
+    max-width: 90%;
   }
 
   .weapon-placeholder {
-    height: 120px;
+    height: 100px;
+    max-width: 90%;
+  }
+
+  .roll-button {
+    padding: var(--spacing-md) var(--spacing-2xl);
+    font-size: var(--font-size-lg);
+  }
+
+  .roll-again-button {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-xl);
+    font-size: var(--font-size-base);
+  }
+}
+
+@media (max-width: 480px) {
+  .challenge-modal {
+    padding: var(--spacing-md);
+    width: 98vw;
+    max-height: 90vh;
+    margin: var(--spacing-xs);
+  }
+
+  .challenge-header h2 {
+    font-size: var(--font-size-lg);
+  }
+
+  .armor-section {
+    padding: var(--spacing-xs);
+  }
+
+  .armor-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .armor-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .armor-row {
+    padding: 2px var(--spacing-xs);
+  }
+
+  .armor-label,
+  .armor-value {
+    font-size: var(--font-size-xs);
+  }
+
+  .map-section {
+    min-height: 180px;
+    max-height: 180px;
+  }
+
+  .map-preview,
+  .map-preview-placeholder {
+    min-height: 180px;
+  }
+
+  .map-name {
+    font-size: 12px;
+  }
+
+  .weapon-section {
+    min-height: 100px;
+  }
+
+  .weapon-image {
+    max-height: 80px;
+  }
+
+  .weapon-placeholder {
+    height: 80px;
   }
 }

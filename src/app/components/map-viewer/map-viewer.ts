@@ -59,6 +59,7 @@ export class MapViewerComponent {
   @Output() mouseDown = new EventEmitter<MouseEvent>();
   @Output() mouseMove = new EventEmitter<MouseEvent>();
   @Output() mouseUp = new EventEmitter<MouseEvent>();
+  @Output() touchStart = new EventEmitter<TouchEvent>();
   @Output() layerSelected = new EventEmitter<string>();
 
   // Coordinate tracking
@@ -129,6 +130,10 @@ export class MapViewerComponent {
 
   onMouseWheel(event: WheelEvent): void {
     this.mouseWheel.emit(event);
+  }
+
+  onTouchStart(event: TouchEvent): void {
+    this.touchStart.emit(event);
   }
 
   selectLayer(layerId: string): void {

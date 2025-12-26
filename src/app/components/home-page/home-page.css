@@ -74,6 +74,7 @@
   right: 60px;
   display: inline-flex;
   align-items: center;
+  z-index: 20;
 }
 
 .about-button {
@@ -111,7 +112,7 @@
   padding: 20px 60px;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 10;
   backdrop-filter: var(--blur-md);
 }
 
@@ -655,9 +656,16 @@
     max-width: 200px;
   }
 
-  .about-button {
+  .top-btn {
     top: 15px;
     right: 15px;
+    gap: 8px;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .about-button {
+    position: static;
     padding: 8px 16px;
     font-size: var(--font-size-sm);
     gap: 6px;
@@ -671,6 +679,7 @@
   .controls-section {
     padding: 20px;
     position: relative;
+    z-index: 10;
   }
 
   .search-input {

@@ -32,7 +32,8 @@
     <!-- Coordinate Display removed from map-canvas; moved to fixed container below -->
 
     <div class="map-zoom-container" [ngStyle]="getMapStyle()" (mousedown)="onMouseDown($event)"
-      (mousemove)="onMapMouseMove($event)" (mouseleave)="onMapMouseLeave()" [style.cursor]="getCursor()">
+      (mousemove)="onMapMouseMove($event)" (mouseleave)="onMapMouseLeave()" (touchstart)="onTouchStart($event)"
+      [style.cursor]="getCursor()">
 
       <!-- Drawing Layer SVG moved here so it covers the whole map-canvas -->
       <app-drawing-layer [drawnLines]="drawnLines" [isDrawing]="isDrawing" [isDrawingMode]="isDrawingMode"

@@ -388,10 +388,52 @@
   .objectives-panel {
     width: 320px;
     max-height: 38vh;
+    left: auto !important;
+    right: var(--spacing-sm) !important;
+    top: var(--spacing-sm) !important;
   }
 
   .objectives-panel.collapsed {
     width: 160px;
+  }
+
+  .objectives-header {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    gap: var(--spacing-xs);
+  }
+
+  .header-content {
+    gap: var(--spacing-xs);
+    min-width: 0;
+    flex: 1;
+  }
+
+  .objectives-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .objectives-header h3 {
+    font-size: var(--font-size-sm);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .objectives-count {
+    font-size: 11px;
+    margin-left: var(--spacing-xs);
+  }
+
+  .toggle-btn {
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+    flex-shrink: 0;
+  }
+
+  .toggle-btn .material-icons {
+    font-size: 18px;
   }
 
   .objectives-content {
@@ -421,8 +463,9 @@
 @media (max-width: 480px) {
   .objectives-panel {
     width: calc(100vw - 2rem);
-    left: var(--spacing-lg);
-    right: var(--spacing-lg);
+    left: auto !important;
+    right: var(--spacing-sm) !important;
+    top: var(--spacing-sm) !important;
     max-height: 38vh;
   }
 

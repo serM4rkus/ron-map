@@ -334,6 +334,15 @@ a:focus::after {
     --spacing-2xl: 1.25rem;
     --spacing-3xl: 1.5rem;
   }
+
+  body {
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
 @media (max-width: 480px) {
