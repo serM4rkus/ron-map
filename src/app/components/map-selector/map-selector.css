@@ -53,7 +53,8 @@
 
 .steam-btn,
 .about-btn,
-.home-btn {
+.home-btn,
+.language-dropdown {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -73,7 +74,8 @@
 
 .steam-btn:hover,
 .about-btn:hover,
-.home-btn:hover {
+.home-btn:hover,
+.language-dropdown:hover {
   background: var(--bg-white-overlay-light);
   color: var(--color-text-primary);
   border-color: var(--border-color-primary-light);
@@ -144,6 +146,10 @@
   letter-spacing: 0.02em;
   text-transform: uppercase;
   font-size: var(--font-size-xs);
+}
+
+.language-dropdown {
+  height: 36px;
 }
 
 .map-info {

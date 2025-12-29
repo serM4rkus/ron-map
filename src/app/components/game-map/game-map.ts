@@ -43,7 +43,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
   markers: GameMarker[] = [];
   selectedMarker: GameMarker | null = null;
   availableMaps: GameMapMetadata[] = [];
-  
+
   // UI State from MapStateService
   showMarkerForm = false;
   newMarkerX = 0;
@@ -86,7 +86,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
   private touchMoved = false;
 
   private readonly destroy$ = new Subject<void>();
-  
+
   // Conditional event listeners for better performance
   private mouseMoveListener?: (e: MouseEvent) => void;
   private mouseUpListener?: (e: MouseEvent) => void;
@@ -152,15 +152,15 @@ export class GameMapComponent implements OnInit, OnDestroy {
       ]) => {
         // Language
         this.currentLanguage = language;
-        
+
         // Map and layer changes
         const mapChanged = this.currentMap?.id !== currentMap?.id;
         const visibleLayerId = currentMap?.layers?.find(l => l.visible)?.id;
         const previousVisibleLayerId = this.currentMap?.layers?.find(l => l.visible)?.id;
         const layerChanged = visibleLayerId !== previousVisibleLayerId;
-        
+
         this.currentMap = currentMap;
-        
+
         if (mapChanged) {
           this.updateMetaTags();
           this.loadDrawingsForCurrentMap();
@@ -168,34 +168,34 @@ export class GameMapComponent implements OnInit, OnDestroy {
           // Load drawings when layer changes (but map stays the same)
           this.loadDrawingsForCurrentMap();
         }
-        
+
         // Markers
         this.markers = markers;
         this.selectedMarker = selectedMarker;
-        
+
         // Loading
         this.isLoading = loading;
-        
+
         // Interaction state
         this.zoomLevel = interactionState.zoomLevel;
         this.panOffsetX = interactionState.panOffsetX;
         this.panOffsetY = interactionState.panOffsetY;
         this.isPanning = interactionState.isPanning;
         this.hasMoved = interactionState.hasMoved;
-        
+
         // Drawing state
         this.isDrawingMode = drawingState.isDrawingMode;
         this.isDrawing = drawingState.isDrawing;
         this.isEraserMode = drawingState.isEraserMode;
         this.drawingPath = drawingState.drawingPath;
         this.selectedDrawColor = drawingState.selectedDrawColor;
-        
+
         // UI state
         this.showMarkerForm = uiState.showMarkerForm;
         this.newMarkerX = uiState.newMarkerX;
         this.newMarkerY = uiState.newMarkerY;
         this.legendItems = uiState.legendItems;
-        
+
         // Trigger change detection once for all updates
         this.cdr.markForCheck();
       });
@@ -244,12 +244,12 @@ export class GameMapComponent implements OnInit, OnDestroy {
     this.mouseUpListener = (e: MouseEvent) => this.handleMouseUp(e);
     this.touchMoveListener = (e: TouchEvent) => this.handleTouchMove(e);
     this.touchEndListener = (e: TouchEvent) => this.handleTouchEnd(e);
-    
+
     document.addEventListener('mousemove', this.mouseMoveListener);
     document.addEventListener('mouseup', this.mouseUpListener);
     document.addEventListener('touchmove', this.touchMoveListener, { passive: false });
     document.addEventListener('touchend', this.touchEndListener);
-    
+
     this.listenersAttached = true;
   }
 
@@ -263,7 +263,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
       document.removeEventListener('mousemove', this.mouseMoveListener);
       this.mouseMoveListener = undefined;
     }
-    
+
     if (this.mouseUpListener) {
       document.removeEventListener('mouseup', this.mouseUpListener);
       this.mouseUpListener = undefined;
@@ -273,12 +273,12 @@ export class GameMapComponent implements OnInit, OnDestroy {
       document.removeEventListener('touchmove', this.touchMoveListener);
       this.touchMoveListener = undefined;
     }
-    
+
     if (this.touchEndListener) {
       document.removeEventListener('touchend', this.touchEndListener);
       this.touchEndListener = undefined;
     }
-    
+
     this.listenersAttached = false;
   }
 
@@ -287,93 +287,93 @@ export class GameMapComponent implements OnInit, OnDestroy {
       const mapMetadata = this.availableMaps.find(m => m.id === this.currentMap?.id);
       if (mapMetadata) {
         const canonicalUrl = `https://readyormaps.com/map/${mapMetadata.route}`;
-        
+
         // Update page title
         this.titleService.setTitle(`${mapMetadata.name} - Ready or Maps`);
-        
+
         // Update canonical URL
         this.updateCanonical(canonicalUrl);
-        
+
         // Update meta description
-        this.meta.updateTag({ 
-          name: 'description', 
-          content: mapMetadata.metaDescription 
+        this.meta.updateTag({
+          name: 'description',
+          content: mapMetadata.metaDescription
         });
-        
+
         // Update Open Graph tags for social sharing
-        this.meta.updateTag({ 
-          property: 'og:title', 
-          content: `${mapMetadata.name} - Ready or Maps` 
+        this.meta.updateTag({
+          property: 'og:title',
+          content: `${mapMetadata.name} - Ready or Maps`
         });
-        this.meta.updateTag({ 
-          property: 'og:description', 
-          content: mapMetadata.metaDescription 
+        this.meta.updateTag({
+          property: 'og:description',
+          content: mapMetadata.metaDescription
         });
-        this.meta.updateTag({ 
-          property: 'og:url', 
-          content: canonicalUrl 
+        this.meta.updateTag({
+          property: 'og:url',
+          content: canonicalUrl
         });
         this.meta.updateTag({
           property: 'og:image',
           content: 'https://readyormaps.com/ReadyOrMaps.png'
         });
-        this.meta.updateTag({ 
-          property: 'og:site_name', 
-          content: 'Ready or Maps' 
+        this.meta.updateTag({
+          property: 'og:site_name',
+          content: 'Ready or Maps'
         });
-        this.meta.updateTag({ 
-          property: 'og:locale', 
-          content: 'en_US' 
+        this.meta.updateTag({
+          property: 'og:locale',
+          content: 'en_US'
         });
-        this.meta.updateTag({ 
-          property: 'og:type', 
-          content: 'article' 
+        this.meta.updateTag({
+          property: 'og:type',
+          content: 'article'
         });
-        
+
         // Update Twitter Card tags
-        this.meta.updateTag({ 
-          name: 'twitter:title', 
-          content: `${mapMetadata.name} - Ready or Maps` 
+        this.meta.updateTag({
+          name: 'twitter:title',
+          content: `${mapMetadata.name} - Ready or Maps`
         });
-        this.meta.updateTag({ 
-          name: 'twitter:description', 
-          content: mapMetadata.metaDescription 
+        this.meta.updateTag({
+          name: 'twitter:description',
+          content: mapMetadata.metaDescription
         });
       }
     } else {
       // Default meta tags when no map is selected
       const canonicalUrl = 'https://readyormaps.com/';
-      
+
       this.titleService.setTitle('Ready or Maps - Interactive Maps for Ready or Not');
       this.updateCanonical(canonicalUrl);
-      
-      this.meta.updateTag({ 
-        name: 'description', 
-        content: 'Interactive maps for Ready or Not tactical shooter. Plan your missions with detailed floor plans, objectives, and tactical entry points for all maps.' 
+
+      this.meta.updateTag({
+        name: 'description',
+        content: 'Interactive maps for Ready or Not tactical shooter. Plan your missions with detailed floor plans, objectives, and tactical entry points for all maps.'
       });
-      this.meta.updateTag({ 
-        property: 'og:title', 
-        content: 'Ready or Maps - Interactive Maps for Ready or Not' 
+      this.meta.updateTag({
+        property: 'og:title',
+        content: 'Ready or Maps - Interactive Maps for Ready or Not'
       });
-      this.meta.updateTag({ 
-        property: 'og:description', 
-        content: 'Interactive maps for Ready or Not tactical shooter. Plan your missions with detailed floor plans, objectives, and tactical entry points for all maps.' 
+      this.meta.updateTag({
+        property: 'og:description',
+        content: 'Interactive maps for Ready or Not tactical shooter. Plan your missions with detailed floor plans, objectives, and tactical entry points for all maps.'
       });
-      this.meta.updateTag({ 
-        property: 'og:url', 
-        content: canonicalUrl 
+      this.meta.updateTag({
+        property: 'og:url',
+        content: canonicalUrl
       });
-      this.meta.updateTag({ 
-        property: 'og:site_name', 
-        content: 'Ready or Maps' 
+      this.meta.updateTag({
+        property: 'og:site_name',
+        content: 'Ready or Maps'
       });
-      this.meta.updateTag({ 
-        property: 'og:locale', 
-        content: 'en_US' 
+      this.meta.updateTag({
+        property: 'og:locale',
+        content: 'en_US'
       });
-      this.meta.updateTag({ 
-        property: 'og:type', 
-        content: 'website' 
+      this.meta.updateTag({
+        property: 'og:type',
+        content: 'website'
       });
     }
   }
@@ -436,7 +436,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
       this.cdr.markForCheck();
       return;
     }
-    
+
     const visibleLayer = this.currentMap.layers?.find(l => l.visible);
     if (visibleLayer) {
       const drawings = this.drawingService.getDrawingsForMapAndLayer(
@@ -463,7 +463,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
 
   onClearDrawings(): void {
     if (!this.currentMap) return;
-    
+
     const visibleLayer = this.currentMap.layers?.find(l => l.visible);
     if (visibleLayer) {
       this.drawingService.clearDrawingsForLayer(this.currentMap.id, visibleLayer.id);
@@ -523,12 +523,12 @@ export class GameMapComponent implements OnInit, OnDestroy {
   onMapClick(coords: { x: number; y: number }): void {
     // Always close the marker tooltip when clicking on the map
     this.gameMapService.selectMarker(null);
-    
+
     // Don't show marker form if we were moving, drawing, or panning
     if (this.hasMoved || this.isDrawingMode || this.isPanning) {
       return;
     }
-    
+
     this.mapStateService.showMarkerForm(coords.x, coords.y);
   }
 
@@ -545,7 +545,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
     if (event.button === 0) {
       // Attach listeners only when needed
       this.attachMouseListeners();
-      
+
       if (this.isDrawingMode && !this.showMarkerForm) {
         // Start drawing
         const container = this.mapViewerComponent?.mapContainer?.nativeElement as HTMLElement | undefined;
@@ -587,7 +587,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
   private handleMouseUp(event: MouseEvent): void {
     // Detach listeners when mouse is released
     this.detachMouseListeners();
-    
+
     if (this.isDrawing) {
       if (this.currentMap) {
         const visibleLayer = this.currentMap.layers?.find(l => l.visible);
@@ -603,7 +603,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
         }
       }
     }
-    
+
     // Handle pan end and check if it was a click (no movement)
     const wasClick = this.mapInteractionService.endPan();
     if (wasClick && !this.showMarkerForm) {
@@ -630,14 +630,14 @@ export class GameMapComponent implements OnInit, OnDestroy {
   // Touch Events for mobile support
   onTouchStart(event: TouchEvent): void {
     this.attachMouseListeners();
-    
+
     // Store touch start position
     if (event.touches.length === 1) {
       this.touchStartX = event.touches[0].clientX;
       this.touchStartY = event.touches[0].clientY;
       this.touchMoved = false;
     }
-    
+
     if (!this.showMarkerForm) {
       this.mapInteractionService.startTouch(event.touches);
       // Don't preventDefault on touchstart to allow clicks on markers
@@ -655,7 +655,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
     }
 
     this.mapInteractionService.updateTouch(event.touches);
-    
+
     // Only preventDefault if touch moved (panning/zooming)
     // This allows taps on markers to generate click events
     if (this.touchMoved || event.touches.length > 1) {
@@ -671,7 +671,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
 
     this.detachMouseListeners();
     this.mapInteractionService.endTouch();
-    
+
     // Reset touch tracking
     this.touchMoved = false;
   }

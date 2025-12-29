@@ -20,8 +20,8 @@
   </div>
 
   <!-- Mobile Sidebar Toggle Button -->
-  <button class="sidebar-toggle-btn" 
-          [class.collapsed]="isSidebarCollapsed" 
+  <button class="sidebar-toggle-btn"
+          [class.collapsed]="isSidebarCollapsed"
           (click)="toggleSidebar()"
           aria-label="Toggle Menu">
     <span class="material-icons">{{ isSidebarCollapsed ? 'expand_more' : 'expand_less' }}</span>
@@ -41,22 +41,6 @@
     <app-map-legend [legendItems]="legendItems" (legendItemToggled)="onLegendItemToggled($event)"
       (showAll)="onShowAllLegend()" (hideAll)="onHideAllLegend()"></app-map-legend>
     }
-
-    <!-- Language Switcher -->
-    <!-- <div class="language-switcher">
-      @for (lang of availableLanguages; track lang.code) {
-      <button 
-        class="language-button" 
-        [class.active]="currentLanguage === lang.code"
-        (click)="onLanguageChanged(lang.code)"
-        [title]="lang.name"
-      >
-        <span class="flag-emoji">{{ lang.flag }}</span>
-        <span class="flag-text">{{ lang.textCode || lang.code.toUpperCase() }}</span>
-      </button>
-      }
-    </div>
-  </div> -->
 
   @if (showMarkerForm) {
   <app-marker-form [x]="newMarkerX" [y]="newMarkerY" [markerTypes]="['spawn', 'hard_objective', 'soft_objective']"

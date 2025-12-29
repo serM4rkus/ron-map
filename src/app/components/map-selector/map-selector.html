@@ -16,6 +16,22 @@
       <a href="https://store.steampowered.com/app/1144200/Ready_or_Not/" target="_blank" rel="noopener noreferrer" class="steam-btn">
         <img src="./svg/steam-logo.svg" alt="Steam" class="steam-logo">
       </a>
+          <!-- Language Switcher -->
+    <div class="language-switcher">
+  <select
+    #langSelect
+    (change)="onLanguageChanged(langSelect.value)"
+    [value]="currentLanguage"
+    class="language-dropdown"
+    aria-label="Select Language"
+  >
+    @for (lang of availableLanguages; track lang.code) {
+      <option [value]="lang.code">
+        {{ lang.flag }} {{ lang.textCode || lang.code.toUpperCase() }}
+      </option>
+    }
+  </select>
+</div>
     </div>
   </header>
 
@@ -66,7 +82,7 @@
         }
       </div>
     </div>
-    
+
     <!-- Category Filter Button -->
     <div class="filter-button-wrapper">
       <button class="filter-button" [class.active]="filterOpen" (click)="toggleFilter($event)" title="Filter by category">
@@ -88,8 +104,8 @@
         <div class="filter-options">
           @for (category of allCategories; track category.id) {
           <label class="filter-option">
-            <input 
-              type="checkbox" 
+            <input
+              type="checkbox"
               [checked]="isCategorySelected(category.id)"
               (change)="toggleCategory(category.id)"
             />
