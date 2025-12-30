@@ -6,14 +6,14 @@
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  
+
   <!-- About Page -->
   <url>
     <loc>https://readyormaps.com/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  
+
   <!-- Base Game Maps -->
   <url>
     <loc>https://readyormaps.com/map/Thank_You_Come_Again</loc>
@@ -105,8 +105,8 @@
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
-  
-  <!-- DLC Maps -->
+
+  <!-- Home Invasion DLC. -->
   <url>
     <loc>https://readyormaps.com/map/Dorms</loc>
     <changefreq>monthly</changefreq>
@@ -119,6 +119,35 @@
   </url>
   <url>
     <loc>https://readyormaps.com/map/Lawmaker</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Dark Waters DLC. -->
+  <url>
+    <loc>https://readyormaps.com/map/Mirage_at_Sea</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://readyormaps.com/map/Leviathan</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://readyormaps.com/map/3_Letter_Triad</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Los Suenos Stories. -->
+  <url>
+    <loc>https://readyormaps.com/map/Hunger_Strike</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://readyormaps.com/map/Stolen_Valor</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
