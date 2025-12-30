@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Title, Meta } from '@angular/platform-browser';
@@ -36,11 +36,13 @@ export class HomePageComponent implements OnInit {
     private readonly router: Router,
     private readonly cdr: ChangeDetectorRef,
     private readonly titleService: Title,
-    private readonly metaService: Meta
+    private readonly metaService: Meta,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit(): void {
     this.setMetaTags();
+    this.addStructuredData();
     this.loadAllMaps();
     this.initializeCategoryGroups();
     this.isLoading = false;
@@ -71,7 +73,65 @@ export class HomePageComponent implements OnInit {
     this.metaService.updateTag({ name: 'twitter:image', content: 'https://readyormaps.com/ReadyOrMaps.png' });
     
     // Canonical URL
-    this.metaService.updateTag({ name: 'canonical', content: url });
+    this.updateCanonical(url);
+  }
+
+  private updateCanonical(url: string): void {
+    if (isPlatformBrowser(this.platformId)) {
+      let link: HTMLLinkElement | null = document.querySelector('link[rel="canonical"]');
+      if (!link) {
+        link = document.createElement('link');
+        link.setAttribute('rel', 'canonical');
+        document.head.appendChild(link);
+      }
+      link.setAttribute('href', url);
+    }
+  }
+
+  private addStructuredData(): void {
+    const websiteSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      'name': 'Ready or Maps',
+      'url': 'https://readyormaps.com',
+      'description': 'Interactive maps for Ready or Not tactical shooter',
+      'publisher': {
+        '@type': 'Organization',
+        'name': 'Ready or Maps'
+      }
+    };
+
+    const webApplicationSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'WebApplication',
+      'name': 'Ready or Maps',
+      'url': 'https://readyormaps.com',
+      'description': 'Browse all Ready or Not interactive maps. Plan your tactical missions with detailed floor plans, objectives, and spawn points for all 21+ maps including base game and DLC content.',
+      'applicationCategory': 'GameApplication',
+      'operatingSystem': 'Any',
+      'offers': {
+        '@type': 'Offer',
+        'price': '0',
+        'priceCurrency': 'USD'
+      },
+      'browserRequirements': 'Requires JavaScript. Requires HTML5.'
+    };
+
+    this.injectStructuredData('website-schema', websiteSchema);
+    this.injectStructuredData('webapplication-schema', webApplicationSchema);
+  }
+
+  private injectStructuredData(id: string, data: any): void {
+    if (isPlatformBrowser(this.platformId)) {
+      let script = document.getElementById(id) as HTMLScriptElement;
+      if (!script) {
+        script = document.createElement('script');
+        script.id = id;
+        script.type = 'application/ld+json';
+        document.head.appendChild(script);
+      }
+      script.textContent = JSON.stringify(data);
+    }
   }
 
   private loadAllMaps(): void {

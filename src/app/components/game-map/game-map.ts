@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { GameMapService, GameMapConfig, GameMarker, GameMapMetadata } from '../../services/game-map';
@@ -100,7 +100,8 @@ export class GameMapComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly meta: Meta,
-    private readonly titleService: Title
+    private readonly titleService: Title,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
   ngOnInit(): void {
@@ -276,63 +277,63 @@ export class GameMapComponent implements OnInit, OnDestroy {
   }
 
   private updateMetaTags(): void {
-    if (this.currentMap) {
-      const mapMetadata = this.availableMaps.find(m => m.id === this.currentMap?.id);
-      if (mapMetadata) {
-        const canonicalUrl = `https://readyormaps.com/map/${mapMetadata.route}`;
+    if (this.currentMapMetadata) {
+      const canonicalUrl = `https://readyormaps.com/map/${this.currentMapMetadata.route}`;
 
-        // Update page title
-        this.titleService.setTitle(`${mapMetadata.name} - Ready or Maps`);
+      // Update page title
+      this.titleService.setTitle(`${this.currentMapMetadata.name} - Ready or Maps`);
 
-        // Update canonical URL
-        this.updateCanonical(canonicalUrl);
+      // Update canonical URL
+      this.updateCanonical(canonicalUrl);
 
-        // Update meta description
-        this.meta.updateTag({
-          name: 'description',
-          content: mapMetadata.metaDescription
-        });
+      // Update meta description
+      this.meta.updateTag({
+        name: 'description',
+        content: this.currentMapMetadata.metaDescription
+      });
 
-        // Update Open Graph tags for social sharing
-        this.meta.updateTag({
-          property: 'og:title',
-          content: `${mapMetadata.name} - Ready or Maps`
-        });
-        this.meta.updateTag({
-          property: 'og:description',
-          content: mapMetadata.metaDescription
-        });
-        this.meta.updateTag({
-          property: 'og:url',
-          content: canonicalUrl
-        });
-        this.meta.updateTag({
-          property: 'og:image',
-          content: 'https://readyormaps.com/ReadyOrMaps.png'
-        });
-        this.meta.updateTag({
-          property: 'og:site_name',
-          content: 'Ready or Maps'
-        });
-        this.meta.updateTag({
-          property: 'og:locale',
-          content: 'en_US'
-        });
-        this.meta.updateTag({
-          property: 'og:type',
-          content: 'article'
-        });
+      // Update Open Graph tags for social sharing
+      this.meta.updateTag({
+        property: 'og:title',
+        content: `${this.currentMapMetadata.name} - Ready or Maps`
+      });
+      this.meta.updateTag({
+        property: 'og:description',
+        content: this.currentMapMetadata.metaDescription
+      });
+      this.meta.updateTag({
+        property: 'og:url',
+        content: canonicalUrl
+      });
+      this.meta.updateTag({
+        property: 'og:image',
+        content: 'https://readyormaps.com/ReadyOrMaps.png'
+      });
+      this.meta.updateTag({
+        property: 'og:site_name',
+        content: 'Ready or Maps'
+      });
+      this.meta.updateTag({
+        property: 'og:locale',
+        content: 'en_US'
+      });
+      this.meta.updateTag({
+        property: 'og:type',
+        content: 'article'
+      });
 
-        // Update Twitter Card tags
-        this.meta.updateTag({
-          name: 'twitter:title',
-          content: `${mapMetadata.name} - Ready or Maps`
-        });
-        this.meta.updateTag({
-          name: 'twitter:description',
-          content: mapMetadata.metaDescription
-        });
-      }
+      // Update Twitter Card tags
+      this.meta.updateTag({
+        name: 'twitter:title',
+        content: `${this.currentMapMetadata.name} - Ready or Maps`
+      });
+      this.meta.updateTag({
+        name: 'twitter:description',
+        content: this.currentMapMetadata.metaDescription
+      });
+
+      // Add structured data
+      this.addStructuredData(canonicalUrl);
     } else {
       // Default meta tags when no map is selected
       const canonicalUrl = 'https://readyormaps.com/';
@@ -372,13 +373,95 @@ export class GameMapComponent implements OnInit, OnDestroy {
   }
 
   private updateCanonical(url: string): void {
-    let link: HTMLLinkElement | null = document.querySelector('link[rel="canonical"]');
-    if (!link) {
-      link = document.createElement('link');
-      link.setAttribute('rel', 'canonical');
-      document.head.appendChild(link);
+    if (isPlatformBrowser(this.platformId)) {
+      let link: HTMLLinkElement | null = document.querySelector('link[rel="canonical"]');
+      if (!link) {
+        link = document.createElement('link');
+        link.setAttribute('rel', 'canonical');
+        document.head.appendChild(link);
+      }
+      link.setAttribute('href', url);
     }
-    link.setAttribute('href', url);
+  }
+
+  private addStructuredData(canonicalUrl: string): void {
+    if (!this.currentMapMetadata) return;
+
+    const webPageSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      'name': `${this.currentMapMetadata.name} - Ready or Maps`,
+      'url': canonicalUrl,
+      'description': this.currentMapMetadata.metaDescription,
+      'isPartOf': {
+        '@type': 'WebSite',
+        'name': 'Ready or Maps',
+        'url': 'https://readyormaps.com'
+      },
+      'about': {
+        '@type': 'VideoGame',
+        'name': 'Ready or Not',
+        'gamePlatform': 'PC'
+      }
+    };
+
+    const breadcrumbSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        {
+          '@type': 'ListItem',
+          'position': 1,
+          'name': 'Home',
+          'item': 'https://readyormaps.com'
+        },
+        {
+          '@type': 'ListItem',
+          'position': 2,
+          'name': this.currentMapMetadata.name,
+          'item': canonicalUrl
+        }
+      ]
+    };
+
+    const articleSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      'headline': `${this.currentMapMetadata.name} - Interactive Map`,
+      'description': this.currentMapMetadata.metaDescription,
+      'url': canonicalUrl,
+      'datePublished': '2024-01-01',
+      'dateModified': new Date().toISOString().split('T')[0],
+      'author': {
+        '@type': 'Organization',
+        'name': 'Ready or Maps'
+      },
+      'publisher': {
+        '@type': 'Organization',
+        'name': 'Ready or Maps'
+      },
+      'mainEntityOfPage': {
+        '@type': 'WebPage',
+        '@id': canonicalUrl
+      }
+    };
+
+    this.injectStructuredData('webpage-schema', webPageSchema);
+    this.injectStructuredData('breadcrumb-schema', breadcrumbSchema);
+    this.injectStructuredData('article-schema', articleSchema);
+  }
+
+  private injectStructuredData(id: string, data: any): void {
+    if (isPlatformBrowser(this.platformId)) {
+      let script = document.getElementById(id) as HTMLScriptElement;
+      if (!script) {
+        script = document.createElement('script');
+        script.id = id;
+        script.type = 'application/ld+json';
+        document.head.appendChild(script);
+      }
+      script.textContent = JSON.stringify(data);
+    }
   }
 
   // Map Selection

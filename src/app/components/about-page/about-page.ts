@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
@@ -16,7 +16,8 @@ export class AboutPageComponent implements OnInit {
     private readonly router: Router,
     private readonly location: Location,
     private readonly meta: Meta,
-    private readonly titleService: Title
+    private readonly titleService: Title,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit(): void {
@@ -69,16 +70,73 @@ export class AboutPageComponent implements OnInit {
       name: 'twitter:description', 
       content: 'Learn about Ready or Maps - a fan-made interactive map tool for Ready or Not tactical shooter. Features detailed floor plans, objectives, and route planning tools.' 
     });
+    
+    // Add structured data
+    this.addStructuredData(canonicalUrl);
   }
 
   private updateCanonical(url: string): void {
-    let link: HTMLLinkElement | null = document.querySelector('link[rel="canonical"]');
-    if (!link) {
-      link = document.createElement('link');
-      link.setAttribute('rel', 'canonical');
-      document.head.appendChild(link);
+    if (isPlatformBrowser(this.platformId)) {
+      let link: HTMLLinkElement | null = document.querySelector('link[rel="canonical"]');
+      if (!link) {
+        link = document.createElement('link');
+        link.setAttribute('rel', 'canonical');
+        document.head.appendChild(link);
+      }
+      link.setAttribute('href', url);
     }
-    link.setAttribute('href', url);
+  }
+
+  private addStructuredData(canonicalUrl: string): void {
+    const aboutPageSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'AboutPage',
+      'name': 'About - Ready or Maps',
+      'url': canonicalUrl,
+      'description': 'Learn about Ready or Maps - a fan-made interactive map tool for Ready or Not tactical shooter. Features detailed floor plans, objectives, and route planning tools.',
+      'mainEntity': {
+        '@type': 'WebApplication',
+        'name': 'Ready or Maps',
+        'url': 'https://readyormaps.com',
+        'applicationCategory': 'GameApplication',
+        'operatingSystem': 'Any'
+      }
+    };
+
+    const breadcrumbSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      'itemListElement': [
+        {
+          '@type': 'ListItem',
+          'position': 1,
+          'name': 'Home',
+          'item': 'https://readyormaps.com'
+        },
+        {
+          '@type': 'ListItem',
+          'position': 2,
+          'name': 'About',
+          'item': canonicalUrl
+        }
+      ]
+    };
+
+    this.injectStructuredData('aboutpage-schema', aboutPageSchema);
+    this.injectStructuredData('breadcrumb-schema', breadcrumbSchema);
+  }
+
+  private injectStructuredData(id: string, data: any): void {
+    if (isPlatformBrowser(this.platformId)) {
+      let script = document.getElementById(id) as HTMLScriptElement;
+      if (!script) {
+        script = document.createElement('script');
+        script.id = id;
+        script.type = 'application/ld+json';
+        document.head.appendChild(script);
+      }
+      script.textContent = JSON.stringify(data);
+    }
   }
 
   goBack(): void {
