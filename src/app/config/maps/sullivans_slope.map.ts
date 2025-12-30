@@ -271,9 +271,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_SULLIVANS_SLOPE: GameMapConfig = {
-  id: 'sullivans_slope',
-  name: 'A lethal obsession / Sullivan\'s Slope',
-  description: 'A Lethal Obsession is the fifth mission in Ready or Not. Gerard Scott, 55, a former USIA analyst, waited out the front of East Makade Police Department with a loaded Mini-14 after setting a car alight on the street in front of the department. He then shot at officers while they attempted to extinguish the alighted vehicle. Witnesses on the street reported his vehicle as he drove away. On August 20, 2025, D Platoon is sent to service his warrant. ',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

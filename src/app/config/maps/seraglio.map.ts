@@ -391,9 +391,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_SERGALIO: GameMapConfig = {
-  id: 'sergalio',
-  name: 'Mirage at Sea / The Seraglio',
-  description: 'Mirage at Sea is the first DLC level of three in Ready or Not: Dark Waters. Sah\'id bin Khalid, serial rapist and son of a wealthy Qatari oligarch, has a BOLO order out for his recently-purchased yacht, The Seraglio. When the authorities attempt to make the ship return to shore, the situation escalates into a murder and hostage taking. LSPD SWAT, aided by C.O.A.S.T., is deployed to the yacht to arrest Sah\'id, rescue the hostages, and deal with Sah\'id\'s elite private security detail.',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

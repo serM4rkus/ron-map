@@ -61,9 +61,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_CHICOS_MEXICAN_RESTURANT: GameMapConfig = {
-  id: 'chicos_mexican_resturant',
-  name: 'Hunger Strike / Chico\'s Mexican Resturant',
-  description: 'This map is currently under construction. Check back soon for the complete interactive map with detailed floor plans, objectives, and spawn points.',
   markers: [
     ...SPAWNS
   ],

@@ -167,9 +167,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_MINDJOT: GameMapConfig = {
-  id: 'mindjot',
-  name: 'Sinuous trail / Mindjot data center',
-  description: 'Sinuous Trail is the seventh playable mission in Ready or Not. On December 15, 2025, D-Platoon have been dispatched to serve a high risk search warrant at a Mindjot Datacenter suspected of being used by a child pornography ring.',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

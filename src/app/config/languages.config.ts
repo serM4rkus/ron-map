@@ -7,6 +7,10 @@ export interface Language {
 
 export const LANGUAGES: Language[] = [
   { code: 'en', name: 'English', flag: '🇬🇧', textCode: 'EN' },
+  { code: 'fr', name: 'Français', flag: '🇫🇷', textCode: 'FR' },
+  { code: 'de', name: 'Deutsch', flag: '🇩🇪', textCode: 'DE' },
+  { code: 'es', name: 'Español', flag: '🇪🇸', textCode: 'ES' },
+  { code: 'pl', name: 'Polski', flag: '🇵🇱', textCode: 'PL' },
   { code: 'uk', name: 'Українська', flag: '🇺🇦', textCode: 'UA' }
 ];
 
@@ -192,6 +196,84 @@ export const TRANSLATIONS: Translations = {
   },
   'eraser': {
     'en': 'Eraser',
-    'uk': 'Гумка'
+    'uk': 'Гумка',
+    'es': 'Borrador',
+    'fr': 'Gomme',
+    'de': 'Radiergummi',
+    'pl': 'Gumka'
+  },
+  
+  // Common UI
+  'home': {
+    'en': 'Home',
+    'uk': 'Головна',
+    'es': 'Inicio',
+    'fr': 'Accueil',
+    'de': 'Startseite',
+    'pl': 'Strona główna'
+  },
+  'about': {
+    'en': 'About',
+    'uk': 'Про додаток',
+    'es': 'Acerca de',
+    'fr': 'À propos',
+    'de': 'Über',
+    'pl': 'O programie'
+  },
+  'close': {
+    'en': 'Close',
+    'uk': 'Закрити',
+    'es': 'Cerrar',
+    'fr': 'Fermer',
+    'de': 'Schließen',
+    'pl': 'Zamknij'
+  },
+  'loading': {
+    'en': 'Loading...',
+    'uk': 'Завантаження...',
+    'es': 'Cargando...',
+    'fr': 'Chargement...',
+    'de': 'Laden...',
+    'pl': 'Ładowanie...'
+  },
+  'error': {
+    'en': 'Error',
+    'uk': 'Помилка',
+    'es': 'Error',
+    'fr': 'Erreur',
+    'de': 'Fehler',
+    'pl': 'Błąd'
+  },
+  'noMapsFound': {
+    'en': 'No maps found',
+    'uk': 'Карт не знайдено',
+    'es': 'No se encontraron mapas',
+    'fr': 'Aucune carte trouvée',
+    'de': 'Keine Karten gefunden',
+    'pl': 'Nie znaleziono map'
+  },
+  'filterByCategory': {
+    'en': 'Filter by Category',
+    'uk': 'Фільтр за категорією',
+    'es': 'Filtrar por categoría',
+    'fr': 'Filtrer par catégorie',
+    'de': 'Nach Kategorie filtern',
+    'pl': 'Filtruj według kategorii'
+  },
+  'interactiveMap': {
+    'en': 'Interactive Map',
+    'uk': 'Інтерактивна карта',
+    'es': 'Mapa interactivo',
+    'fr': 'Carte interactive',
+    'de': 'Interaktive Karte',
+    'pl': 'Interaktywna mapa'
+  },
+  'chooseMapPrompt': {
+    'en': 'Choose a map from the dropdown below to begin exploring.',
+    'uk': 'Виберіть карту зі списку нижче, щоб почати дослідження.',
+    'es': 'Elija un mapa del menú desplegable a continuación para comenzar a explorar.',
+    'fr': 'Choisissez une carte dans la liste déroulante ci-dessous pour commencer à explorer.',
+    'de': 'Wählen Sie eine Karte aus der Dropdown-Liste unten aus, um mit der Erkundung zu beginnen.',
+    'pl': 'Wybierz mapę z listy rozwijanej poniżej, aby rozpocząć eksplorację.'
   }
 };

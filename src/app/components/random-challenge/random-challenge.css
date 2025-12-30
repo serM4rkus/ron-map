@@ -1,5 +1,6 @@
 .random-challenge {
   padding: 0 var(--spacing-md);
+  z-index: var(--z-modal);
 }
 
 .challenge-button {

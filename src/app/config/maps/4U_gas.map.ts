@@ -110,9 +110,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_4U_GAS: GameMapConfig = {
-  id: '4U_gas',
-  name: 'Thank You, Come Again / 4U Gas Station',
-  description: 'Thank You, Come Again is the first mission in Ready or Not, chronologically and accessibly. On February 3, 2025, the Los Sueños Police Department responds to teenage meth addicts robbing a downtown 4U gas station. ',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

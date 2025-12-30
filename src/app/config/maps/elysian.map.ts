@@ -79,9 +79,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_ELYSIAN: GameMapConfig = {
-  id: 'elysian',
-  name: '3 Letter Triad / The Elysian',
-  description: 'This map is currently under construction. Check back soon for the complete interactive map with detailed floor plans, objectives, and spawn points.',
   markers: [
     ...SPAWNS
   ],

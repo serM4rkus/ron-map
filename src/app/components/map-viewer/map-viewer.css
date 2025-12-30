@@ -47,7 +47,7 @@
   left: var(--spacing-lg);
   top: 50%;
   transform: translateY(-50%);
-  z-index: var(--z-loading); /* keep above most content */
+  z-index: var(--z-sidebar); /* keep above most content */
   pointer-events: all; /* allow interaction when floating */
   border: var(--border-width-thin) solid var(--border-color-primary);
   border-radius: var(--border-radius-lg);
@@ -55,13 +55,6 @@
     var(--shadow-lg),
     0 0 12px rgba(var(--color-primary-rgb), 0.15);
   transition: all var(--transition-normal);
-}
-
-.floating-layer-selector.inactive-blur {
-  filter: blur(4px);
-  opacity: 0.4;
-  pointer-events: none;
-  user-select: none;
 }
 
 

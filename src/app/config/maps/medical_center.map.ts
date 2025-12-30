@@ -259,9 +259,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_MEDICAL_CENTER: GameMapConfig = {
-  id: 'medical_center',
-  name: 'Relapse / Coastal grove medical center',
-  description: 'Relapse is the penultimate and seventeenth mission in Ready or Not. The mission takes place on May 8, 2025, as the third mission chronologically about 3 weeks after Neon Tomb. A leader of The Hand who took part in the shooting at the Neon Nightclub is taken into medical care. The group storms the Coastal Grove Medical Center in an attempt to prevent the suspect from being taken into police custody. The LSPD\'s SWAT team is deployed to intercept the cell.',
   layers: LAYERS,
   markers: [
     ...SPAWNS,
@@ -287,5 +284,3 @@ export function getStairwayConnectionMap(): Map<string, string[]> {
   
   return connectionMap;
 }
-
-// Example usage in console: console.log(getStairwayConnectionMap());

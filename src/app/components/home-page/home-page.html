@@ -10,14 +10,15 @@
         <p class="tagline">Fan made project to plan your game runs in Ready or Not and find some hidden details.</p>
       </div>
       <div class="top-btn">
+        <!-- <app-language-switcher></app-language-switcher> -->
         <app-random-challenge [maps]="allMaps"></app-random-challenge>
-        <button class="about-button" (click)="navigateToAbout()" title="About">
+        <button class="about-button" (click)="navigateToAbout()" [title]="'about' | translate">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="10"></circle>
               <path d="M12 16v-4"></path>
               <path d="M12 8h.01"></path>
             </svg>
-            <span>About</span>
+            <span>{{ 'about' | translate }}</span>
         </button>
       </div>
 
