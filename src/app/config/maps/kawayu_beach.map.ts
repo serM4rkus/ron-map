@@ -201,9 +201,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_KAWAYU_BEACH: GameMapConfig = {
-  id: 'kawayu_beach',
-  name: 'Ends of the earth / Kawayu beach',
-  description: 'Ends of the Earth is the eighth mission in Ready or Not. On December 3, 2025, the LSPD raid a home on the beachfront for distributing and illegally modifying weapons.',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

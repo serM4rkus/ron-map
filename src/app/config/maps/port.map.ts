@@ -245,9 +245,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_PORT: GameMapConfig = {
-  id: 'port',
-  name: 'Hide And Seek / Port Hokan',
-  description: 'Hide and Seek is the last and eighteenth mission in Ready or Not. On February 18, 2026, the LSPD, along with the FISA and ATF, are inserted into Port Hokan to shut down a major arms distribution operation.',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

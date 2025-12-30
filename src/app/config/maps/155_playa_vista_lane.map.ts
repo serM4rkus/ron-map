@@ -291,9 +291,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_155_PLAYA_VISTA_LANE: GameMapConfig = {
-  id: '155_playa_vista_lane',
-  name: 'Lawmaker / 155 Playa Vista Lane, Colina Beach',
-  description: 'Lawmaker is a DLC level in Ready or Not. Members of the United Planet Front - an eco-terrorist group - have invaded the home of Sven Anderson-Lincoln - a wealthy lobbyist with connections to the oil industry. No civilians have been killed but many have been taken hostage. SWAT is deployed to rescue the hostages. ',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

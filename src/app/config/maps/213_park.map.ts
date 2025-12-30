@@ -314,9 +314,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_213_PARK: GameMapConfig = {
-  id: '213_park',
-  name: 'Twisted Nerve / 213 Park Homes',
-  description: 'Twisted Nerve is the third playable mission in Ready or Not. On September 29, 2025, D Platoon are sent to a neighborhood with the objective of shutting down residential homes involved with the production and distribution of methamphetamine.',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

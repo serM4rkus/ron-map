@@ -1,9 +1,10 @@
 <div class="map-selector">
   <header class="header">
-    <img src="./ReadyOrMaps.png" alt="Ready or Maps Logo" class="logo-clickable" (click)="navigateToHome()" title="Go to Home">
-    <h2>Interactive Map</h2>
+    <img src="./ReadyOrMaps.png" alt="Ready or Maps Logo" class="logo-clickable" (click)="navigateToHome()"
+      [title]="'home' | translate">
+    <h2>{{ 'interactiveMap' | translate }}</h2>
     <div class="button-group">
-      <button class="home-btn" (click)="navigateToHome()" title="Home">
+      <button class="home-btn" (click)="navigateToHome()" [title]="'home' | translate">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
           <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -11,62 +12,48 @@
       </button>
       <button class="about-btn" (click)="openAboutPage()">
         <span class="material-symbols-outlined">info_i</span>
-        <span class="text">About</span>
+        <span class="text">{{ 'about' | translate }}</span>
       </button>
-      <a href="https://store.steampowered.com/app/1144200/Ready_or_Not/" target="_blank" rel="noopener noreferrer" class="steam-btn">
+      <a href="https://store.steampowered.com/app/1144200/Ready_or_Not/" target="_blank" rel="noopener noreferrer"
+        class="steam-btn">
         <img src="./svg/steam-logo.svg" alt="Steam" class="steam-logo">
       </a>
-          <!-- Language Switcher -->
-    <div class="language-switcher">
-  <select
-    #langSelect
-    (change)="onLanguageChanged(langSelect.value)"
-    [value]="currentLanguage"
-    class="language-dropdown"
-    aria-label="Select Language"
-  >
-    @for (lang of availableLanguages; track lang.code) {
-      <option [value]="lang.code">
-        {{ lang.flag }} {{ lang.textCode || lang.code.toUpperCase() }}
-      </option>
-    }
-  </select>
-</div>
+      <!-- <app-language-switcher></app-language-switcher> -->
     </div>
   </header>
 
   <div class=" map-info">
-    @if (currentMap) {
-    <h3>{{ translate(currentMap.name) }}</h3>
+    @if (currentMapMetadata) {
+    <h3>{{ currentMapMetadata.name }}</h3>
     <div class="divider"></div>
-    <p>{{ currentMap.description }}</p>
+    <p>{{ currentMapMetadata.description }}</p>
     } @else {
-    <h3>{{ translate('selectMap') }}</h3>
+    <h3>{{ 'selectMap' | translate }}</h3>
     <div class="divider"></div>
-    <p>Choose a map from the dropdown below to begin exploring.</p>
+    <p>{{ 'chooseMapPrompt' | translate }}</p>
     }
   </div>
 
-  <h3 class="section-title">{{ translate('selectMap') }}</h3>
+  <h3 class="section-title">{{ 'selectMap' | translate }}</h3>
   <div class="map-dropdown-container">
     <div class="map-dropdown">
       <div class="custom-dropdown" [class.open]="dropdownOpen" (click)="toggleDropdown($event)">
         <div class="dropdown-selected">
-          <span>{{ currentMapMetadata ? translate(currentMapMetadata.name) : translate('selectMap') + '...' }}</span>
+          <span>{{ currentMapMetadata ? currentMapMetadata.name : ('selectMap' | translate) + '...' }}</span>
           <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </div>
         @if (dropdownOpen) {
         <div class="dropdown-menu" (click)="$event.stopPropagation()">
-          <input type="text" class="dropdown-search" [placeholder]="translate('search')" [(ngModel)]="searchQuery"
+          <input type="text" class="dropdown-search" [placeholder]="'search' | translate" [(ngModel)]="searchQuery"
             (input)="filterMaps()" (click)="$event.stopPropagation()" #searchInput />
           <div class="dropdown-options">
             @for (map of filteredMaps; track map.id) {
             <div class="dropdown-option" [class.selected]="currentMapId === map.id"
               [class.highlighted]="highlightedIndex === $index" (click)="selectMap(map.id)"
               (mouseenter)="highlightedIndex = $index">
-              <span class="map-name">{{ translate(map.name) }}</span>
+              <span class="map-name">{{ map.name }}</span>
               @if (currentMapId === map.id) {
               <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
                 <polyline points="20 6 9 17 4 12"></polyline>
@@ -75,7 +62,7 @@
             </div>
             }
             @if (filteredMaps.length === 0) {
-            <div class="dropdown-empty">No maps found</div>
+            <div class="dropdown-empty">{{ 'noMapsFound' | translate }}</div>
             }
           </div>
         </div>
@@ -85,8 +72,10 @@
 
     <!-- Category Filter Button -->
     <div class="filter-button-wrapper">
-      <button class="filter-button" [class.active]="filterOpen" (click)="toggleFilter($event)" title="Filter by category">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <button class="filter-button" [class.active]="filterOpen" (click)="toggleFilter($event)"
+        [title]="'filterByCategory' | translate">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
           <line x1="3" y1="6" x2="21" y2="6"></line>
           <line x1="3" y1="12" x2="21" y2="12"></line>
           <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -99,16 +88,12 @@
       @if (filterOpen) {
       <div class="filter-menu" (click)="$event.stopPropagation()">
         <div class="filter-header">
-          <span class="filter-title">Filter by Category</span>
+          <span class="filter-title">{{ 'filterByCategory' | translate }}</span>
         </div>
         <div class="filter-options">
           @for (category of allCategories; track category.id) {
           <label class="filter-option">
-            <input
-              type="checkbox"
-              [checked]="isCategorySelected(category.id)"
-              (change)="toggleCategory(category.id)"
-            />
+            <input type="checkbox" [checked]="isCategorySelected(category.id)" (change)="toggleCategory(category.id)" />
             <span class="category-badge" [style.background-color]="category.badgeColor">
               <span class="category-name">{{ category.displayName }}</span>
               <span class="category-count">{{ getMapCountForCategory(category.id) }}</span>

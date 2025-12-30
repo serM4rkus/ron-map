@@ -161,9 +161,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_GREENSIDE_DORMITORIES: GameMapConfig = {
-  id: 'greenside_dormitories',
-  name: 'Dorms / Greenside dormitories',
-  description: 'Dorms is a DLC mission in Ready or Not. Mass amounts of homeless people and drug addicts are seeking shelter in the abandoned Greenside Dormitories. Due to the structural instability and the location\'s history of attracting troublemakers, LSPD attempted to clear the building. However, the occupants resisted and an officer was shot in the leg; whether this was intentional or not is unknown. Other units are unavailable due to the current situation in the city, so SWAT is responsible for clearing the people out of the building.',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

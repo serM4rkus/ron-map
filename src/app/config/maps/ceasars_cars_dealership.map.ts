@@ -192,9 +192,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_CEASARS_CARS_DEALERSHIP: GameMapConfig = {
-  id: 'ceasars_cars_dealership',
-  name: 'Buy Cheap, Buy Twice / Ceasar\'s Cars Dealership',
-  description: 'Buy Cheap, Buy Twice is the fifteenth playable mission in Ready or Not. It takes place on February 10, 2026 at a rather large car dealership beside an extremely run down street, in which both Los Locos and the Russian Mafia have made a base for themselves. The map consists of three main areas ; The interior of the two-floor dealership, the car lot outside, and the mechanic shop behind the dealership. Enemies can be found in any of these. A few civilians are also present.',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

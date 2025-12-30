@@ -4,12 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GameMapMetadata, GameMapConfig } from '../../services/game-map';
 import { LanguageService } from '../../services/language.service';
-import { Language } from '../../config/languages.config';
 import { getAllCategories, MapCategoryInfo, MapCategoryId } from '../../config/map-categories.config';
+// import { LanguageSwitcherComponent } from '../language-switcher/language-switcher';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-map-selector',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslatePipe], // excluded LanguageSwitcherComponent
   templateUrl: './map-selector.html',
   styleUrl: './map-selector.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -20,11 +21,9 @@ export class MapSelectorComponent implements OnChanges {
   @Input() maps: GameMapMetadata[] = [];
   @Input() currentMapId: string | null = null;
   @Input() currentMap: GameMapConfig | null = null;
-  @Input() availableLanguages: Language[] = [];
-  @Input() currentLanguage: string = 'en';
+  @Input() currentMapMetadata: GameMapMetadata | null = null;
 
   @Output() mapSelected = new EventEmitter<string>();
-  @Output() languageChanged = new EventEmitter<string>();
 
   dropdownOpen = false;
   searchQuery = '';
@@ -50,10 +49,6 @@ export class MapSelectorComponent implements OnChanges {
     if (changes['maps']) {
       this.applyFilters();
     }
-  }
-
-  get currentMapMetadata(): GameMapMetadata | null {
-    return this.maps.find(m => m.id === this.currentMapId) || null;
   }
 
   translate(key: string): string {
@@ -137,10 +132,6 @@ export class MapSelectorComponent implements OnChanges {
 
   getMapCountForCategory(categoryId: string): number {
     return this.maps.filter(map => map.category === categoryId).length;
-  }
-
-  switchLanguage(langCode: string): void {
-    this.languageChanged.emit(langCode);
   }
 
   @HostListener('document:click')

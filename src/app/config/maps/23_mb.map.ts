@@ -268,9 +268,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_23_MB: GameMapConfig = {
-  id: '23_mb',
-  name: '23 Megabytes a Second / San Uriel Condominiums',
-  description: '23 Megabytes a Second is the second mission in Ready or Not. On December 8, 2025, the Los Sueños Police Department received a 911 call regarding a hostage situation at an apartment complex.',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

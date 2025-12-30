@@ -58,10 +58,10 @@ export interface MapObjective {
 }
 
 export interface GameMapConfig {
-  id: string;
-  name: string;
+  id?: string; // Deprecated: use GameMapMetadata.id instead
+  name?: string; // Deprecated: use GameMapMetadata.name instead
   markers: GameMarker[];
-  description?: string;
+  description?: string; // Deprecated: use GameMapMetadata.description instead
   layers?: MapLayer[];
   objectives?: MapObjective[];
   placeholderImage?: string; // Used when map is under construction
@@ -74,6 +74,9 @@ export interface GameMapConfig {
 export class GameMapService implements OnDestroy {
   private readonly currentMapSubject = new BehaviorSubject<GameMapConfig | null>(null);
   public currentMap$ = this.currentMapSubject.asObservable();
+
+  private readonly currentMapMetadataSubject = new BehaviorSubject<GameMapMetadata | null>(null);
+  public currentMapMetadata$ = this.currentMapMetadataSubject.asObservable();
 
   private readonly markersSubject = new BehaviorSubject<GameMarker[]>([]);
   public markers$ = this.markersSubject.asObservable();
@@ -108,15 +111,15 @@ export class GameMapService implements OnDestroy {
       // Check if map is already loaded in cache
       let map = this.loadedMaps.get(mapId);
       
+      // Lazy load the map configuration and get metadata
+      const metadata = this.gameMapsMetadata.find(m => m.id === mapId);
+      if (!metadata) {
+        Logger.error(`Map with id '${mapId}' not found`);
+        this.loadingSubject.next(false);
+        return;
+      }
+      
       if (!map) {
-        // Lazy load the map configuration
-        const metadata = this.gameMapsMetadata.find(m => m.id === mapId);
-        if (!metadata) {
-          Logger.error(`Map with id '${mapId}' not found`);
-          this.loadingSubject.next(false);
-          return;
-        }
-        
         // Load the map configuration directly
         map = await metadata.loader();
         
@@ -141,6 +144,7 @@ export class GameMapService implements OnDestroy {
       };
       
       this.currentMapSubject.next(resetMap);
+      this.currentMapMetadataSubject.next(metadata);
       this.markersSubject.next(resetMap.markers);
     } catch (error) {
       Logger.error(`Error loading map '${mapId}':`, error);
@@ -151,6 +155,10 @@ export class GameMapService implements OnDestroy {
 
   getCurrentMap(): GameMapConfig | null {
     return this.currentMapSubject.getValue();
+  }
+
+  getCurrentMapMetadata(): GameMapMetadata | null {
+    return this.currentMapMetadataSubject.getValue();
   }
 
   // Marker Management
@@ -169,12 +177,13 @@ export class GameMapService implements OnDestroy {
     
     // Update markers in the current map
     const currentMap = this.currentMapSubject.getValue();
-    if (currentMap) {
+    const currentMetadata = this.currentMapMetadataSubject.getValue();
+    if (currentMap && currentMetadata) {
       const updatedMap = { ...currentMap, markers: updatedMarkers };
       this.currentMapSubject.next(updatedMap);
       
       // Update the map reference in the cache
-      this.loadedMaps.set(currentMap.id, updatedMap);
+      this.loadedMaps.set(currentMetadata.id, updatedMap);
     }
   }
 
@@ -190,12 +199,13 @@ export class GameMapService implements OnDestroy {
     
     // Update markers in the current map
     const currentMap = this.currentMapSubject.getValue();
-    if (currentMap) {
+    const currentMetadata = this.currentMapMetadataSubject.getValue();
+    if (currentMap && currentMetadata) {
       const updatedMap = { ...currentMap, markers: updatedMarkers };
       this.currentMapSubject.next(updatedMap);
       
       // Update the map reference in the cache
-      this.loadedMaps.set(currentMap.id, updatedMap);
+      this.loadedMaps.set(currentMetadata.id, updatedMap);
     }
   }
 
@@ -214,19 +224,21 @@ export class GameMapService implements OnDestroy {
     
     // Update markers in the current map
     const currentMap = this.currentMapSubject.getValue();
-    if (currentMap) {
+    const currentMetadata = this.currentMapMetadataSubject.getValue();
+    if (currentMap && currentMetadata) {
       const updatedMap = { ...currentMap, markers: updatedMarkers };
       this.currentMapSubject.next(updatedMap);
       
       // Update the map reference in the cache
-      this.loadedMaps.set(currentMap.id, updatedMap);
+      this.loadedMaps.set(currentMetadata.id, updatedMap);
     }
   }
 
   // Layer Management
   selectLayer(layerId: string): void {
     const currentMap = this.currentMapSubject.getValue();
-    if (currentMap?.layers) {
+    const currentMetadata = this.currentMapMetadataSubject.getValue();
+    if (currentMap?.layers && currentMetadata) {
       this.loadingSubject.next(true);
       
       // Simulate loading delay for better UX
@@ -240,7 +252,7 @@ export class GameMapService implements OnDestroy {
         this.currentMapSubject.next(updatedMap);
         
         // Update the map reference in the cache
-        this.loadedMaps.set(currentMap.id, updatedMap);
+        this.loadedMaps.set(currentMetadata.id, updatedMap);
         
         this.loadingSubject.next(false);
       }, 200);

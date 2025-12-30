@@ -241,9 +241,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_CHERRYESSA_FARM: GameMapConfig = {
-  id: 'cherryessa_farm',
-  name: 'Carriers of the vine / Cherryessa Farm',
-  description: 'Carriers of the Vine is the sixteenth mission in Ready or Not. It has D Platoon being dispatched on June 1, 2025, to pacify a new age cult committing acts of vigilantism across Los Suenos.',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

@@ -309,9 +309,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_HEAVYWELL_RIG: GameMapConfig = {
-  id: 'heavywell_rig',
-  name: 'Leviathan / HeavyWell A-101 Rig',
-  description: 'Leviathan is a DLC mission in Ready or Not: Dark Waters. Members of the United Planet Front have attacked the HeavyWell A-101 Oil Rig off the coast of Los Suenos; multiple civilians have been killed and the attack in being currently livestreamed by the perpetrators. Thanks to a new amendment to federal law allowing municipal police greater jurisdiction over maritime territory, the LSPD SWAT team is deployed via helicopter and boat to bring an end to the crisis.',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

@@ -148,9 +148,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_COSTA_VINO: GameMapConfig = {
-  id: 'costa_vino',
-  name: 'Rust Belt / Costa Vino Border Reserve',
-  description: 'Rust Belt is the twelfth mission in Ready or Not. On October 15, 2025, D Platoon raid a coyote stash house on the Mexican border.',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

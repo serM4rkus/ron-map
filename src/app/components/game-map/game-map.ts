@@ -7,7 +7,6 @@ import { LanguageService } from '../../services/language.service';
 import { DrawingService } from '../../services/drawing.service';
 import { MapInteractionService } from '../../services/map-interaction.service';
 import { MapStateService } from '../../services/map-state.service';
-import { Language } from '../../config/languages.config';
 import { Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MapSelectorComponent } from '../map-selector/map-selector';
@@ -40,6 +39,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
   @ViewChild(MapViewerComponent, { static: false }) mapViewerComponent!: MapViewerComponent;
 
   currentMap: GameMapConfig | null = null;
+  currentMapMetadata: GameMapMetadata | null = null;
   markers: GameMarker[] = [];
   selectedMarker: GameMarker | null = null;
   availableMaps: GameMapMetadata[] = [];
@@ -66,10 +66,6 @@ export class GameMapComponent implements OnInit, OnDestroy {
   panOffsetX = 0;
   panOffsetY = 0;
   hasMoved = false;
-
-  // Language properties
-  availableLanguages: Language[] = [];
-  currentLanguage = 'en';
 
   // Loading state
   isLoading = false;
@@ -109,7 +105,6 @@ export class GameMapComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.availableMaps = this.gameMapService.getAvailableMaps();
-    this.availableLanguages = this.languageService.getAvailableLanguages();
 
     // Subscribe to route parameters to load map from URL
     this.route.paramMap
@@ -130,8 +125,8 @@ export class GameMapComponent implements OnInit, OnDestroy {
 
     // Merge all observables into a single subscription to reduce change detection cycles
     combineLatest([
-      this.languageService.currentLanguage$,
       this.gameMapService.currentMap$,
+      this.gameMapService.currentMapMetadata$,
       this.gameMapService.markers$,
       this.gameMapService.selectedMarker$,
       this.gameMapService.loading$,
@@ -141,8 +136,8 @@ export class GameMapComponent implements OnInit, OnDestroy {
     ])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([
-        language,
         currentMap,
+        currentMapMetadata,
         markers,
         selectedMarker,
         loading,
@@ -150,16 +145,14 @@ export class GameMapComponent implements OnInit, OnDestroy {
         drawingState,
         uiState
       ]) => {
-        // Language
-        this.currentLanguage = language;
-
         // Map and layer changes
-        const mapChanged = this.currentMap?.id !== currentMap?.id;
+        const mapChanged = this.currentMapMetadata?.id !== currentMapMetadata?.id;
         const visibleLayerId = currentMap?.layers?.find(l => l.visible)?.id;
         const previousVisibleLayerId = this.currentMap?.layers?.find(l => l.visible)?.id;
         const layerChanged = visibleLayerId !== previousVisibleLayerId;
 
         this.currentMap = currentMap;
+        this.currentMapMetadata = currentMapMetadata;
 
         if (mapChanged) {
           this.updateMetaTags();
@@ -438,9 +431,9 @@ export class GameMapComponent implements OnInit, OnDestroy {
     }
 
     const visibleLayer = this.currentMap.layers?.find(l => l.visible);
-    if (visibleLayer) {
+    if (visibleLayer && this.currentMapMetadata) {
       const drawings = this.drawingService.getDrawingsForMapAndLayer(
-        this.currentMap.id,
+        this.currentMapMetadata.id,
         visibleLayer.id
       );
       this.drawnLines = drawings;
@@ -462,11 +455,11 @@ export class GameMapComponent implements OnInit, OnDestroy {
   }
 
   onClearDrawings(): void {
-    if (!this.currentMap) return;
+    if (!this.currentMap || !this.currentMapMetadata) return;
 
     const visibleLayer = this.currentMap.layers?.find(l => l.visible);
     if (visibleLayer) {
-      this.drawingService.clearDrawingsForLayer(this.currentMap.id, visibleLayer.id);
+      this.drawingService.clearDrawingsForLayer(this.currentMapMetadata.id, visibleLayer.id);
       this.drawnLines = [];
       this.cdr.markForCheck();
     }
@@ -507,11 +500,6 @@ export class GameMapComponent implements OnInit, OnDestroy {
 
   onMarkerFormClosed(): void {
     this.mapStateService.hideMarkerForm();
-  }
-
-  // Language
-  onLanguageChanged(langCode: string): void {
-    this.languageService.setLanguage(langCode);
   }
 
   onChallengeModalStateChanged(isOpen: boolean): void {
@@ -589,10 +577,10 @@ export class GameMapComponent implements OnInit, OnDestroy {
     this.detachMouseListeners();
 
     if (this.isDrawing) {
-      if (this.currentMap) {
+      if (this.currentMap && this.currentMapMetadata) {
         const visibleLayer = this.currentMap.layers?.find(l => l.visible);
         if (visibleLayer) {
-          const drawing = this.drawingService.finishDrawing(this.currentMap.id, visibleLayer.id);
+          const drawing = this.drawingService.finishDrawing(this.currentMapMetadata.id, visibleLayer.id);
           if (drawing && !this.isEraserMode) {
             this.drawnLines.push(drawing);
             this.cdr.markForCheck();

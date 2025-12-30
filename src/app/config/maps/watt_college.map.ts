@@ -348,9 +348,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_WATT_COLLEGE: GameMapConfig = {
-  id: 'watt_college',
-  name: 'Elephant / Watt Community college',
-  description: 'Elephant is the eleventh (ninth chronologically) playable mission in Ready or Not. On October 17, 2025, four students commit a mass-shooting at Watt Community College, presumably due to a mixture of mental health issues and immense dissatisfaction with the current state of the United States. LSPD is able to contain the shooters in the Science Wing and D Platoon is sent in to neutralize the threat.',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

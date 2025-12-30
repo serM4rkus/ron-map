@@ -164,9 +164,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_NEON_NIGHTCLUB: GameMapConfig = {
-  id: 'neon_nightclub',
-  name: 'Neon Tomb / Neon Nightclub',
-  description: 'Neon Tomb is the fourteenth playable mission in Ready or Not. The terrorist group, The Hand, has committed a mass shooting at the Neon Nightclub in response to US airstrikes targeting their shelters in Northern Yemen. D Platoon has been dispatched to bring an end to the massacre. The mission takes place on April 19, 2025, making it the chronologically second mission in the story. The attack killed approximately 60 people.',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

@@ -5,47 +5,46 @@
       [drawnLines]="drawnLines" [isDrawingMode]="isDrawingMode" [isEraserMode]="isEraserMode"
       [selectedMarker]="selectedMarker" [selectedDrawColor]="selectedDrawColor" [legendItems]="legendItems"
       [isPanning]="isPanning" [isDrawing]="isDrawing" [drawingPath]="drawingPath" [isLoading]="isLoading"
-      [isChallengeModalOpen]="isChallengeModalOpen"
-      (mapClick)="onMapClick($event)" (markerClick)="onMarkerClick($event)" (mouseWheel)="onMouseWheel($event)"
-      (mouseDown)="onMouseDown($event)" (touchStart)="onTouchStart($event)" (layerSelected)="onLayerSelected($event)"></app-map-viewer>
+      [isChallengeModalOpen]="isChallengeModalOpen" (mapClick)="onMapClick($event)"
+      (markerClick)="onMarkerClick($event)" (mouseWheel)="onMouseWheel($event)" (mouseDown)="onMouseDown($event)"
+      (touchStart)="onTouchStart($event)" (layerSelected)="onLayerSelected($event)"></app-map-viewer>
 
     @if (currentMap) {
     <app-zoom-controls [zoomLevel]="zoomLevel" [minZoom]="minZoom" [maxZoom]="maxZoom" (zoomIn)="onZoomIn()"
       (zoomOut)="onZoomOut()" (resetZoom)="onResetZoom()"></app-zoom-controls>
 
     <!-- Objectives moved to bottom on mobile -->
-    <app-objectives class="objectives-mobile" [objectives]="currentMap.objectives || []" [mapName]="currentMap.name"
-      (objectiveToggled)="onObjectiveToggled($event)"></app-objectives>
+    <app-objectives class="objectives-mobile" [objectives]="currentMap.objectives || []"
+      [mapName]="currentMapMetadata?.name || ''" (objectiveToggled)="onObjectiveToggled($event)"></app-objectives>
     }
   </div>
 
   <!-- Mobile Sidebar Toggle Button -->
-  <button class="sidebar-toggle-btn"
-          [class.collapsed]="isSidebarCollapsed"
-          (click)="toggleSidebar()"
-          aria-label="Toggle Menu">
+  <button class="sidebar-toggle-btn" [class.collapsed]="isSidebarCollapsed" (click)="toggleSidebar()"
+    aria-label="Toggle Menu">
     <span class="material-icons">{{ isSidebarCollapsed ? 'expand_more' : 'expand_less' }}</span>
   </button>
 
   <div class="sidebar" [class.collapsed]="isSidebarCollapsed">
     <app-map-selector [maps]="availableMaps" [currentMapId]="currentMap?.id || null" [currentMap]="currentMap"
-      [availableLanguages]="availableLanguages" [currentLanguage]="currentLanguage"
-      (mapSelected)="onMapSelected($event)" (languageChanged)="onLanguageChanged($event)"></app-map-selector>
+      [currentMapMetadata]="currentMapMetadata"
+      (mapSelected)="onMapSelected($event)"></app-map-selector>
 
     @if (currentMap) {
     <app-drawing-tools [isDrawingMode]="isDrawingMode" [selectedColor]="selectedDrawColor"
       [hasDrawings]="drawnLines.length > 0" [isEraserMode]="isEraserMode"
       (drawingModeToggled)="onDrawingModeToggled($event)" (colorSelected)="onColorSelected($event)"
       (clearDrawings)="onClearDrawings()" (eraserModeToggled)="onEraserModeToggled($event)"></app-drawing-tools>
-    <app-random-challenge [maps]="availableMaps" (modalStateChanged)="onChallengeModalStateChanged($event)"></app-random-challenge>
+    <app-random-challenge [maps]="availableMaps"
+      (modalStateChanged)="onChallengeModalStateChanged($event)"></app-random-challenge>
     <app-map-legend [legendItems]="legendItems" (legendItemToggled)="onLegendItemToggled($event)"
       (showAll)="onShowAllLegend()" (hideAll)="onHideAllLegend()"></app-map-legend>
     }
 
-  @if (showMarkerForm) {
-  <app-marker-form [x]="newMarkerX" [y]="newMarkerY" [markerTypes]="['spawn', 'hard_objective', 'soft_objective']"
-    (markerSaved)="onMarkerSaved($event)" (formClosed)="onMarkerFormClosed()"></app-marker-form>
-  }
+    @if (showMarkerForm) {
+    <app-marker-form [x]="newMarkerX" [y]="newMarkerY" [markerTypes]="['spawn', 'hard_objective', 'soft_objective']"
+      (markerSaved)="onMarkerSaved($event)" (formClosed)="onMarkerFormClosed()"></app-marker-form>
+    }
 
     <div class="copyright">
       <p class="copyright-disclaimer">

@@ -183,9 +183,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_CLEMENTE_HOTEL: GameMapConfig = {
-  id: 'clemente_hotel',
-  name: 'Sins Of The Father / Clemente Hotel',
-  description: 'Sins of The Father is the thirteenth mission in Ready or Not. On October 2, 2025, rogue Secret Service agents sympathetic to the plight of The Left Behind, have occupied the fourteenth floor of the Clemente Hotel, threatening to execute Senator Fremont\'s family on video. D Platoon is dispatched to neutralize the terrorists before they can carry out their threat.',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

@@ -1,0 +1,14 @@
+<div class="language-switcher">
+  <select 
+    #langSelect 
+    (change)="onLanguageChanged(langSelect.value)" 
+    [value]="currentLanguage"
+    class="language-dropdown" 
+    aria-label="Select Language">
+    @for (lang of availableLanguages; track lang.code) {
+      <option [value]="lang.code">
+        {{ lang.flag }} {{ lang.textCode || lang.code.toUpperCase() }}
+      </option>
+    }
+  </select>
+</div>

@@ -6,15 +6,12 @@ import { Title, Meta } from '@angular/platform-browser';
 import { GAME_MAPS_METADATA, GameMapMetadata } from '../../config/game-maps-metadata.config';
 import { getAllCategories, MapCategoryInfo } from '../../config/map-categories.config';
 import { RandomChallengeComponent } from '../random-challenge/random-challenge';
-import { Logger } from '../../utils/logger.util';
-
-interface EnrichedMapData extends GameMapMetadata {
-  description: string;
-}
+// import { LanguageSwitcherComponent } from '../language-switcher/language-switcher';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 interface CategoryGroup {
   category: MapCategoryInfo;
-  maps: EnrichedMapData[];
+  maps: GameMapMetadata[];
   collapsed: boolean;
 }
 
@@ -22,13 +19,13 @@ type ViewMode = 'grid' | 'list';
 
 @Component({
   selector: 'app-home-page',
-  imports: [CommonModule, FormsModule, RandomChallengeComponent],
+  imports: [CommonModule, FormsModule, RandomChallengeComponent, TranslatePipe], // excluded LanguageSwitcherComponent
   templateUrl: './home-page.html',
   styleUrl: './home-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomePageComponent implements OnInit {
-  allMaps: EnrichedMapData[] = [];
+  allMaps: GameMapMetadata[] = [];
   categoryGroups: CategoryGroup[] = [];
   searchQuery = '';
   viewMode: ViewMode = 'grid';
@@ -42,9 +39,9 @@ export class HomePageComponent implements OnInit {
     private readonly metaService: Meta
   ) {}
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this.setMetaTags();
-    await this.loadAllMaps();
+    this.loadAllMaps();
     this.initializeCategoryGroups();
     this.isLoading = false;
     this.cdr.markForCheck();
@@ -77,26 +74,8 @@ export class HomePageComponent implements OnInit {
     this.metaService.updateTag({ name: 'canonical', content: url });
   }
 
-  private async loadAllMaps(): Promise<void> {
-    const enrichedMaps: EnrichedMapData[] = [];
-    
-    for (const mapMeta of GAME_MAPS_METADATA) {
-      try {
-        const mapConfig = await mapMeta.loader();
-        enrichedMaps.push({
-          ...mapMeta,
-          description: mapConfig.description || mapMeta.metaDescription
-        });
-      } catch (error) {
-        Logger.warn('Failed to load map config for:', mapMeta.id, error);
-        enrichedMaps.push({
-          ...mapMeta,
-          description: mapMeta.metaDescription
-        });
-      }
-    }
-    
-    this.allMaps = enrichedMaps;
+  private loadAllMaps(): void {
+    this.allMaps = GAME_MAPS_METADATA;
   }
 
   private initializeCategoryGroups(): void {

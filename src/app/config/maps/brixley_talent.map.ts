@@ -146,9 +146,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_BRIXLEY_TALENT: GameMapConfig = {
-  id: 'brixley_talent',
-  name: 'The Spider / Brixley talent time',
-  description: 'The Spider is the fourth mission in Ready or Not. On June 4, 2025, a number of anonymous tips by local residents report suspicious activity at a construction yard owned by the Brixley Talent production company. Repeated attempts to contact and serve a search warrant to the company have been rebuffed by their legal team. The Chief of Police has dispatched D Platoon to serve a no-knock search warrant of the residence, and to detain anyone present.',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

@@ -142,9 +142,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_BRISA_COVE: GameMapConfig = {
-  id: 'brisa_cove',
-  name: 'Ides of march / Brisa Cove',
-  description: 'Ides of March is the sixth playable mission in Ready or Not. A group of domestic terrorists have occupied the luxury Brisa Cove Apartments, taking several residents hostage. On October 1, 2025, D-Platoon have been dispatched to neutralize the threat and defuse the situation ahead of the Senator\'s upcoming presidential campaign.',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

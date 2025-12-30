@@ -52,13 +52,10 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_EDGEWARE_APARTMENTS: GameMapConfig = {
-  id: 'edgeware_apartments',
-  name: 'Hunger Strike / Chico\'s Mexican Resturant',
-  description: 'This map is currently under construction. Check back soon for the complete interactive map with detailed floor plans, objectives, and spawn points.',
   markers: [
     ...SPAWNS
   ],
-  layers: [],
+  layers: LAYERS,
   objectives: OBJECTIVES,
   placeholderImage: './maps/construction_cat.png'
 };

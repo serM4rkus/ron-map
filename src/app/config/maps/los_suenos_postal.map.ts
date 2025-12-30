@@ -236,9 +236,6 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_LOS_SUENOS_POSTAL: GameMapConfig = {
-  id: 'los_suenos_postal',
-  name: 'Greased palms / Los Suenos Postal Service',
-  description: 'Greased Palms is the ninth mission in Ready Or Not. On October 25, 2025, the Los Suenos Police Department responds to a shoot out at the Los Suenos Postal Service, and is ordered to arrest a weapons smuggler suspect.',
   layers: LAYERS,
   markers: [
     ...SPAWNS,

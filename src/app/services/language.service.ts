@@ -10,9 +10,9 @@ export class LanguageService {
   public currentLanguage$ = this.currentLanguageSubject.asObservable();
 
   constructor() {
-    // Load saved language from localStorage or use default
-    const savedLang = localStorage.getItem('selectedLanguage') || 'en';
-    this.currentLanguageSubject.next(savedLang);
+    // Force English as default (language switcher is hidden)
+    this.currentLanguageSubject.next('en');
+    localStorage.setItem('selectedLanguage', 'en');
   }
 
   getAvailableLanguages(): Language[] {
