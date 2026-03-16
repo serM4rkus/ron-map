@@ -75,16 +75,10 @@ export class MarkerRendererComponent implements OnInit, OnDestroy {
   }
 
   getMarkerClass(marker: GameMarker): any {
+    const cssType = 'marker-' + marker.type.replace(/_/g, '-');
     return {
       'marker': true,
-      'marker-spawn': marker.type === 'spawn',
-      'marker-hard-objective': marker.type === 'hard_objective',
-      'marker-soft-objective': marker.type === 'soft_objective',
-      'marker-stairs-down': marker.type === 'stairs_down',
-      'marker-stairs-up': marker.type === 'stairs_up',
-      'marker-stairs-up-down': marker.type === 'stairs_up_down',
-      'marker-comms': marker.type === 'comms',
-      'marker-explosion': marker.type === 'explosion',
+      [cssType]: true,
       'marker-selected': this.selectedMarker?.id === marker.id,
       'marker-pulsing': this.pulsingMarkerIds.has(marker.id)
     };
@@ -124,23 +118,21 @@ export class MarkerRendererComponent implements OnInit, OnDestroy {
   }
 
   onMarkerClick(marker: GameMarker, event: Event): void {
-    // Handle stairs navigation
-    if (marker.type === 'stairs_down' || 
-        marker.type === 'stairs_up' || 
-        marker.type === 'stairs_up_down') {
+    const config = getMarkerConfig(marker.type);
+
+    if (config.navigable) {
       event.stopPropagation();
       event.preventDefault();
       this.handleStairsClick(marker);
       return;
     }
-    
-    // Handle comms markers (keep original behavior)
-    if (marker.type === 'comms') {
+
+    if (!config.clickable) {
       event.stopPropagation();
       event.preventDefault();
       return;
     }
-    
+
     if ((event as KeyboardEvent).key) {
       const fakeMouse = new MouseEvent('click');
       this.selectMarker(marker, fakeMouse);
@@ -213,10 +205,7 @@ export class MarkerRendererComponent implements OnInit, OnDestroy {
   }
 
   onMarkerHover(marker: GameMarker): void {
-    if (marker.type === 'stairs_down' || 
-        marker.type === 'stairs_up' || 
-        marker.type === 'stairs_up_down' || 
-        marker.type === 'comms') {
+    if (getMarkerConfig(marker.type).showTooltipOnHover) {
       this.hoveredMarkerId = marker.id;
     }
   }
@@ -227,11 +216,7 @@ export class MarkerRendererComponent implements OnInit, OnDestroy {
 
   shouldShowTooltip(marker: GameMarker): boolean {
     if (this.selectedMarker?.id === marker.id) return true;
-    if ((marker.type === 'stairs_down' || 
-         marker.type === 'stairs_up' || 
-         marker.type === 'stairs_up_down' || 
-         marker.type === 'comms') && 
-        this.hoveredMarkerId === marker.id) return true;
+    if (getMarkerConfig(marker.type).showTooltipOnHover && this.hoveredMarkerId === marker.id) return true;
     return false;
   }
 }

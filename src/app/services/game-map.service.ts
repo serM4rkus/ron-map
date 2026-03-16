@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { GAME_MAPS_METADATA, GameMapMetadata } from '../config/game-maps-metadata.config';
 import { MapInteractionService } from './map-interaction.service';
 import { Logger } from '../utils/logger.util';
+import { MarkerType } from '../config/marker-types.config';
 
 // Re-export for convenience
 export type { GameMapMetadata } from '../config/game-maps-metadata.config';
@@ -21,7 +22,7 @@ export interface GameMarker {
   y: number;
   title: string;
   description?: string;
-  type: 'spawn' | 'hard_objective' | 'soft_objective' | 'stairs_down' | 'stairs_up' | 'stairs_up_down' | 'comms' | 'explosion';
+  type: MarkerType;
   color?: string;
   icon?: string;
   /** Optional URL to a custom SVG image to use as the marker icon. If provided,

@@ -22,15 +22,12 @@ export class MapLegendComponent {
   @Output() legendItemToggled = new EventEmitter<string>();
   @Output() showAll = new EventEmitter<void>();
   @Output() hideAll = new EventEmitter<void>();
-  // Types to hide from the legend UI
-  private readonly hiddenLegendTypes = new Set<string>(['stairs_down', 'stairs_up', 'stairs_up_down', 'comms', 'explosion']);
-  
   // Collapse/expand state (expanded by default)
   isExpanded = true;
 
-  // Legend items after filtering out hidden types
+  // Legend items after filtering out types with showInLegend: false
   get filteredLegendItems(): LegendItem[] {
-    return this.legendItems.filter(item => !this.hiddenLegendTypes.has(item.id));
+    return this.legendItems.filter(item => getMarkerConfig(item.id).showInLegend);
   }
 
   constructor(private readonly languageService: LanguageService) {}

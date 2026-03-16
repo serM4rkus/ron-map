@@ -572,7 +572,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
       y: data.y,
       title: data.title,
       description: data.description,
-      type: data.type as 'spawn' | 'hard_objective' | 'soft_objective',
+      type: data.type as GameMarker['type'],
       color: this.mapStateService.getColorForType(data.type),
       layerId: visibleLayer?.id || 'base'
     };
