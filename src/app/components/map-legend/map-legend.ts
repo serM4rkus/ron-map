@@ -23,7 +23,7 @@ export class MapLegendComponent {
   @Output() showAll = new EventEmitter<void>();
   @Output() hideAll = new EventEmitter<void>();
   // Types to hide from the legend UI
-  private readonly hiddenLegendTypes = new Set<string>(['stairs_down', 'stairs_up', 'stairs_up_down', 'comms']);
+  private readonly hiddenLegendTypes = new Set<string>(['stairs_down', 'stairs_up', 'stairs_up_down', 'comms', 'explosion']);
   
   // Collapse/expand state (expanded by default)
   isExpanded = true;

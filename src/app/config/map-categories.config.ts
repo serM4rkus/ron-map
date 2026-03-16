@@ -89,6 +89,15 @@ export const MAP_CATEGORIES = {
     description: 'Free expansion missions',
     badgeColor: '#0891b2',
     order: 4
+  },
+  // Boiling point DLC.
+  'boiling-point': {
+    id: 'boiling-point',
+    displayName: 'Boiling Point DLC',
+    shortName: 'DLC3',
+    description: 'Boiling Water expansion pack missions',
+    badgeColor: '#ea580c',
+    order: 5
   }
   // Add more DLC categories here - no need to update types!
   // 'dlc-special-ops': { id: 'dlc-special-ops', displayName: 'Special Ops DLC', badgeColor: '#059669', ... },

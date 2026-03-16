@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GameMapConfig, GameMarker, MapObjective } from '../../services/game-map';
+import { GameMapConfig, GameMarker, MapObjective } from '../../services/game-map.service';
 import { MarkerRendererComponent } from '../marker-renderer/marker-renderer';
 import { CoordinateTrackerComponent } from '../coordinate-tracker/coordinate-tracker';
 import { DrawingLayerComponent } from '../drawing-layer/drawing-layer';

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, Chang
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
-import { GameMapService, GameMapConfig, GameMarker, GameMapMetadata } from '../../services/game-map';
+import { GameMapService, GameMapConfig, GameMarker, GameMapMetadata } from '../../services/game-map.service';
 import { LanguageService } from '../../services/language.service';
 import { DrawingService } from '../../services/drawing.service';
 import { MapInteractionService } from '../../services/map-interaction.service';

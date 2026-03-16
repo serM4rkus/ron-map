@@ -89,7 +89,7 @@ export const MARKER_TYPE_CONFIGS: MarkerTypeConfig[] = [
     svgIconUrl: './svg/stairs_up_down.svg',
     color: '#607D8B',
     iconColor: '#ffffff',
-    label: 'Stairs Down'
+    label: 'Stairs Up Down'
   },
   {
     type: 'comms',
@@ -97,7 +97,15 @@ export const MARKER_TYPE_CONFIGS: MarkerTypeConfig[] = [
     svgIconUrl: './svg/comms.svg',
     color: '#607D8B',
     iconColor: '#ffffff',
-    label: 'Stairs Down'
+    label: 'Comm'
+  },
+  {
+    type: 'explosion',
+    icon: 'Destruction', 
+    svgIconUrl: './svg/explosion.svg',
+    color: '#607D8B',
+    iconColor: '#ffffff',
+    label: 'Destructable'
   }
 ];
 

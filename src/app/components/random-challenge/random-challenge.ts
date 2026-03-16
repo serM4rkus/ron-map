@@ -6,7 +6,7 @@ import { GameMapMetadata } from '../../config/game-maps-metadata.config';
 import { WEAPONS, Weapon } from '../../config/weapons.config';
 import { DIFFICULTIES, Difficulty } from '../../config/difficulties.config';
 import { ArmorConfig, generateRandomArmor, getArmorTypeName, getArmorCoverageName, getArmorMaterialName } from '../../config/armor.config';
-import { GameMarker } from '../../services/game-map';
+import { GameMarker } from '../../services/game-map.service';
 import { Logger } from '../../utils/logger.util';
 
 interface ChallengeResult {

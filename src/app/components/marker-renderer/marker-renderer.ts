@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GameMarker, GameMapService, MarkerConnection } from '../../services/game-map';
+import { GameMarker, GameMapService, MarkerConnection } from '../../services/game-map.service';
 import { getMarkerConfig } from '../../config/marker-types.config';
 import { LegendItem } from '../map-viewer/map-viewer';
 import { ComputedCache } from '../../utils/memoize.util';
@@ -84,6 +84,7 @@ export class MarkerRendererComponent implements OnInit, OnDestroy {
       'marker-stairs-up': marker.type === 'stairs_up',
       'marker-stairs-up-down': marker.type === 'stairs_up_down',
       'marker-comms': marker.type === 'comms',
+      'marker-explosion': marker.type === 'explosion',
       'marker-selected': this.selectedMarker?.id === marker.id,
       'marker-pulsing': this.pulsingMarkerIds.has(marker.id)
     };

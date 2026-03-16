@@ -1,4 +1,4 @@
-import { GameMapConfig } from '../services/game-map';
+import { GameMapConfig } from '../services/game-map.service';
 import { MapCategoryId } from './map-categories.config';
 
 /**
@@ -311,12 +311,11 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     route: '3-letter-triad',
     name: '3 Letter Triad / The Elysian',
     metaDescription: 'Interactive map for 3 Letter Triad DLC mission at The Elysian not finished hotel. Detailed blueprints for strategic tactical operations.',
-    description: 'This map is currently under construction. Check back soon for the complete interactive map with detailed floor plans, objectives, and spawn points.',
+    description: '3 Letter Triad is a level in the Dark Waters DLC for Ready or Not. An LSPD officer receives a mysterious tip from the USIA about an illegal deal taking place at an abandoned hotel, and D Platoon is dispatched to stop the deal and arrest all suspects at the scene.',
     order: 24,
     category: 'dlc-dark-waters',
     preview_picture: './maps/24_elysian/elysian_preview.png',
-    loader: () => import('./maps/elysian.map').then(m => m.MAP_ELYSIAN),
-    isReady: false
+    loader: () => import('./maps/elysian.map').then(m => m.MAP_ELYSIAN)
   },
   // Los Suenos Stories.
     {
@@ -342,5 +341,39 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     preview_picture: './maps/26_edgeware_apartments/edgeware_apartments_preview.png',
     loader: () => import('./maps/edgeware_apartments.map').then(m => m.MAP_EDGEWARE_APARTMENTS),
     isReady: false
+  },
+  // Boling Point DLC
+  {
+    id: 'pier',
+    route: 'no-good-deed',
+    name: 'No Good Deed / Los Suenos Pier',
+    metaDescription: 'Interactive map for No Good Deed DLC mission at Los Suenos Pier. Detailed blueprints for strategic tactical operations.',
+    description: 'No Good Deed is the first DLC level of three in Ready or Not: Boling Point. A community fundraiser at the iconic Blackwood Pier has collapsed into a sudden massacre. An unidentified group emerging from the boardwalk struck the event, using the gathering & LSPD uniforms as cover to move smuggled cargo inland. \'D\' Platoon is to locate survivors, secure cargo, & stop the attack before the chaos spreads.',
+    order: 27,
+    category: 'boiling-point',
+    preview_picture: './maps/27_pier/pier_preview.png',
+    loader: () => import('./maps/seraglio.map').then(m => m.MAP_SERGALIO)
+  },
+  {
+    id: 'bank',
+    route: 'all-gods-burn',
+    name: 'All Gods Burn / Unitytrust Bank',
+    metaDescription: 'Interactive map for All Gods Burn DLC mission at Unitytrust Bank. Detailed blueprints for strategic tactical operations.',
+    description: 'All Gods Burn is a DLC mission in Ready or Not: Boling Point. The Pier attack has pushed the city into revolt. Unity Trust Banc is now a target. Explosive ordinance smuggled in during the Blackwood Pier attack are now planted inside the building. Black Sentinel have appeared on the scene, using the riots acting as perfect cover for a robbery & siege of the city\'s economic centrepoint.',
+    order: 28,
+    category: 'boiling-point',
+    preview_picture: './maps/28_bank/bank_preview.png',
+    loader: () => import('./maps/heavywell_rig.map').then(m => m.MAP_HEAVYWELL_RIG)
+  },
+  {
+    id: 'city-hall',
+    route: 'a-new-america',
+    name: 'A New America / Los Suenos City Hall & Records building',
+    metaDescription: 'Interactive map forA New America DLC mission at Los Suenos City Hall & Records building. Detailed blueprints for strategic tactical operations.',
+    description: 'A New America is a DLC mision in Ready or Not: Boiling Point. Los Suenos has fallen into social, economic, and political breakdown. City Hall is in lockdown as rioters surround it. Inside, suspects have seized upper floors, planting explosive charges throughout the tower. The shadow group orchestrating the Pier and Bank attacks is finally exposed. Breach City Hall and disable the explosives.',
+    order: 29,
+    category: 'boiling-point',
+    preview_picture: './maps/29_city_hall/city_hall_preview.png',
+    loader: () => import('./maps/heavywell_rig.map').then(m => m.MAP_HEAVYWELL_RIG)
   }
 ];

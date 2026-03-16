@@ -1,4 +1,4 @@
-import { GameMapConfig, GameMarker, MapLayer, MapObjective } from '../../services/game-map';
+import { GameMapConfig, GameMarker, MapLayer, MapObjective } from '../../services/game-map.service';
 
 // ============================================================================
 // LAYER DEFINITIONS
