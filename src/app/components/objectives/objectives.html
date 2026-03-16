@@ -30,20 +30,28 @@
                   [class.completed]="objective.completed"
                   (click)="toggleObjective(objective.id, $event)"
                   [attr.title]="'Click to mark as ' + (objective.completed ? 'incomplete' : 'complete')">
-                <div class="objective-marker">
-                  <span class="material-icons">{{ objective.completed ? 'check_circle' : 'radio_button_unchecked' }}</span>
+                <div class="objective-row-top">
+                  <div class="objective-marker">
+                    <span class="material-icons">{{ objective.completed ? 'check_circle' : 'radio_button_unchecked' }}</span>
+                  </div>
+                  <div class="objective-title">{{ objective.title }}</div>
+                  @if (objective.markerIds && objective.markerIds.length > 0) {
+                    <button class="locate-btn" [class.active]="locatingObjectiveId === objective.id" (click)="locateObjective(objective.markerIds!, objective.id, $event)" title="Show on map">
+                      <span class="material-icons">my_location</span>
+                      <span class="locate-label">Show</span>
+                    </button>
+                  }
                 </div>
-                <div class="objective-details">
-                  <div class="objective-title">
-                    {{ objective.title }}
+                @if (objective.description || (objective.floorName && objective.id !== 'obj_order' && objective.id !== 'obj_rescue')) {
+                  <div class="objective-row-bottom">
+                    @if (objective.description) {
+                      <div class="objective-description">{{ objective.description }}</div>
+                    }
                     @if (objective.floorName && objective.id !== 'obj_order' && objective.id !== 'obj_rescue') {
                       <span class="objective-floor">{{ objective.floorName }}</span>
                     }
                   </div>
-                  @if (objective.description) {
-                    <div class="objective-description">{{ objective.description }}</div>
-                  }
-                </div>
+                }
               </li>
             }
           </ul>
@@ -67,20 +75,28 @@
                   [class.completed]="objective.completed"
                   (click)="toggleObjective(objective.id, $event)"
                   [attr.title]="'Click to mark as ' + (objective.completed ? 'incomplete' : 'complete')">
-                <div class="objective-marker">
-                  <span class="material-icons">{{ objective.completed ? 'check_circle' : 'radio_button_unchecked' }}</span>
+                <div class="objective-row-top">
+                  <div class="objective-marker">
+                    <span class="material-icons">{{ objective.completed ? 'check_circle' : 'radio_button_unchecked' }}</span>
+                  </div>
+                  <div class="objective-title">{{ objective.title }}</div>
+                  @if (objective.markerIds && objective.markerIds.length > 0) {
+                    <button class="locate-btn" [class.active]="locatingObjectiveId === objective.id" (click)="locateObjective(objective.markerIds!, objective.id, $event)" title="Show on map">
+                      <span class="material-icons">my_location</span>
+                      <span class="locate-label">Show</span>
+                    </button>
+                  }
                 </div>
-                <div class="objective-details">
-                  <div class="objective-title">
-                    {{ objective.title }}
+                @if (objective.description || (objective.floorName && objective.id !== 'obj_order' && objective.id !== 'obj_rescue')) {
+                  <div class="objective-row-bottom">
+                    @if (objective.description) {
+                      <div class="objective-description">{{ objective.description }}</div>
+                    }
                     @if (objective.floorName && objective.id !== 'obj_order' && objective.id !== 'obj_rescue') {
                       <span class="objective-floor">{{ objective.floorName }}</span>
                     }
                   </div>
-                  @if (objective.description) {
-                    <div class="objective-description">{{ objective.description }}</div>
-                  }
-                </div>
+                }
               </li>
             }
           </ul>
@@ -95,3 +111,29 @@
       }
     </div>
 </div>
+
+@if (locatingObjectiveId && locatingObjectiveMarkerIds.length > 1) {
+  <div class="locate-menu-backdrop" (click)="closeLocateMenu($event)"></div>
+  <div class="locate-menu"
+       [style.top.px]="menuPosition.top"
+       [style.right.px]="menuPosition.right"
+       (click)="$event.stopPropagation()">
+    <div class="locate-menu-header">
+      <h4>Choose Location</h4>
+      <button class="locate-menu-close" (click)="closeLocateMenu($event)">×</button>
+    </div>
+    <div class="locate-menu-options">
+      @for (markerId of locatingObjectiveMarkerIds; track markerId) {
+        <button class="locate-menu-option" (click)="navigateToMarker(markerId, $event)">
+          <span class="material-icons">arrow_forward</span>
+          <div class="locate-menu-option-info">
+            <span class="locate-menu-option-title">{{ getMarkerTitle(markerId) }}</span>
+            @if (getMarkerFloor(markerId)) {
+              <span class="locate-menu-option-floor">{{ getMarkerFloor(markerId) }}</span>
+            }
+          </div>
+        </button>
+      }
+    </div>
+  </div>
+}

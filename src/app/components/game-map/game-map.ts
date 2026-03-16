@@ -698,6 +698,11 @@ export class GameMapComponent implements OnInit, OnDestroy {
     }
   }
 
+  onObjectiveLocated(event: { markerId: string }): void {
+    if (!event.markerId) return;
+    this.gameMapService.navigateToConnectedMarker(event.markerId);
+  }
+
   // Touch Events for mobile support
   onTouchStart(event: TouchEvent): void {
     this.attachMouseListeners();

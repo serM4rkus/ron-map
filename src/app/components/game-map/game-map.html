@@ -15,7 +15,9 @@
 
     <!-- Objectives moved to bottom on mobile -->
     <app-objectives class="objectives-mobile" [objectives]="currentMap.objectives || []"
-      [mapName]="currentMapMetadata?.name || ''" (objectiveToggled)="onObjectiveToggled($event)"></app-objectives>
+      [mapName]="currentMapMetadata?.name || ''" [markers]="markers" [layers]="currentMap.layers || []"
+      (objectiveToggled)="onObjectiveToggled($event)"
+      (objectiveLocated)="onObjectiveLocated($event)"></app-objectives>
     }
   </div>
 
