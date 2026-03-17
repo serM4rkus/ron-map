@@ -60,7 +60,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 1,
     category: 'base',
     preview_picture: './maps/1_4U_gas/4U_Gas_Station_preview.png',
-    loader: () => import('./maps/4U_gas.map').then(m => m.MAP_4U_GAS)
+    loader: () => import('./maps/1_4U_gas.map').then(m => m.MAP_4U_GAS)
   },
   {
     id: '23_mb',
@@ -71,7 +71,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 2,
     category: 'base',
     preview_picture: './maps/2_23_mb/23_Megabytes_a_Second_preview.png',
-    loader: () => import('./maps/23_mb.map').then(m => m.MAP_23_MB)
+    loader: () => import('./maps/2_23_mb.map').then(m => m.MAP_23_MB)
   },
   {
     id: '213_park',
@@ -82,7 +82,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 3,
     category: 'base',
     preview_picture: './maps/3_213_park/213_Park_preview.png',
-    loader: () => import('./maps/213_park.map').then(m => m.MAP_213_PARK)
+    loader: () => import('./maps/3_213_park.map').then(m => m.MAP_213_PARK)
   },
   {
     id: 'brixley_talent',
@@ -93,7 +93,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 4,
     category: 'base',
     preview_picture: './maps/4_brixley_talent/brixley_talent_preview.png',
-    loader: () => import('./maps/brixley_talent.map').then(m => m.MAP_BRIXLEY_TALENT)
+    loader: () => import('./maps/4_brixley_talent.map').then(m => m.MAP_BRIXLEY_TALENT)
   },
   {
     id: 'sullivans_slope',
@@ -104,7 +104,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 5,
     category: 'base',
     preview_picture: './maps/5_sullivans_slope/Sullivans slope_preview.png',
-    loader: () => import('./maps/sullivans_slope.map').then(m => m.MAP_SULLIVANS_SLOPE)
+    loader: () => import('./maps/5_sullivans_slope.map').then(m => m.MAP_SULLIVANS_SLOPE)
   },
   {
     id: 'brisa_cove',
@@ -115,7 +115,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 6,
     category: 'base',
     preview_picture: './maps/6_brisa_cove/brisa_cove_preview.png',
-    loader: () => import('./maps/brisa_cove.map').then(m => m.MAP_BRISA_COVE)
+    loader: () => import('./maps/6_brisa_cove.map').then(m => m.MAP_BRISA_COVE)
   },
   {
     id: 'mindjot',
@@ -126,7 +126,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 7,
     category: 'base',
     preview_picture: './maps/7_mindjot/mindjot_preview.png',
-    loader: () => import('./maps/mindjot.map').then(m => m.MAP_MINDJOT)
+    loader: () => import('./maps/7_mindjot.map').then(m => m.MAP_MINDJOT)
   },
   {
     id: 'kawayu_beach',
@@ -137,7 +137,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 8,
     category: 'base',
     preview_picture: './maps/8_kawayu_beach/kawayu_beach_preview.png',
-    loader: () => import('./maps/kawayu_beach.map').then(m => m.MAP_KAWAYU_BEACH)
+    loader: () => import('./maps/8_kawayu_beach.map').then(m => m.MAP_KAWAYU_BEACH)
   },
   {
     id: 'los_suenos_postal',
@@ -148,7 +148,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 9,
     category: 'base',
     preview_picture: './maps/9_los_suenos_postal/los_suenos_postal_preview.png',
-    loader: () => import('./maps/los_suenos_postal.map').then(m => m.MAP_LOS_SUENOS_POSTAL)
+    loader: () => import('./maps/9_los_suenos_postal.map').then(m => m.MAP_LOS_SUENOS_POSTAL)
   },
   {
     id: 'voll_health_house',
@@ -159,7 +159,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 10,
     category: 'base',
     preview_picture: './maps/10_voll_health_house/voll_health_house_preview.png',
-    loader: () => import('./maps/voll_health_house.map').then(m => m.MAP_VOLL_HEALTH_HOUSE)
+    loader: () => import('./maps/10_voll_health_house.map').then(m => m.MAP_VOLL_HEALTH_HOUSE)
   },
   {
     id: 'watt_college',
@@ -170,7 +170,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 11,
     category: 'base',
     preview_picture: './maps/11_watt_college/watt_college_previre.png',
-    loader: () => import('./maps/watt_college.map').then(m => m.MAP_WATT_COLLEGE)
+    loader: () => import('./maps/11_watt_college.map').then(m => m.MAP_WATT_COLLEGE)
   },
   {
     id: 'costa_vino',
@@ -181,7 +181,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 12,
     category: 'base',
     preview_picture: './maps/12_costa_vino/costa_vino_preview.png',
-    loader: () => import('./maps/costa_vino.map').then(m => m.MAP_COSTA_VINO)
+    loader: () => import('./maps/12_costa_vino.map').then(m => m.MAP_COSTA_VINO)
   },
   {
     id: 'clemente_hotel',
@@ -192,7 +192,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 13,
     category: 'base',
     preview_picture: './maps/13_clemente_hotel/clemente_hotel_preview.png',
-    loader: () => import('./maps/clemente_hotel.map').then(m => m.MAP_CLEMENTE_HOTEL)
+    loader: () => import('./maps/13_clemente_hotel.map').then(m => m.MAP_CLEMENTE_HOTEL)
   },
   {
     id: 'neon_nightclub',
@@ -203,7 +203,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 14,
     category: 'base',
     preview_picture: './maps/14_neon_nightclub/neon_nightclub_preview.png',
-    loader: () => import('./maps/neon_nightclub.map').then(m => m.MAP_NEON_NIGHTCLUB)
+    loader: () => import('./maps/14_neon_nightclub.map').then(m => m.MAP_NEON_NIGHTCLUB)
   },
   {
     id: 'ceasars_cars_dealership',
@@ -214,7 +214,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 15,
     category: 'base',
     preview_picture:'./maps/15_ceasars_cars_dealership/ceasars_cars_dealership_preview.png',
-    loader: () => import('./maps/ceasars_cars_dealership.map').then(m => m.MAP_CEASARS_CARS_DEALERSHIP)
+    loader: () => import('./maps/15_ceasars_cars_dealership.map').then(m => m.MAP_CEASARS_CARS_DEALERSHIP)
   },
   {
     id: 'cherryessa_farm',
@@ -225,7 +225,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 16,
     category: 'base',
     preview_picture: './maps/16_cherryessa_farm/cherryessa_farm_preview.png',
-    loader: () => import('./maps/cherryessa_farm.map').then(m => m.MAP_CHERRYESSA_FARM)
+    loader: () => import('./maps/16_cherryessa_farm.map').then(m => m.MAP_CHERRYESSA_FARM)
   },
   {
     id: 'medical_center',
@@ -236,7 +236,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 17,
     category: 'base',
     preview_picture: './maps/17_medical_center/medical_center_preview.png',
-    loader: () => import('./maps/medical_center.map').then(m => m.MAP_MEDICAL_CENTER)
+    loader: () => import('./maps/17_medical_center.map').then(m => m.MAP_MEDICAL_CENTER)
   },
   {
     id: 'port',
@@ -247,7 +247,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 18,
     category: 'base',
     preview_picture: './maps/18_port/port_preview.png',
-    loader: () => import('./maps/port.map').then(m => m.MAP_PORT)
+    loader: () => import('./maps/18_port.map').then(m => m.MAP_PORT)
   },
   // Home Invasion DLC.
   {
@@ -259,7 +259,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 19,
     category: 'dlc-home-invasion',
     preview_picture: './maps/19_greenside_dormitories/greenside_dormitories_preview.png',
-    loader: () => import('./maps/greenside_dormitories.map').then(m => m.MAP_GREENSIDE_DORMITORIES)
+    loader: () => import('./maps/19_greenside_dormitories.map').then(m => m.MAP_GREENSIDE_DORMITORIES)
   },
   {
     id: '25_hope_street',
@@ -270,7 +270,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 20,
     category: 'dlc-home-invasion',
     preview_picture: './maps/20_25_hope_street/25_hope_street_preview.png',
-    loader: () => import('./maps/25_hope_street.map').then(m => m.MAP_25_HOPE_STREET)
+    loader: () => import('./maps/20_25_hope_street.map').then(m => m.MAP_25_HOPE_STREET)
   },
   {
     id: '155_playa_vista_lane',
@@ -281,7 +281,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 21,
     category: 'dlc-home-invasion',
     preview_picture: './maps/21_155_playa_vista_lane/155_playa_vista_lane_preview.png',
-    loader: () => import('./maps/155_playa_vista_lane.map').then(m => m.MAP_155_PLAYA_VISTA_LANE)
+    loader: () => import('./maps/21_155_playa_vista_lane.map').then(m => m.MAP_155_PLAYA_VISTA_LANE)
   },
   // Dark Waters DLC.
   {
@@ -293,7 +293,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 22,
     category: 'dlc-dark-waters',
     preview_picture: './maps/22_Seraglio/Seraglio_preview.png',
-    loader: () => import('./maps/seraglio.map').then(m => m.MAP_SERGALIO)
+    loader: () => import('./maps/22_seraglio.map').then(m => m.MAP_SERGALIO)
   },
   {
     id: 'heavywell_rig',
@@ -304,7 +304,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 23,
     category: 'dlc-dark-waters',
     preview_picture: './maps/23_HeavyWell_Rig/HeavyWell_A-101_Rig_preview.png',
-    loader: () => import('./maps/heavywell_rig.map').then(m => m.MAP_HEAVYWELL_RIG)
+    loader: () => import('./maps/23_heavywell_rig.map').then(m => m.MAP_HEAVYWELL_RIG)
   },
   {
     id: 'elysian',
@@ -315,7 +315,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 24,
     category: 'dlc-dark-waters',
     preview_picture: './maps/24_elysian/elysian_preview.png',
-    loader: () => import('./maps/elysian.map').then(m => m.MAP_ELYSIAN)
+    loader: () => import('./maps/24_elysian.map').then(m => m.MAP_ELYSIAN)
   },
   // Los Suenos Stories.
     {
@@ -323,24 +323,22 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     route: 'hunger-strike',
     name: 'Hunger Strike / Chico\'s Mexican Resturant',
     metaDescription: 'Interactive map for Hunger Strike free extension mission at Chico\'s Mexican Resturant. Detailed blueprints for strategic tactical operations.',
-    description: 'This map is currently under construction. Check back soon for the complete interactive map with detailed floor plans, objectives, and spawn points.',
+    description: 'Hunger Strike is the first mission released with the Stories from Los Sueños update to Ready or Not. An illegal trade between Los Locos del Pacificos and La Familia Cárdenas in the parking lot of a Chico\'s in Muerto Mesa has gone bad, resulting in a gang shootout on the premises. Upon the arrival of the LSPD, the two gangs both turned their attention away from each other and towards the police, barricading themselves inside along with some civilians. ',
     order: 25,
     category: 'los-suenos-stories',
     preview_picture: './maps/25_chicos_mexican_resturant/chicos_mexican_resturant_preview.png',
-    loader: () => import('./maps/chicos_mexican_resturant.map').then(m => m.MAP_CHICOS_MEXICAN_RESTURANT),
-    isReady: false
+    loader: () => import('./maps/25_chicos_mexican_resturant.map').then(m => m.MAP_CHICOS_MEXICAN_RESTURANT)
   },
   {
     id: 'edgeware_apartments',
     route: 'stolen-valor',
     name: 'Stolen Valor / Edgeware Apartments',
     metaDescription: 'Interactive map for Stolen Valor free extension mission at Edgeware Apartments complex. Detailed blueprints for strategic tactical operations.',
-    description: 'This map is currently under construction. Check back soon for the complete interactive map with detailed floor plans, objectives, and spawn points.',
+    description: 'Stolen Valour is a mission in Ready or Not released with the Stories from Los Sueños update. Rookie LSPD officer Michael Rodriguez has been declared missing after he disappearing during a foot pursuit in 213 Park. Over 48 hours later, D Platoon raids the Edgeware Apartments building, occupied by the 213 Hillside Rollers gang and Dylon Parker, who they suspect of kidnapping Rodriguez.',
     order: 26,
     category: 'los-suenos-stories',
     preview_picture: './maps/26_edgeware_apartments/edgeware_apartments_preview.png',
-    loader: () => import('./maps/edgeware_apartments.map').then(m => m.MAP_EDGEWARE_APARTMENTS),
-    isReady: false
+    loader: () => import('./maps/26_edgeware_apartments.map').then(m => m.MAP_EDGEWARE_APARTMENTS)
   },
   // Boling Point DLC
   {
@@ -352,7 +350,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 27,
     category: 'boiling-point',
     preview_picture: './maps/27_pier/pier_preview.png',
-    loader: () => import('./maps/seraglio.map').then(m => m.MAP_SERGALIO)
+    loader: () => import('./maps/27_pier.map').then(m => m.MAP_PIER)
   },
   {
     id: 'bank',
@@ -363,7 +361,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 28,
     category: 'boiling-point',
     preview_picture: './maps/28_bank/bank_preview.png',
-    loader: () => import('./maps/heavywell_rig.map').then(m => m.MAP_HEAVYWELL_RIG)
+    loader: () => import('./maps/28_bank.map').then(m => m.MAP_BANK)
   },
   {
     id: 'city-hall',
@@ -374,6 +372,6 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 29,
     category: 'boiling-point',
     preview_picture: './maps/29_city_hall/city_hall_preview.png',
-    loader: () => import('./maps/heavywell_rig.map').then(m => m.MAP_HEAVYWELL_RIG)
+    loader: () => import('./maps/29_city_hall.map').then(m => m.MAP_CITY_HALL)
   }
 ];
