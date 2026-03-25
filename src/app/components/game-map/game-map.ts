@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, Chang
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
-import { GameMapService, GameMapConfig, GameMarker, GameMapMetadata } from '../../services/game-map';
+import { GameMapService, GameMapConfig, GameMarker, GameMapMetadata } from '../../services/game-map.service';
 import { LanguageService } from '../../services/language.service';
 import { DrawingService } from '../../services/drawing.service';
 import { MapInteractionService } from '../../services/map-interaction.service';
@@ -572,7 +572,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
       y: data.y,
       title: data.title,
       description: data.description,
-      type: data.type as 'spawn' | 'hard_objective' | 'soft_objective',
+      type: data.type as GameMarker['type'],
       color: this.mapStateService.getColorForType(data.type),
       layerId: visibleLayer?.id || 'base'
     };
@@ -696,6 +696,11 @@ export class GameMapComponent implements OnInit, OnDestroy {
       // Trigger change detection
       this.cdr.markForCheck();
     }
+  }
+
+  onObjectiveLocated(event: { markerId: string }): void {
+    if (!event.markerId) return;
+    this.gameMapService.navigateToConnectedMarker(event.markerId);
   }
 
   // Touch Events for mobile support

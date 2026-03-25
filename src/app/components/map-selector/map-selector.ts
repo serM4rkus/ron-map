@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnChange
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { GameMapMetadata, GameMapConfig } from '../../services/game-map';
+import { GameMapMetadata, GameMapConfig } from '../../services/game-map.service';
 import { LanguageService } from '../../services/language.service';
 import { getAllCategories, MapCategoryInfo, MapCategoryId } from '../../config/map-categories.config';
 // import { LanguageSwitcherComponent } from '../language-switcher/language-switcher';

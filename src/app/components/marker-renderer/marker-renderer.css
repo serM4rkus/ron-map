@@ -267,25 +267,6 @@
   }
 }
 
-@keyframes unitGlow {
-  from {
-    box-shadow: var(--shadow-marker), 0 0 12px rgba(244, 67, 54, 0.4);
-  }
-  to {
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5), 0 0 25px rgba(244, 67, 54, 0.9);
-  }
-}
-
-@keyframes spawnBreath {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: var(--shadow-marker), 0 0 10px rgba(76, 175, 80, 0.5);
-  }
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5), 0 0 20px rgba(76, 175, 80, 0.8);
-  }
-}
 
 /* Square styles for stairs markers */
 .marker-stairs-down .marker-icon,

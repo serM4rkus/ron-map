@@ -24,11 +24,11 @@
 
   <div class=" map-info">
     @if (currentMapMetadata) {
-    <h3>{{ currentMapMetadata.name }}</h3>
+    <h1>{{ currentMapMetadata.name }}</h1>
     <div class="divider"></div>
     <p>{{ currentMapMetadata.description }}</p>
     } @else {
-    <h3>{{ 'selectMap' | translate }}</h3>
+    <h1>{{ 'selectMap' | translate }}</h1>
     <div class="divider"></div>
     <p>{{ 'chooseMapPrompt' | translate }}</p>
     }
