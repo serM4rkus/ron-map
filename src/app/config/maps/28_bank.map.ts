@@ -32,7 +32,7 @@ const LAYERS: MapLayer[] = [
 const SPAWNS: GameMarker[] = [
   {
     id: 'spawn1',
-    x: 30.21,
+    x: 22.21,
     y: 95.45,
     title: 'Main Street',
     description: 'Main Street',
@@ -69,8 +69,8 @@ const SPECIAL_MARKERS: GameMarker[] = [
     id: 'vault_key_card1', 
     x: 65.67,
     y: 35.99,
-    title: 'Vault Key Card',
-    description: 'Vault Key Card',
+    title: 'Possible Vault Key Card',
+    description: 'Possible Vault Key Card location',
     type: 'key_card',
     layerId: 'ground'
   },
@@ -78,8 +78,8 @@ const SPECIAL_MARKERS: GameMarker[] = [
     id: 'vault_key_card2', 
     x: 55.78,
     y: 36.67,
-    title: 'Vault Key Card',
-    description: 'Vault Key Card',
+    title: 'Possible Vault Key Card',
+    description: 'Possible Vault Key Card location',
     type: 'key_card',
     layerId: 'ground'
   },
@@ -87,8 +87,8 @@ const SPECIAL_MARKERS: GameMarker[] = [
     id: 'vault_key_card3', 
     x: 56.72,
     y: 28.82,
-    title: 'Vault Key Card',
-    description: 'Vault Key Card',
+    title: 'Possible Vault Key Card',
+    description: 'Possible Vault Key Card location',
     type: 'key_card',
     layerId: 'ground'
   },
