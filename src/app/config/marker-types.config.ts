@@ -50,6 +50,7 @@ export interface MarkerTypeConfig {
  * - explore, map, navigation (general navigation)
  */
 export const MARKER_TYPE_CONFIGS: MarkerTypeConfig[] = [
+  // Main markers
   {
     type: 'spawn',
     icon: 'flag',
@@ -83,6 +84,7 @@ export const MARKER_TYPE_CONFIGS: MarkerTypeConfig[] = [
     showTooltipOnHover: false,
     navigable: false
   },
+  // Stairs markers
   {
     type: 'stairs_down',
     icon: 'place',
@@ -119,6 +121,7 @@ export const MARKER_TYPE_CONFIGS: MarkerTypeConfig[] = [
     showTooltipOnHover: true,
     navigable: true
   },
+  // Sinious Trail specific marker
   {
     type: 'comms',
     icon: 'mobile_speaker',
@@ -131,6 +134,7 @@ export const MARKER_TYPE_CONFIGS: MarkerTypeConfig[] = [
     showTooltipOnHover: true,
     navigable: false
   },
+  // Dark Water specific markers
   {
     type: 'explosion',
     icon: 'place',
@@ -138,6 +142,115 @@ export const MARKER_TYPE_CONFIGS: MarkerTypeConfig[] = [
     color: '#607D8B',
     iconColor: '#ffffff',
     label: 'Destructable',
+    showInLegend: false,
+    clickable: true,
+    showTooltipOnHover: false,
+    navigable: false
+  },
+  // Boiling point specific markers
+  {
+    type: 'entrance',
+    icon: 'place',
+    svgIconUrl: './svg/entrance.svg',
+    color: '#607D8B',
+    iconColor: '#ffffff',
+    label: 'Entarnce',
+    showInLegend: false,
+    clickable: true,
+    showTooltipOnHover: false,
+    navigable: false
+  },
+  {
+    type: 'key_card',
+    icon: 'credit_card_gear',
+    svgIconUrl: './svg/key_card.svg',
+    color: '#607D8B',
+    iconColor: '#ffffff',
+    label: 'Key Card',
+    showInLegend: false,
+    clickable: true,
+    showTooltipOnHover: false,
+    navigable: false
+  },
+  {
+    type: 'pc',
+    icon: 'desktop_windows',
+    svgIconUrl: './svg/pc.svg',
+    color: '#607D8B',
+    iconColor: '#ffffff',
+    label: 'PC',
+    showInLegend: false,
+    clickable: true,
+    showTooltipOnHover: false,
+    navigable: false
+  },
+  {
+    type: 'light_off',
+    icon: 'light_off',
+    svgIconUrl: './svg/light_off.svg',
+    color: '#607D8B',
+    iconColor: '#ffffff',
+    label: 'Light OFF',
+    showInLegend: false,
+    clickable: true,
+    showTooltipOnHover: false,
+    navigable: false
+  },
+  {
+    type: 'private',
+    icon: 'private_connectivity',
+    svgIconUrl: './svg/private.svg',
+    color: '#607D8B',
+    iconColor: '#ffffff',
+    label: 'Private',
+    showInLegend: false,
+    clickable: true,
+    showTooltipOnHover: false,
+    navigable: false
+  },
+  {
+    type: 'magnetic_doors',
+    icon: 'sensor_door',
+    svgIconUrl: './svg/magnetic_doors.svg',
+    color: '#607D8B',
+    iconColor: '#ffffff',
+    label: 'Magnetic Doors',
+    showInLegend: false,
+    clickable: true,
+    showTooltipOnHover: false,
+    navigable: false
+  },
+  {
+    type: 'camera',
+    icon: 'linked_camera',
+    svgIconUrl: './svg/camera.svg',
+    color: '#607D8B',
+    iconColor: '#ffffff',
+    label: 'Camera',
+    showInLegend: false,
+    clickable: true,
+    showTooltipOnHover: false,
+    navigable: false
+  },
+  {
+    type: 'phone',
+    icon: 'mobile_speaker',
+    svgIconUrl: './svg/comms.svg',
+    color: '#607D8B',
+    iconColor: '#ffffff',
+    label: 'Phone',
+    showInLegend: false,
+    clickable: true,
+    showTooltipOnHover: false,
+    navigable: false
+  },
+  {
+    type: 'password',
+    icon: 'password',
+    svgIconUrl: './svg/password.svg',
+    color: '#607D8B',
+    iconColor: '#ffffff',
+    label: 'Phone',
     showInLegend: false,
     clickable: true,
     showTooltipOnHover: false,

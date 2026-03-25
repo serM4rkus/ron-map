@@ -10,13 +10,6 @@ const LAYERS: MapLayer[] = [
     name: 'First Floor',
     imageUrl: './maps/24_elysian/elysian_floor1_black.png',
     zIndex: 2
-  },
-  {
-    id: 'ground',
-    name: 'Ground Floor',
-    imageUrl: './maps/24_elysian/elysian_ground_black.png',
-    zIndex: 1,
-    isDefault: true
   }
 ];
 
@@ -28,8 +21,8 @@ const SPAWNS: GameMarker[] = [
     id: 'spawn1',
     x: 34.16,
     y: 74.91,
-    title: 'Beach',
-    description: 'Beach',
+    title: 'Parking Lot',
+    description: 'Parking Lot',
     type: 'spawn',
     layerId: 'ground'
   },
@@ -37,8 +30,8 @@ const SPAWNS: GameMarker[] = [
     id: 'spawn2',
     x: 31.26,
     y: 37.34,
-    title: 'Loading Bay',
-    description: 'Loading Bay',
+    title: 'Beach',
+    description: 'Beach',
     type: 'spawn',
     layerId: 'ground'
   },
@@ -50,32 +43,10 @@ const SPAWNS: GameMarker[] = [
     description: 'Docks',
     type: 'spawn',
     layerId: 'ground'
-  },
-  {
-    id: 'spawn4',
-    x: 49.93,
-    y: 18.15,
-    title: 'Main Street',
-    description: 'Main Street',
-    type: 'spawn',
-    layerId: 'first'
   }
 ];
 
-// ============================================================================
-// ACHIVEMENTS MARKERS - Organized by floor
-// ============================================================================
-const ACHIVEMENTS_MARKERS: GameMarker[] = [
-  { 
-    id: 'destructable1', 
-    x: 43.99,
-    y: 39.13,
-    title: 'Destroy',
-    description: 'Destroy with C2 change to get "Justice Uncovers Depths Ghosts in Elysium" steam achivement',
-    type: 'explosion',
-    layerId: 'ground'
-  },
-]
+
 
 // ============================================================================
 // STAIRWAY CONNECTIONS - Organized by floor
@@ -245,20 +216,6 @@ const OBJECTIVES: MapObjective[] = [
     title: 'Rescue all civilians.',
     description: 'Detain any unarmed contacts at the scene',
     type: 'hard'
-  },
-  {
-    id: 'obj1',
-    title: 'Arrest 5 suspects.',
-    description: 'Arrest 5 suspects at the sceene',
-    type: 'hard'
-  },
-  {
-    id: 'obj2',
-    title: 'Find the package.',
-    description: 'Recover the packaged goods that were to be used in the deal.',
-    markerIds: ['hard_objective1', 'hard_objective2', 'hard_objective3', 'hard_objective4', 'hard_objective5'],
-    floorName: 'Ground & First Floor',
-    type: 'hard'
   }
 ];
 
@@ -266,12 +223,10 @@ const OBJECTIVES: MapObjective[] = [
 // FINAL MAP CONFIGURATION
 // ============================================================================
 export const MAP_PIER: GameMapConfig = {
-  markers: [
-    ...SPAWNS,
-    ...ACHIVEMENTS_MARKERS,
-    ...OBJECTIVE_MARKERS,
-    ...buildStairwayMarkers()
+    markers: [
+    ...SPAWNS
   ],
-  layers: LAYERS,
-  objectives: OBJECTIVES
+  layers: [],
+  objectives: OBJECTIVES,
+  placeholderImage: './maps/construction_cat.png'
 };

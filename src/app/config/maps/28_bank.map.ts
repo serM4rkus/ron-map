@@ -8,15 +8,21 @@ const LAYERS: MapLayer[] = [
   {
     id: 'first',
     name: 'First Floor',
-    imageUrl: './maps/24_elysian/elysian_floor1_black.png',
-    zIndex: 2
+    imageUrl: './maps/28_bank/bank_first.png',
+    zIndex: 3
   },
   {
     id: 'ground',
     name: 'Ground Floor',
-    imageUrl: './maps/24_elysian/elysian_ground_black.png',
-    zIndex: 1,
+    imageUrl: './maps/28_bank/bank_ground.png',
+    zIndex: 2,
     isDefault: true
+  },
+  {
+    id: 'vault',
+    name: 'Vault',
+    imageUrl: './maps/28_bank/bank_vault.png',
+    zIndex: 1
   }
 ];
 
@@ -26,54 +32,154 @@ const LAYERS: MapLayer[] = [
 const SPAWNS: GameMarker[] = [
   {
     id: 'spawn1',
-    x: 34.16,
-    y: 74.91,
-    title: 'Beach',
-    description: 'Beach',
+    x: 30.21,
+    y: 95.45,
+    title: 'Main Street',
+    description: 'Main Street',
     type: 'spawn',
     layerId: 'ground'
   },
   {
     id: 'spawn2',
-    x: 31.26,
-    y: 37.34,
-    title: 'Loading Bay',
-    description: 'Loading Bay',
+    x: 81.26,
+    y: 30.09,
+    title: 'Parking',
+    description: 'Parking',
     type: 'spawn',
     layerId: 'ground'
-  },
-  {
-    id: 'spawn3',
-    x: 72.04,
-    y: 66.34,
-    title: 'Docks',
-    description: 'Docks',
-    type: 'spawn',
-    layerId: 'ground'
-  },
-  {
-    id: 'spawn4',
-    x: 49.93,
-    y: 18.15,
-    title: 'Main Street',
-    description: 'Main Street',
-    type: 'spawn',
-    layerId: 'first'
   }
 ];
+
+// ============================================================================
+// SPECIAL MARKERS - Organized by floor
+// ============================================================================
+const SPECIAL_MARKERS: GameMarker[] = [
+  // Additional entrance
+  { 
+    id: 'entrance', 
+    x: 28.4,
+    y: 40.4,
+    title: 'Entrance',
+    description: 'Broken window trough which riotes briched to the bank',
+    type: 'entrance',
+    layerId: 'ground'
+  },
+  // Vault key card
+  { 
+    id: 'vault_key_card1', 
+    x: 65.67,
+    y: 35.99,
+    title: 'Vault Key Card',
+    description: 'Vault Key Card',
+    type: 'key_card',
+    layerId: 'ground'
+  },
+  { 
+    id: 'vault_key_card2', 
+    x: 55.78,
+    y: 36.67,
+    title: 'Vault Key Card',
+    description: 'Vault Key Card',
+    type: 'key_card',
+    layerId: 'ground'
+  },
+  { 
+    id: 'vault_key_card3', 
+    x: 56.72,
+    y: 28.82,
+    title: 'Vault Key Card',
+    description: 'Vault Key Card',
+    type: 'key_card',
+    layerId: 'ground'
+  },
+  // Admin password
+  { 
+    id: 'admin_password1', 
+    x: 65.63,
+    y: 50.78,
+    title: 'Possible admin PC password',
+    description: 'Admin PC password, reqiered to unloc PC to get Vault PIN',
+    type: 'password',
+    layerId: 'ground'
+  },
+  {
+    id: 'admin_password2', 
+    x: 67.81,
+    y: 38.38,
+    title: 'Possible admin PC password',
+    description: 'Admin PC password, reqiered to unloc PC to get Vault PIN',
+    type: 'password',
+    layerId: 'first'
+  },
+  { 
+    id: 'admin_password3', 
+    x: 62.76,
+    y: 18.39,
+    title: 'Possible admin PC password',
+    description: 'Admin PC password, reqiered to unloc PC to get Vault PIN',
+    type: 'password',
+    layerId: 'first'
+  },
+  // PC with vault PIN
+  { 
+    id: 'pc1', 
+    x: 58.91,
+    y: 21.2,
+    title: 'Possible PC to unlock magnetic doors',
+    description: 'Possible to unlock only if you found at least one key card',
+    type: 'pc',
+    layerId: 'ground'
+  },
+  { 
+    id: 'pc2', 
+    x: 31.68,
+    y: 64.98,
+    title: 'Possible PC to unlock magnetic doors',
+    description: 'Possible to unlock only if you found at least one key card',
+    type: 'pc',
+    layerId: 'ground'
+  },
+  { 
+    id: 'pc3', 
+    x: 48.78,
+    y: 79.92,
+    title: 'Possible PC to unlock magnetic doors',
+    description: 'Possible to unlock only if you found at least one key card',
+    type: 'pc',
+    layerId: 'ground'
+  },
+  { 
+    id: 'pc4', 
+    x: 54.41,
+    y: 79.99,
+    title: 'Possible PC to unlock magnetic doors',
+    description: 'Possible to unlock only if you found at least one key card',
+    type: 'pc',
+    layerId: 'ground'
+  },
+  { 
+    id: 'pc1', 
+    x: 61.97,
+    y: 14.63,
+    title: 'Possible PC to unlock magnetic doors',
+    description: 'Possible to unlock only if you found at least one key card',
+    type: 'pc',
+    layerId: 'first'
+  },
+]
 
 // ============================================================================
 // ACHIVEMENTS MARKERS - Organized by floor
 // ============================================================================
 const ACHIVEMENTS_MARKERS: GameMarker[] = [
   { 
-    id: 'destructable1', 
-    x: 43.99,
-    y: 39.13,
-    title: 'Destroy',
-    description: 'Destroy with C2 change to get "Justice Uncovers Depths Ghosts in Elysium" steam achivement',
-    type: 'explosion',
-    layerId: 'ground'
+    id: 'steam_achivement', 
+    x: 48.28,
+    y: 73.49,
+    title: 'Ringing phone',
+    description: 'Answer on a call to get "All secrets safe" achivement. Reqire Valt KeyCard and Valt pin to opne door.',
+    type: 'phone',
+    layerId: 'vault'
   },
 ]
 
@@ -94,77 +200,42 @@ const STAIRWAYS: StairwayPair[] = [
    // ==================== GROUND FLOOR ====================
   {
     id: 'ground_up1',
-    x: 62.18,
-    y: 59.67,
+    x: 70.29,
+    y: 33.38,
     layerId: 'ground',
     type: 'stairs_up',
     title: 'To First Floor',
     connectsTo: 'first_down1'
   },
   {
-    id: 'ground_up2',
-    x: 48.91,
-    y: 63.56,
+    id: 'ground_down1',
+    x: 56.22,
+    y: 17.54,
     layerId: 'ground',
-    type: 'stairs_up',
-    title: 'To First Floor',
-    connectsTo: 'first_down2'
-  },
-  {
-    id: 'ground_up3',
-    x: 53.02,
-    y: 49.74,
-    layerId: 'ground',
-    type: 'stairs_up',
-    title: 'To First Floor',
-    connectsTo: 'first_down3'
-  },
-  {
-    id: 'ground_up4',
-    x: 45.25,
-    y: 43.61,
-    layerId: 'ground',
-    type: 'stairs_up',
-    title: 'To First Floor',
-    connectsTo: 'first_down4'
+    type: 'stairs_down',
+    title: 'To Vault',
+    connectsTo: 'vault_up1'
   },
   // ==================== FIRST FLOOR ====================
   {
     id: 'first_down1',
-    x: 65.17,
-    y: 58.78,
+    x: 70.29,
+    y: 33.38,
     layerId: 'first',
     type: 'stairs_down',
     title: 'To Ground Floor',
     connectsTo: 'ground_up1'
   },
+  // ==================== VAULT ====================
   {
-    id: 'first_down2',
-    x: 46.76,
-    y: 64.15,
-    layerId: 'first',
-    type: 'stairs_down',
+    id: 'vault_up1',
+    x: 56.22,
+    y: 17.54,
+    layerId: 'vault',
+    type: 'stairs_up',
     title: 'To Ground Floor',
-    connectsTo: 'ground_up2'
-  },
-  {
-    id: 'first_down3',
-    x: 52.65,
-    y: 44.66,
-    layerId: 'first',
-    type: 'stairs_down',
-    title: 'To Ground Floor',
-    connectsTo: 'ground_up3'
-  },
-  {
-    id: 'first_down4',
-    x: 41.05,
-    y: 35.47,
-    layerId: 'first',
-    type: 'stairs_down',
-    title: 'To Ground Floor',
-    connectsTo: 'ground_up4'
-  },
+    connectsTo: 'ground_down1'
+  }
 ]
 
 function buildStairwayMarkers(): GameMarker[] {
@@ -184,50 +255,77 @@ function buildStairwayMarkers(): GameMarker[] {
 // ============================================================================
 const OBJECTIVE_MARKERS: GameMarker[] = [
   {
-    id: 'hard_objective1',
-    x: 53.45,
-    y: 69.76,
-    title: 'Possible package location.',
-    description: 'Recover the packaged goods that were to be used in the deal.',
-    type: 'hard_objective',
-    layerId: 'ground'
-  },
-  {
-    id: 'hard_objective2',
-    x: 51.26,
-    y: 53.7,
-    title: 'Possible package location',
-    description: 'Recover the packaged goods that were to be used in the deal.',
-    type: 'hard_objective',
-    layerId: 'ground'
-  },
-  {
-    id: 'hard_objective3',
-    x: 38.57,
-    y: 38.91,
-    title: 'Possible package location.',
-    description: 'Recover the packaged goods that were to be used in the deal.',
-    type: 'hard_objective',
-    layerId: 'ground'
-  },
-  {
-    id: 'hard_objective4',
-    x: 51.18,
-    y: 66.17,
-    title: 'Possible package location',
-    description: 'Recover the packaged goods that were to be used in the deal.',
-    type: 'hard_objective',
+    id: 'soft_objective1',
+    x: 32.35,
+    y: 22.1,
+    title: 'Report suspicious Laptop.',
+    description: 'Report suspicious Laptop.',
+    type: 'soft_objective',
     layerId: 'first'
-  }, 
+  },
   {
-    id: 'hard_objective5',
-    x: 34.24,
-    y: 32.56,
-    title: 'Possible package location',
-    description: 'Recover the packaged goods that were to be used in the deal.',
-    type: 'hard_objective',
+    id: 'soft_objective2',
+    x: 60.81,
+    y: 25.86,
+    title: 'Possible bomb location.',
+    description: 'Possible part of the bomb location',
+    type: 'soft_objective',
     layerId: 'first'
-  }
+  },
+  {
+    id: 'soft_objective3',
+    x: 60.81,
+    y: 36.09,
+    title: 'Possible bomb location.',
+    description: 'Possible part of the bomb location',
+    type: 'soft_objective',
+    layerId: 'first'
+  },
+  {
+    id: 'soft_objective4',
+    x: 53.33,
+    y: 21.16,
+    title: 'Possible bomb location.',
+    description: 'Possible part of the bomb location',
+    type: 'soft_objective',
+    layerId: 'ground'
+  },
+  {
+    id: 'soft_objective5',
+    x: 60.76,
+    y: 27.5,
+    title: 'Possible bomb location.',
+    description: 'Possible part of the bomb location',
+    type: 'soft_objective',
+    layerId: 'ground'
+  },
+  {
+    id: 'soft_objective6',
+    x: 60.76,
+    y: 37.89,
+    title: 'Possible bomb location.',
+    description: 'Possible part of the bomb location',
+    type: 'soft_objective',
+    layerId: 'ground'
+  },
+  {
+    id: 'soft_objective7',
+    x: 53.37,
+    y: 22.57,
+    title: 'Possible bomb location.',
+    description: 'Possible part of the bomb location',
+    type: 'soft_objective',
+    layerId: 'vault'
+  },
+  {
+    id: 'soft_objective8',
+    x: 66.73,
+    y: 25.56,
+    title: 'Main bomb.',
+    description: 'Main bomb location',
+    type: 'soft_objective',
+    layerId: 'vault'
+  },
 ];
 
 // ============================================================================
@@ -248,18 +346,20 @@ const OBJECTIVES: MapObjective[] = [
   },
   {
     id: 'obj1',
-    title: 'Arrest 5 suspects.',
-    description: 'Arrest 5 suspects at the sceene',
-    type: 'hard'
+    title: 'Report suspicious Laptop.',
+    description: 'Report suspicious Laptop.',
+    markerIds: ['soft_objective1'],
+    floorName: 'First Floor',
+    type: 'soft'
   },
   {
     id: 'obj2',
-    title: 'Find the package.',
-    description: 'Recover the packaged goods that were to be used in the deal.',
-    markerIds: ['hard_objective1', 'hard_objective2', 'hard_objective3', 'hard_objective4', 'hard_objective5'],
-    floorName: 'Ground & First Floor',
-    type: 'hard'
-  }
+    title: 'Report Bombs',
+    description: 'Report all bombs',
+    markerIds: ['soft_objective2', 'soft_objective3', 'soft_objective4', 'soft_objective5', 'soft_objective6', 'soft_objective7', 'soft_objective8'],
+    floorName: 'All Floors',
+    type: 'soft'
+  },
 ];
 
 // ============================================================================
@@ -269,6 +369,7 @@ export const MAP_BANK: GameMapConfig = {
   markers: [
     ...SPAWNS,
     ...ACHIVEMENTS_MARKERS,
+    ...SPECIAL_MARKERS,
     ...OBJECTIVE_MARKERS,
     ...buildStairwayMarkers()
   ],

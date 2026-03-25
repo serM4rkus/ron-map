@@ -175,7 +175,7 @@
   background: var(--border-color-medium);
 }
 
-.map-info h3 {
+.map-info h1 {
   margin: 0 0 var(--spacing-sm) 0;
   font-size: var(--font-size-xl);
   color: var(--color-text-primary);

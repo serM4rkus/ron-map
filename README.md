@@ -51,8 +51,8 @@ Site development and design by <b>serM4rkus</b><br>
 Blueprints development and design by <b>eNex and Daan</b><br>
 <a href="http://steamcommunity.com/sharedfiles/filedetails/?id=3137562299" target="_blank">Ready or Not blueprints Steam Guide</a>
 
-© 2025 Ready or Maps.
+© 2026 Ready or Maps.
 
 ---
 
-**Last Updated**: November 2025
+**Last Updated**: March 2026

@@ -340,24 +340,25 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     preview_picture: './maps/26_edgeware_apartments/edgeware_apartments_preview.png',
     loader: () => import('./maps/26_edgeware_apartments.map').then(m => m.MAP_EDGEWARE_APARTMENTS)
   },
-  // Boling Point DLC
+  // Boiling Point DLC
   {
     id: 'pier',
     route: 'no-good-deed',
     name: 'No Good Deed / Los Suenos Pier',
     metaDescription: 'Interactive map for No Good Deed DLC mission at Los Suenos Pier. Detailed blueprints for strategic tactical operations.',
-    description: 'No Good Deed is the first DLC level of three in Ready or Not: Boling Point. A community fundraiser at the iconic Blackwood Pier has collapsed into a sudden massacre. An unidentified group emerging from the boardwalk struck the event, using the gathering & LSPD uniforms as cover to move smuggled cargo inland. \'D\' Platoon is to locate survivors, secure cargo, & stop the attack before the chaos spreads.',
+    description: 'No Good Deed is the first DLC level of three in Ready or Not: Boiling Point. A community fundraiser at the iconic Blackwood Pier has collapsed into a sudden massacre. An unidentified group emerging from the boardwalk struck the event, using the gathering & LSPD uniforms as cover to move smuggled cargo inland. \'D\' Platoon is to locate survivors, secure cargo, & stop the attack before the chaos spreads.',
     order: 27,
     category: 'boiling-point',
     preview_picture: './maps/27_pier/pier_preview.png',
-    loader: () => import('./maps/27_pier.map').then(m => m.MAP_PIER)
+    loader: () => import('./maps/27_pier.map').then(m => m.MAP_PIER),
+    isReady: false
   },
   {
     id: 'bank',
     route: 'all-gods-burn',
     name: 'All Gods Burn / Unitytrust Bank',
     metaDescription: 'Interactive map for All Gods Burn DLC mission at Unitytrust Bank. Detailed blueprints for strategic tactical operations.',
-    description: 'All Gods Burn is a DLC mission in Ready or Not: Boling Point. The Pier attack has pushed the city into revolt. Unity Trust Banc is now a target. Explosive ordinance smuggled in during the Blackwood Pier attack are now planted inside the building. Black Sentinel have appeared on the scene, using the riots acting as perfect cover for a robbery & siege of the city\'s economic centrepoint.',
+    description: 'All Gods Burn is a DLC mission in Ready or Not: Boiling Point. The Pier attack has pushed the city into revolt. Unity Trust Banc is now a target. Explosive ordinance smuggled in during the Blackwood Pier attack are now planted inside the building. Black Sentinel have appeared on the scene, using the riots acting as perfect cover for a robbery & siege of the city\'s economic centrepoint.',
     order: 28,
     category: 'boiling-point',
     preview_picture: './maps/28_bank/bank_preview.png',
