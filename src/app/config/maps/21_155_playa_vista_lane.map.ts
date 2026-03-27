@@ -7,19 +7,19 @@ const LAYERS: MapLayer[] = [
   { 
     id: 'floor2', 
     name: 'Second Floor', 
-    imageUrl: './maps/21_155_playa_vista_lane/155_playa_vista_lane_floor2.png',  
+    imageUrl: './maps/21_155_playa_vista_lane/155_playa_vista_lane_floor2.webp',  
     zIndex: 1 
   },
   { 
     id: 'floor1', 
     name: 'First Floor', 
-    imageUrl: './maps/21_155_playa_vista_lane/155_playa_vista_lane_floor1.png',  
+    imageUrl: './maps/21_155_playa_vista_lane/155_playa_vista_lane_floor1.webp',  
     zIndex: 2 
   },
   { 
     id: 'ground', 
     name: 'Ground Floor', 
-    imageUrl: './maps/21_155_playa_vista_lane/155_playa_vista_lane_ground.png',
+    imageUrl: './maps/21_155_playa_vista_lane/155_playa_vista_lane_ground.webp',
     zIndex: 3, 
     isDefault: true 
   }

@@ -8,20 +8,20 @@ const LAYERS: MapLayer[] = [
   {
     id: 'first',
     name: 'First Floor',
-    imageUrl: './maps/28_bank/bank_first.png',
+    imageUrl: './maps/28_bank/bank_first.webp',
     zIndex: 3
   },
   {
     id: 'ground',
     name: 'Ground Floor',
-    imageUrl: './maps/28_bank/bank_ground.png',
+    imageUrl: './maps/28_bank/bank_ground.webp',
     zIndex: 2,
     isDefault: true
   },
   {
     id: 'vault',
     name: 'Vault',
-    imageUrl: './maps/28_bank/bank_vault.png',
+    imageUrl: './maps/28_bank/bank_vault.webp',
     zIndex: 1
   }
 ];
@@ -125,7 +125,7 @@ const SPECIAL_MARKERS: GameMarker[] = [
     id: 'pc1', 
     x: 58.91,
     y: 21.2,
-    title: 'Possible PC with vault PIN',
+    title: 'Possible PC with Vault PIN',
     description: 'Possible to unlock only if you found admin password',
     type: 'pc',
     layerId: 'ground'
@@ -134,7 +134,7 @@ const SPECIAL_MARKERS: GameMarker[] = [
     id: 'pc2', 
     x: 31.68,
     y: 64.98,
-    title: 'Possible PC with vault PIN',
+    title: 'Possible PC with Vault PIN',
     description: 'Possible to unlock only if you found admin password',
     type: 'pc',
     layerId: 'ground'
@@ -143,7 +143,7 @@ const SPECIAL_MARKERS: GameMarker[] = [
     id: 'pc3', 
     x: 48.78,
     y: 79.92,
-    title: 'Possible PC with vault PIN',
+    title: 'Possible PC with Vault PIN',
     description: 'Possible to unlock only if you found admin password',
     type: 'pc',
     layerId: 'ground'
@@ -152,7 +152,7 @@ const SPECIAL_MARKERS: GameMarker[] = [
     id: 'pc4', 
     x: 54.41,
     y: 79.99,
-    title: 'Possible PC with vault PIN',
+    title: 'Possible PC with Vault PIN',
     description: 'Possible to unlock only if you found admin password',
     type: 'pc',
     layerId: 'ground'
@@ -161,7 +161,7 @@ const SPECIAL_MARKERS: GameMarker[] = [
     id: 'pc1', 
     x: 61.97,
     y: 14.63,
-    title: 'Possible PC with vault PIN',
+    title: 'Possible PC with Vault PIN',
     description: 'Possible to unlock only if you found admin password',
     type: 'pc',
     layerId: 'first'
@@ -177,7 +177,7 @@ const ACHIVEMENTS_MARKERS: GameMarker[] = [
     x: 48.28,
     y: 73.49,
     title: 'Ringing phone',
-    description: 'Answer on a call to get "All secrets safe" achivement. Reqire Valt KeyCard and Valt pin to opne door.',
+    description: 'Answer on a call to get "All secrets safe" achivement. Reqire Valt KeyCard and Valt PIN to opne door.',
     type: 'phone',
     layerId: 'vault'
   },

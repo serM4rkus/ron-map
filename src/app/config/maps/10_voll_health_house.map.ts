@@ -7,26 +7,26 @@ const LAYERS: MapLayer[] = [
   { 
     id: 'floor2', 
     name: 'Second Floor', 
-    imageUrl: './maps/10_voll_health_house/voll_health_house_floor2.png',
+    imageUrl: './maps/10_voll_health_house/voll_health_house_floor2.webp',
     zIndex: 1, 
     isDefault: true 
   },
   { 
     id: 'floor1', 
     name: 'First Floor', 
-    imageUrl: './maps/10_voll_health_house/voll_health_house_floor1.png',  
+    imageUrl: './maps/10_voll_health_house/voll_health_house_floor1.webp',  
     zIndex: 2 
   },
   { 
     id: 'ground', 
     name: 'Ground Floor', 
-    imageUrl: './maps/10_voll_health_house/voll_health_house_ground.png',  
+    imageUrl: './maps/10_voll_health_house/voll_health_house_ground.webp',  
     zIndex: 3 
   },
   { 
     id: 'underground', 
     name: 'Underground', 
-    imageUrl: './maps/10_voll_health_house/voll_health_house_underground.png',  
+    imageUrl: './maps/10_voll_health_house/voll_health_house_underground.webp',  
     zIndex: 4 
   }
 ];

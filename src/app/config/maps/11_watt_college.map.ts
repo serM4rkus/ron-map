@@ -7,13 +7,13 @@ const LAYERS: MapLayer[] = [
   { 
     id: 'floor1', 
     name: 'First Floor', 
-    imageUrl: './maps/11_watt_college/watt_college_floor1.png',  
+    imageUrl: './maps/11_watt_college/watt_college_floor1.webp',  
     zIndex: 1 
   },
   { 
     id: 'ground', 
     name: 'Ground Floor', 
-    imageUrl: './maps/11_watt_college/watt_college_ground.png',
+    imageUrl: './maps/11_watt_college/watt_college_ground.webp',
     zIndex: 2, 
     isDefault: true 
   }

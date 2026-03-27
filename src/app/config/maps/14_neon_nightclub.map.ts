@@ -7,13 +7,13 @@ const LAYERS: MapLayer[] = [
   { 
     id: 'floor1', 
     name: 'First Floor', 
-    imageUrl: './maps/14_neon_nightclub/neon_nightclub_floor1.png',  
+    imageUrl: './maps/14_neon_nightclub/neon_nightclub_floor1.webp',  
     zIndex: 1 
   },
   { 
     id: 'ground', 
     name: 'Ground Floor', 
-    imageUrl: './maps/14_neon_nightclub/neon_nightclub_ground.png',
+    imageUrl: './maps/14_neon_nightclub/neon_nightclub_ground.webp',
     zIndex: 2, 
     isDefault: true 
   }

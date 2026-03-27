@@ -8,20 +8,20 @@ const LAYERS: MapLayer[] = [
   {
     id: 'first',
     name: 'First Floor',
-    imageUrl: './maps/26_edgeware_apartments/edgeware_apartments_first.png',
+    imageUrl: './maps/26_edgeware_apartments/edgeware_apartments_first.webp',
     zIndex: 3
   },
    {
     id: 'ground',
     name: 'Ground Floor',
-    imageUrl: './maps/26_edgeware_apartments/edgeware_apartments_ground.png',
+    imageUrl: './maps/26_edgeware_apartments/edgeware_apartments_ground.webp',
     zIndex: 2,
     isDefault: true
   },
   {
     id: 'basement',
     name: 'Basement',
-    imageUrl: './maps/26_edgeware_apartments/edgeware_apartments_basement.png',
+    imageUrl: './maps/26_edgeware_apartments/edgeware_apartments_basement.webp',
     zIndex: 1
   }
 ];

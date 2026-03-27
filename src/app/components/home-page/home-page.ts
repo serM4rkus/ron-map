@@ -64,13 +64,13 @@ export class HomePageComponent implements OnInit {
     this.metaService.updateTag({ property: 'og:description', content: description });
     this.metaService.updateTag({ property: 'og:url', content: url });
     this.metaService.updateTag({ property: 'og:type', content: 'website' });
-    this.metaService.updateTag({ property: 'og:image', content: 'https://readyormaps.com/ReadyOrMaps.png' });
+    this.metaService.updateTag({ property: 'og:image', content: 'https://readyormaps.com/ReadyOrMaps.webp' });
     
     // Twitter Card
     this.metaService.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
     this.metaService.updateTag({ name: 'twitter:title', content: title });
     this.metaService.updateTag({ name: 'twitter:description', content: description });
-    this.metaService.updateTag({ name: 'twitter:image', content: 'https://readyormaps.com/ReadyOrMaps.png' });
+    this.metaService.updateTag({ name: 'twitter:image', content: 'https://readyormaps.com/ReadyOrMaps.webp' });
     
     // Canonical URL
     this.updateCanonical(url);

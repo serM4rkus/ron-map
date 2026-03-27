@@ -7,19 +7,19 @@ const LAYERS: MapLayer[] = [
   { 
     id: 'roof', 
     name: 'Roof', 
-    imageUrl: './maps/7_mindjot/mindjot_floor2.png',  
+    imageUrl: './maps/7_mindjot/mindjot_floor2.webp',  
     zIndex: 1 
   },
   { 
     id: 'floor1', 
     name: 'First Floor', 
-    imageUrl: './maps/7_mindjot/mindjot_floor1.png',  
+    imageUrl: './maps/7_mindjot/mindjot_floor1.webp',  
     zIndex: 2 
   },
   { 
     id: 'ground', 
     name: 'Ground Floor', 
-    imageUrl: './maps/7_mindjot/mindjot_ground.png',
+    imageUrl: './maps/7_mindjot/mindjot_ground.webp',
     zIndex: 3, 
     isDefault: true 
   }

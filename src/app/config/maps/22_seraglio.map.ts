@@ -7,32 +7,32 @@ const LAYERS: MapLayer[] = [
   { 
     id: 'sun', 
     name: 'Sun Deck', 
-    imageUrl: './maps/22_Seraglio/Seraglio_sun_deck.png',
+    imageUrl: './maps/22_Seraglio/Seraglio_sun_deck.webp',
     zIndex: 1 
   },
   { 
     id: 'upper', 
     name: 'Upper Deck', 
-    imageUrl: './maps/22_Seraglio/Seraglio_upper_deck.png',
+    imageUrl: './maps/22_Seraglio/Seraglio_upper_deck.webp',
     zIndex: 2 
   },
   { 
     id: 'middle', 
     name: 'Middle Deck', 
-    imageUrl: './maps/22_Seraglio/Seraglio_middle_deck.png',
+    imageUrl: './maps/22_Seraglio/Seraglio_middle_deck.webp',
     zIndex: 3
   },
   { 
     id: 'lower', 
     name: 'Lower Deck', 
-    imageUrl: './maps/22_Seraglio/Seraglio_lower_deck.png',
+    imageUrl: './maps/22_Seraglio/Seraglio_lower_deck.webp',
     zIndex: 4, 
     isDefault: true 
   },
   {
     id: 'engineering',
     name: 'Engineering Deck',
-    imageUrl: './maps/22_Seraglio/Seraglio_engineering_deck.png',
+    imageUrl: './maps/22_Seraglio/Seraglio_engineering_deck.webp',
     zIndex: 5
   }
 ];

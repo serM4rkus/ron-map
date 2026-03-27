@@ -8,7 +8,7 @@ const LAYERS: MapLayer[] = [
   {
     id: 'first',
     name: 'First Floor',
-    imageUrl: './maps/24_elysian/elysian_floor1_black.png',
+    imageUrl: './maps/24_elysian/elysian_floor1_black.webp',
     zIndex: 2
   }
 ];
@@ -228,5 +228,5 @@ export const MAP_PIER: GameMapConfig = {
   ],
   layers: [],
   objectives: OBJECTIVES,
-  placeholderImage: './maps/construction_cat.png'
+  placeholderImage: './maps/construction_cat.webp'
 };

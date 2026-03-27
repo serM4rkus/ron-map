@@ -8,25 +8,25 @@ const LAYERS: MapLayer[] = [
   {
     id: '22d',
     name: '22d Floor',
-    imageUrl: './maps/29_city_hall/city_hall_22d.png',
+    imageUrl: './maps/29_city_hall/city_hall_22d.webp',
     zIndex: 3
   },
   {
     id: '21st',
     name: '21st Floor',
-    imageUrl: './maps/29_city_hall/city_hall_21st.png',
+    imageUrl: './maps/29_city_hall/city_hall_21st.webp',
     zIndex: 2
   },
   {
     id: '20th',
     name: '20th Floor',
-    imageUrl: './maps/29_city_hall/city_hall_20th.png',
+    imageUrl: './maps/29_city_hall/city_hall_20th.webp',
     zIndex: 3
   },
   {
     id: '19th',
     name: '19th Floor',
-    imageUrl: './maps/29_city_hall/city_hall_19th.png',
+    imageUrl: './maps/29_city_hall/city_hall_19th.webp',
     zIndex: 0,
     isDefault: true
   }
@@ -170,7 +170,7 @@ const ADDITIONAL_MARKERS: GameMarker[] = [
     x: 34.79,
     y: 61.54,
     title: 'Magnetic doors',
-    description: 'Opens only if you activtaed PC, OR you turned off lighd OR with C2',
+    description: 'Opens only if you activtaed PC, OR you turned off light OR with C2',
     type: 'magnetic_doors',
     layerId: '21st'
   },
@@ -179,7 +179,7 @@ const ADDITIONAL_MARKERS: GameMarker[] = [
     x: 41.13,
     y: 41.07,
     title: 'Magnetic doors',
-    description: 'Opens only if you activtaed PC, OR you turned off lighd OR with C2',
+    description: 'Opens only if you activtaed PC, OR you turned off light OR with C2',
     type: 'magnetic_doors',
     layerId: '21st'
   },
@@ -188,7 +188,7 @@ const ADDITIONAL_MARKERS: GameMarker[] = [
     x: 36.55,
     y: 55.19,
     title: 'Magnetic doors',
-    description: 'Opens only if you activtaed PC, OR you turned off lighd OR with C2',
+    description: 'Opens only if you activtaed PC, OR you turned off light OR with C2',
     type: 'magnetic_doors',
     layerId: '22d'
   },
@@ -197,7 +197,7 @@ const ADDITIONAL_MARKERS: GameMarker[] = [
     x: 63.93,
     y: 55.19,
     title: 'Magnetic doors',
-    description: 'Opens only if you activtaed PC, OR you turned off lighd OR with C2',
+    description: 'Opens only if you activtaed PC, OR you turned off light OR with C2',
     type: 'magnetic_doors',
     layerId: '22d'
   },

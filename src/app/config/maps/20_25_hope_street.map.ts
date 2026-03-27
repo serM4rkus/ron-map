@@ -7,7 +7,7 @@ const LAYERS: MapLayer[] = [
   { 
     id: 'ground', 
     name: 'Ground Floor', 
-    imageUrl: './maps/20_25_hope_street/25_hope_street_ground.png',
+    imageUrl: './maps/20_25_hope_street/25_hope_street_ground.webp',
     zIndex: 2, 
     isDefault: true 
   }

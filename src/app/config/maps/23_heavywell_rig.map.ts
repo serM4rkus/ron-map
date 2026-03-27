@@ -7,19 +7,19 @@ const LAYERS: MapLayer[] = [
   {
     id: 'second',
     name: 'Second Floor',
-    imageUrl: './maps/23_HeavyWell_Rig/HeavyWell_Rig_second.png',
+    imageUrl: './maps/23_HeavyWell_Rig/HeavyWell_Rig_second.webp',
     zIndex: 1
   },
   {
     id: 'first',
     name: 'First Floor',
-    imageUrl: './maps/23_HeavyWell_Rig/HeavyWell_Rig_first.png',
+    imageUrl: './maps/23_HeavyWell_Rig/HeavyWell_Rig_first.webp',
     zIndex: 2
   },
   {
     id: 'ground',
     name: 'Ground Floor',
-    imageUrl: './maps/23_HeavyWell_Rig/HeavyWell_Rig_ground.png',
+    imageUrl: './maps/23_HeavyWell_Rig/HeavyWell_Rig_ground.webp',
     zIndex: 3,
     isDefault: true
   }

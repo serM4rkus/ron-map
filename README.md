@@ -1,4 +1,4 @@
-![ReadyOrMaps](./public/ReadyOrMaps.png)
+![ReadyOrMaps](./public/ReadyOrMaps.webp)
 
 # Ready or Maps
 

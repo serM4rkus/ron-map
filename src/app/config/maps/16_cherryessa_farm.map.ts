@@ -7,20 +7,20 @@ const LAYERS: MapLayer[] = [
   { 
     id: 'floor1', 
     name: 'First Floor', 
-    imageUrl: './maps/16_cherryessa_farm/cherryessa_farm_floor1.png',  
+    imageUrl: './maps/16_cherryessa_farm/cherryessa_farm_floor1.webp',  
     zIndex: 1 
   },
   { 
     id: 'ground', 
     name: 'Ground Floor', 
-    imageUrl: './maps/16_cherryessa_farm/cherryessa_farm_ground.png',
+    imageUrl: './maps/16_cherryessa_farm/cherryessa_farm_ground.webp',
     zIndex: 2, 
     isDefault: true 
   },
   { 
     id: 'underground', 
     name: 'Underground', 
-    imageUrl: './maps/16_cherryessa_farm/cherryessa_farm_underground.png',  
+    imageUrl: './maps/16_cherryessa_farm/cherryessa_farm_underground.webp',  
     zIndex: 3 
   }
 ];

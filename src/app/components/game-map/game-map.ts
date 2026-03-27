@@ -307,7 +307,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
       });
       this.meta.updateTag({
         property: 'og:image',
-        content: 'https://readyormaps.com/ReadyOrMaps.png'
+        content: 'https://readyormaps.com/ReadyOrMaps.webp'
       });
       this.meta.updateTag({
         property: 'og:site_name',

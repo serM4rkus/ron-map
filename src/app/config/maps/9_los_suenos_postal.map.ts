@@ -7,13 +7,13 @@ const LAYERS: MapLayer[] = [
   { 
     id: 'floor1', 
     name: 'First Floor', 
-    imageUrl: './maps/9_los_suenos_postal/los_suenos_postal_floor1.png',  
+    imageUrl: './maps/9_los_suenos_postal/los_suenos_postal_floor1.webp',  
     zIndex: 1 
   },
   { 
     id: 'ground', 
     name: 'Ground Floor', 
-    imageUrl: './maps/9_los_suenos_postal/los_suenos_postal_ground.png',
+    imageUrl: './maps/9_los_suenos_postal/los_suenos_postal_ground.webp',
     zIndex: 2, 
     isDefault: true 
   }

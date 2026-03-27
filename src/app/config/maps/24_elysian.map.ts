@@ -8,13 +8,13 @@ const LAYERS: MapLayer[] = [
   {
     id: 'first',
     name: 'First Floor',
-    imageUrl: './maps/24_elysian/elysian_first.png',
+    imageUrl: './maps/24_elysian/elysian_first.webp',
     zIndex: 2
   },
   {
     id: 'ground',
     name: 'Ground Floor',
-    imageUrl: './maps/24_elysian/elysian_ground.png',
+    imageUrl: './maps/24_elysian/elysian_ground.webp',
     zIndex: 1,
     isDefault: true
   }

@@ -8,13 +8,13 @@ const LAYERS: MapLayer[] = [
   {
     id: 'first',
     name: 'First Floor',
-    imageUrl: './maps/25_chicos_mexican_resturant/chicos_mexican_resturant_first.png',
+    imageUrl: './maps/25_chicos_mexican_resturant/chicos_mexican_resturant_first.webp',
     zIndex: 2
   },
   {
     id: 'ground',
     name: 'Ground Floor',
-    imageUrl: './maps/25_chicos_mexican_resturant/chicos_mexican_resturant_ground.png',
+    imageUrl: './maps/25_chicos_mexican_resturant/chicos_mexican_resturant_ground.webp',
     zIndex: 1,
     isDefault: true
   }
