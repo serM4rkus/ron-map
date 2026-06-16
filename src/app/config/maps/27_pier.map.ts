@@ -6,10 +6,11 @@ import { GameMapConfig, GameMarker, MapLayer, MapObjective } from '../../service
 // ============================================================================
 const LAYERS: MapLayer[] = [
   {
-    id: 'first',
-    name: 'First Floor',
-    imageUrl: './maps/24_elysian/elysian_floor1_black.webp',
-    zIndex: 2
+    id: 'ground',
+    name: 'Ground Floor',
+    imageUrl: './maps/27_pier/pier_ground.webp',
+    zIndex: 0,
+    isDefault: true
   }
 ];
 
@@ -19,8 +20,8 @@ const LAYERS: MapLayer[] = [
 const SPAWNS: GameMarker[] = [
   {
     id: 'spawn1',
-    x: 34.16,
-    y: 74.91,
+    x: 42.14,
+    y: 89.92,
     title: 'Parking Lot',
     description: 'Parking Lot',
     type: 'spawn',
@@ -28,8 +29,8 @@ const SPAWNS: GameMarker[] = [
   },
   {
     id: 'spawn2',
-    x: 31.26,
-    y: 37.34,
+    x: 37.18,
+    y: 34.65,
     title: 'Beach',
     description: 'Beach',
     type: 'spawn',
@@ -37,8 +38,8 @@ const SPAWNS: GameMarker[] = [
   },
   {
     id: 'spawn3',
-    x: 72.04,
-    y: 66.34,
+    x: 66.18,
+    y: 8.06,
     title: 'Docks',
     description: 'Docks',
     type: 'spawn',
@@ -46,158 +47,18 @@ const SPAWNS: GameMarker[] = [
   }
 ];
 
-
-
-// ============================================================================
-// STAIRWAY CONNECTIONS - Organized by floor
-// ============================================================================
-interface StairwayPair {
-  id: string;
-  x: number;
-  y: number;
-  layerId: string;
-  type: 'stairs_up' | 'stairs_down' | 'stairs_up_down';
-  title: string;
-  connectsTo: string | Array<{ targetId: string; label: string }>;
-}
-
-const STAIRWAYS: StairwayPair[] = [
-   // ==================== GROUND FLOOR ====================
-  {
-    id: 'ground_up1',
-    x: 62.18,
-    y: 59.67,
-    layerId: 'ground',
-    type: 'stairs_up',
-    title: 'To First Floor',
-    connectsTo: 'first_down1'
-  },
-  {
-    id: 'ground_up2',
-    x: 48.91,
-    y: 63.56,
-    layerId: 'ground',
-    type: 'stairs_up',
-    title: 'To First Floor',
-    connectsTo: 'first_down2'
-  },
-  {
-    id: 'ground_up3',
-    x: 53.02,
-    y: 49.74,
-    layerId: 'ground',
-    type: 'stairs_up',
-    title: 'To First Floor',
-    connectsTo: 'first_down3'
-  },
-  {
-    id: 'ground_up4',
-    x: 45.25,
-    y: 43.61,
-    layerId: 'ground',
-    type: 'stairs_up',
-    title: 'To First Floor',
-    connectsTo: 'first_down4'
-  },
-  // ==================== FIRST FLOOR ====================
-  {
-    id: 'first_down1',
-    x: 65.17,
-    y: 58.78,
-    layerId: 'first',
-    type: 'stairs_down',
-    title: 'To Ground Floor',
-    connectsTo: 'ground_up1'
-  },
-  {
-    id: 'first_down2',
-    x: 46.76,
-    y: 64.15,
-    layerId: 'first',
-    type: 'stairs_down',
-    title: 'To Ground Floor',
-    connectsTo: 'ground_up2'
-  },
-  {
-    id: 'first_down3',
-    x: 52.65,
-    y: 44.66,
-    layerId: 'first',
-    type: 'stairs_down',
-    title: 'To Ground Floor',
-    connectsTo: 'ground_up3'
-  },
-  {
-    id: 'first_down4',
-    x: 41.05,
-    y: 35.47,
-    layerId: 'first',
-    type: 'stairs_down',
-    title: 'To Ground Floor',
-    connectsTo: 'ground_up4'
-  },
-]
-
-function buildStairwayMarkers(): GameMarker[] {
-  return STAIRWAYS.map(stair => ({
-    id: stair.id,
-    x: stair.x,
-    y: stair.y,
-    title: stair.title,
-    type: stair.type,
-    layerId: stair.layerId,
-    connections: Array.isArray(stair.connectsTo) ? stair.connectsTo : [stair.connectsTo]
-  }));
-}
-
 // ============================================================================
 // OBJECTIVES - Organized by floor and type
 // ============================================================================
 const OBJECTIVE_MARKERS: GameMarker[] = [
   {
-    id: 'hard_objective1',
-    x: 53.45,
-    y: 69.76,
-    title: 'Possible package location.',
-    description: 'Recover the packaged goods that were to be used in the deal.',
-    type: 'hard_objective',
+    id: 'soft_objective1',
+    x: 53.34,
+    y: 59.62,
+    title: 'Chemical weapon cargo.',
+    description: 'Report Chemical weapon cargo.',
+    type: 'soft_objective',
     layerId: 'ground'
-  },
-  {
-    id: 'hard_objective2',
-    x: 51.26,
-    y: 53.7,
-    title: 'Possible package location',
-    description: 'Recover the packaged goods that were to be used in the deal.',
-    type: 'hard_objective',
-    layerId: 'ground'
-  },
-  {
-    id: 'hard_objective3',
-    x: 38.57,
-    y: 38.91,
-    title: 'Possible package location.',
-    description: 'Recover the packaged goods that were to be used in the deal.',
-    type: 'hard_objective',
-    layerId: 'ground'
-  },
-  {
-    id: 'hard_objective4',
-    x: 51.18,
-    y: 66.17,
-    title: 'Possible package location',
-    description: 'Recover the packaged goods that were to be used in the deal.',
-    type: 'hard_objective',
-    layerId: 'first'
-  }, 
-  {
-    id: 'hard_objective5',
-    x: 34.24,
-    y: 32.56,
-    title: 'Possible package location',
-    description: 'Recover the packaged goods that were to be used in the deal.',
-    type: 'hard_objective',
-    layerId: 'first'
   }
 ];
 
@@ -216,6 +77,14 @@ const OBJECTIVES: MapObjective[] = [
     title: 'Rescue all civilians.',
     description: 'Detain any unarmed contacts at the scene',
     type: 'hard'
+  },
+  {
+    id: 'obj1',
+    title: 'Report Chemical weapon cargo.',
+    description: 'Report Chemical weapon cargo.',
+    type: 'soft', 
+    markerIds: ['soft_objective1'], 
+    floorName: 'Ground Floor' 
   }
 ];
 
@@ -224,9 +93,9 @@ const OBJECTIVES: MapObjective[] = [
 // ============================================================================
 export const MAP_PIER: GameMapConfig = {
     markers: [
-    ...SPAWNS
+    ...SPAWNS,
+    ...OBJECTIVE_MARKERS
   ],
-  layers: [],
-  objectives: OBJECTIVES,
-  placeholderImage: './maps/construction_cat.webp'
+  layers: LAYERS,
+  objectives: OBJECTIVES
 };
