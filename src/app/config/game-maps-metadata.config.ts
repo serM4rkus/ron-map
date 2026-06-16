@@ -350,8 +350,7 @@ export const GAME_MAPS_METADATA: GameMapMetadata[] = [
     order: 27,
     category: 'boiling-point',
     preview_picture: './maps/27_pier/pier_preview.webp',
-    loader: () => import('./maps/27_pier.map').then(m => m.MAP_PIER),
-    isReady: false
+    loader: () => import('./maps/27_pier.map').then(m => m.MAP_PIER)
   },
   {
     id: 'bank',
