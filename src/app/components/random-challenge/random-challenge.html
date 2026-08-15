@@ -22,22 +22,80 @@
     <div class="challenge-modal" (click)="$event.stopPropagation()">
       <div class="challenge-header">
         <h2>{{ translate('randomChallenge') }}</h2>
-        <button class="close-btn" (click)="closeChallenge()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
+        <div class="header-actions">
+          <button
+            class="config-btn"
+            [class.active]="showCategoryConfig"
+            (click)="showCategoryConfig = !showCategoryConfig"
+            title="Configure map pool"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+            <span class="config-btn-label">Map Pool</span>
+            <span class="config-btn-count">{{ enabledMapCount }}</span>
+          </button>
+          <button class="close-btn" (click)="closeChallenge()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
       </div>
+
+      @if (showCategoryConfig) {
+      <div class="category-config">
+        <div class="category-config-header">
+          <div class="category-config-title-group">
+            <svg class="category-config-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 6h18M3 12h18M3 18h18"></path>
+            </svg>
+            <div>
+              <span class="category-config-title">Map Pool</span>
+              <span class="category-config-subtitle">Select categories to include in random draws</span>
+            </div>
+          </div>
+          <div class="category-config-actions">
+            <span class="category-config-count">{{ enabledMapCount }} maps</span>
+            <button class="toggle-all-btn" (click)="toggleAllCategories()">
+              {{ allCategoriesEnabled ? 'Deselect All' : 'Select All' }}
+            </button>
+            <button class="done-btn" (click)="showCategoryConfig = false">Done</button>
+          </div>
+        </div>
+        <div class="category-list">
+          @for (cat of allCategories; track cat.id) {
+            @let catId = $any(cat.id);
+            @let enabled = isCategoryEnabled(catId);
+          <button
+            class="category-toggle-btn"
+            [class.enabled]="enabled"
+            [class.disabled-category]="!enabled"
+            (click)="toggleCategory(catId)"
+            [title]="cat.description"
+          >
+            <span class="category-dot" [style.background-color]="cat.badgeColor"></span>
+            <span class="category-name">{{ cat.displayName }}</span>
+            <span class="category-map-count">{{ getMapsCountForCategory(catId) }}</span>
+            @if (enabled) {
+            <svg class="category-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            }
+          </button>
+          }
+        </div>
+      </div>
+      }
 
       @if (!result && !isRolling) {
       <div class="challenge-promo-section">
-        <div class="challenge-promo-content">
-          <p class="challenge-promo-text">
-            You already know all maps better that anyone and do not know what to do in game?
-            <br>Use this button to roll challenge for you and your team!
-          </p>
-        </div>
+        <p class="challenge-promo-text">
+          You already know all maps better that anyone and do not know what to do in game?
+          <br>Use this button to roll challenge for you and your team!
+        </p>
       </div>
       }
 
