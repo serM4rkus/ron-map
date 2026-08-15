@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { LanguageService } from '../../services/language.service';
 import { GameMapMetadata } from '../../config/game-maps-metadata.config';
+import { getAllCategories, MapCategoryInfo, MapCategoryId } from '../../config/map-categories.config';
 import { WEAPONS, Weapon } from '../../config/weapons.config';
 import { DIFFICULTIES, Difficulty } from '../../config/difficulties.config';
 import { ArmorConfig, generateRandomArmor, getArmorTypeName, getArmorCoverageName, getArmorMaterialName } from '../../config/armor.config';
@@ -29,8 +30,24 @@ export class RandomChallengeComponent implements OnDestroy {
   @Output() modalStateChanged = new EventEmitter<boolean>();
 
   showChallenge = false;
+  showCategoryConfig = false;
   isRolling = false;
   result: ChallengeResult | null = null;
+
+  readonly allCategories: MapCategoryInfo[] = getAllCategories();
+  enabledCategories = new Set<MapCategoryId>(this.allCategories.map(c => c.id as MapCategoryId));
+
+  get filteredMaps(): GameMapMetadata[] {
+    return this.maps.filter(m => this.enabledCategories.has(m.category));
+  }
+
+  get allCategoriesEnabled(): boolean {
+    return this.enabledCategories.size === this.allCategories.length;
+  }
+
+  get enabledMapCount(): number {
+    return this.filteredMaps.length;
+  }
 
   private readonly REROLL_DELAY = 1000;
   private rollTimeout?: ReturnType<typeof setTimeout>;
@@ -59,9 +76,40 @@ export class RandomChallengeComponent implements OnDestroy {
     this.cdr.markForCheck();
   }
 
-  rollChallenge(): void {    
-    if (this.isRolling || this.maps.length === 0) {
-      Logger.warn('Cannot roll: isRolling=', this.isRolling, 'maps.length=', this.maps.length);
+  toggleCategory(categoryId: MapCategoryId): void {
+    if (this.enabledCategories.has(categoryId)) {
+      if (this.enabledCategories.size > 1) {
+        this.enabledCategories.delete(categoryId);
+      }
+    } else {
+      this.enabledCategories.add(categoryId);
+    }
+    this.enabledCategories = new Set(this.enabledCategories);
+    this.cdr.markForCheck();
+  }
+
+  toggleAllCategories(): void {
+    if (this.allCategoriesEnabled) {
+      const first = this.allCategories[0].id as MapCategoryId;
+      this.enabledCategories = new Set([first]);
+    } else {
+      this.enabledCategories = new Set(this.allCategories.map(c => c.id as MapCategoryId));
+    }
+    this.cdr.markForCheck();
+  }
+
+  isCategoryEnabled(categoryId: MapCategoryId): boolean {
+    return this.enabledCategories.has(categoryId);
+  }
+
+  getMapsCountForCategory(categoryId: MapCategoryId): number {
+    return this.maps.filter(m => m.category === categoryId).length;
+  }
+
+  rollChallenge(): void {
+    const pool = this.filteredMaps;
+    if (this.isRolling || pool.length === 0) {
+      Logger.warn('Cannot roll: isRolling=', this.isRolling, 'pool.length=', pool.length);
       return;
     }
 
@@ -71,7 +119,8 @@ export class RandomChallengeComponent implements OnDestroy {
 
     this.rollTimeout = setTimeout(async () => {
       try {
-        const randomMap = this.maps[Math.floor(Math.random() * this.maps.length)];
+        const pool = this.filteredMaps;
+        const randomMap = pool[Math.floor(Math.random() * pool.length)];
         const randomWeapon = WEAPONS[Math.floor(Math.random() * WEAPONS.length)];
         const randomDifficulty = DIFFICULTIES[Math.floor(Math.random() * DIFFICULTIES.length)];
         const randomArmor = generateRandomArmor();
