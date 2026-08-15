@@ -388,7 +388,8 @@ const OBJECTIVES: MapObjective[] = [
     title: 'Apprehend VIP Suspect.',
     description: 'Apprehend VIP Suspect',
     type: 'hard',
-    markerIds: ['hard_objective1']
+    markerIds: ['hard_objective1'],
+    floorName: '22d floor'
   },
   {
     id: 'obj2',
