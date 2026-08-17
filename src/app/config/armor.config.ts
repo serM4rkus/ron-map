@@ -42,8 +42,10 @@ export function getValidArmorMaterials(armorType: string): string[] {
   return ['kevlar', 'steel', 'ceramic'];
 }
 
-export function generateRandomArmor(): ArmorConfig {
-  const randomType = ARMOR_TYPES[Math.floor(Math.random() * ARMOR_TYPES.length)];
+export function generateRandomArmor(pinnedTypeId?: string): ArmorConfig {
+  const randomType = pinnedTypeId
+    ? (ARMOR_TYPES.find(t => t.id === pinnedTypeId) ?? ARMOR_TYPES[Math.floor(Math.random() * ARMOR_TYPES.length)])
+    : ARMOR_TYPES[Math.floor(Math.random() * ARMOR_TYPES.length)];
   
   const validCoverages = getValidArmorCoverages(randomType.id);
   const validMaterials = getValidArmorMaterials(randomType.id);
