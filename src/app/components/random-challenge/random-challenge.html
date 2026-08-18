@@ -33,8 +33,7 @@
               <circle cx="12" cy="12" r="3"></circle>
               <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
             </svg>
-            <span class="config-btn-label">Map Pool</span>
-            <span class="config-btn-count">{{ enabledMapCount }}</span>
+            <span class="config-btn-label">Configure Roll</span>
           </button>
           <button class="close-btn" (click)="closeChallenge()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -47,46 +46,276 @@
 
       @if (showCategoryConfig) {
       <div class="category-config">
-        <div class="category-config-header">
-          <div class="category-config-title-group">
-            <svg class="category-config-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 6h18M3 12h18M3 18h18"></path>
-            </svg>
-            <div>
-              <span class="category-config-title">Map Pool</span>
-              <span class="category-config-subtitle">Select categories to include in random draws</span>
-            </div>
-          </div>
-          <div class="category-config-actions">
-            <span class="category-config-count">{{ enabledMapCount }} maps</span>
-            <button class="toggle-all-btn" (click)="toggleAllCategories()">
-              {{ allCategoriesEnabled ? 'Deselect All' : 'Select All' }}
-            </button>
-            <button class="done-btn" (click)="showCategoryConfig = false">Done</button>
-          </div>
-        </div>
-        <div class="category-list">
-          @for (cat of allCategories; track cat.id) {
-            @let catId = $any(cat.id);
-            @let enabled = isCategoryEnabled(catId);
-          <button
-            class="category-toggle-btn"
-            [class.enabled]="enabled"
-            [class.disabled-category]="!enabled"
-            (click)="toggleCategory(catId)"
-            [title]="cat.description"
-          >
-            <span class="category-dot" [style.background-color]="cat.badgeColor"></span>
-            <span class="category-name">{{ cat.displayName }}</span>
-            <span class="category-map-count">{{ getMapsCountForCategory(catId) }}</span>
-            @if (enabled) {
-            <svg class="category-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
+
+        <div class="config-tabs">
+          <button class="config-tab" [class.active]="activeConfigTab === 'maps'" (click)="setConfigTab('maps')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            Maps
+            @if (pinnedMap) { <span class="tab-pin-badge">📍</span> }
+            @else { <span class="tab-count">{{ enabledMapCount }}</span> }
+          </button>
+          <button class="config-tab" [class.active]="activeConfigTab === 'difficulty'" (click)="setConfigTab('difficulty')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 14 12 8 20 14"></polyline></svg>
+            Difficulty
+            <span class="tab-diff-dots">
+              @for (diff of allDifficulties; track diff.id) {
+                <span
+                  class="tab-diff-dot"
+                  [style.background-color]="isDifficultyEnabled(diff.id) ? diff.color : 'transparent'"
+                  [style.border-color]="diff.color"
+                ></span>
+              }
+            </span>
+          </button>
+          <button class="config-tab" [class.active]="activeConfigTab === 'weapons'" (click)="setConfigTab('weapons')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+            Weapons
+            @if (pinnedWeapon) { <span class="tab-pin-badge">📍</span> }
+            @else { <span class="tab-count">{{ enabledWeaponCount }}</span> }
+          </button>
+          <button class="config-tab" [class.active]="activeConfigTab === 'armor'" (click)="setConfigTab('armor')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l-8 4v6c0 5.5 3.5 9.5 8 11 4.5-1.5 8-5.5 8-11V6l-8-4z"></path></svg>
+            Armor
+            @if (!armorEnabled) { <span class="tab-off-badge">OFF</span> }
+            @else if (isLocked('armor')) {
+              <span class="tab-pin-bage tab-lock-bage">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </span>
             }
           </button>
-          }
         </div>
+
+        <div class="config-tab-body">
+
+          @if (activeConfigTab === 'maps') {
+          <div class="tab-section-header">
+            <div>
+              <span class="tab-section-title">Map Pool</span>
+              <span class="tab-section-subtitle">Select categories to include in random draws</span>
+            </div>
+            <div class="tab-section-actions">
+              <span class="category-config-count">{{ enabledMapCount }} maps</span>
+              <button class="toggle-all-btn" (click)="toggleAllCategories()">
+                {{ allCategoriesEnabled ? 'Deselect All' : 'Select All' }}
+              </button>
+            </div>
+          </div>
+          <div class="category-list">
+            @for (cat of allCategories; track cat.id) {
+              @let catId = $any(cat.id);
+              @let enabled = isCategoryEnabled(catId);
+            <button
+              class="category-toggle-btn"
+              [class.enabled]="enabled"
+              [class.disabled-category]="!enabled"
+              (click)="toggleCategory(catId)"
+              [title]="cat.description"
+            >
+              <span class="category-dot" [style.background-color]="cat.badgeColor"></span>
+              <span class="category-name">{{ cat.displayName }}</span>
+              <span class="category-map-count">{{ getMapsCountForCategory(catId) }}</span>
+              @if (enabled) {
+              <svg class="category-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              }
+            </button>
+            }
+          </div>
+          @if (pinnedMap) {
+          <div class="pin-strip">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            <span>Pinned: <strong>{{ pinnedMap.name }}</strong></span>
+            <button class="pin-clear-btn" (click)="pinMap(pinnedMap!)">✕</button>
+          </div>
+          }
+          <button class="pin-collapse-toggle" (click)="mapListExpanded = !mapListExpanded">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"
+              [style.transform]="mapListExpanded ? 'rotate(180deg)' : 'rotate(0)'"
+              style="transition: transform 0.2s ease">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            {{ mapListExpanded ? 'Hide' : 'Pin a specific map' }}
+            @if (!mapListExpanded && pinnedMap) { <span class="collapse-pin-hint">· {{ pinnedMap.name }}</span> }
+          </button>
+          @if (mapListExpanded) {
+          <div class="pin-map-list">
+            @for (map of filteredMaps; track map.id) {
+            <button
+              class="pin-item-btn square"
+              [class.pinned]="pinnedMap?.id === map.id"
+              (click)="pinMap(map)"
+              [title]="'Pin ' + map.name"
+            >
+              @if (pinnedMap?.id === map.id) {
+              <svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              }
+              {{ map.name }}
+            </button>
+            }
+          </div>
+          }
+          }
+
+          @if (activeConfigTab === 'difficulty') {
+          <div class="tab-section-header">
+            <div>
+              <span class="tab-section-title">Difficulty</span>
+              <span class="tab-section-subtitle">Only selected difficulties will be rolled</span>
+            </div>
+            <button class="toggle-all-btn" (click)="toggleAllDifficulties()">
+              {{ allDifficultiesEnabled ? 'Deselect All' : 'Select All' }}
+            </button>
+          </div>
+          <div class="difficulty-list">
+            @for (diff of allDifficulties; track diff.id) {
+              @let diffEnabled = isDifficultyEnabled(diff.id);
+            <button
+              class="category-toggle-btn"
+              [class.enabled]="diffEnabled"
+              [class.disabled-category]="!diffEnabled"
+              (click)="toggleDifficulty(diff.id)"
+            >
+              <span class="category-dot" [style.background-color]="diff.color"></span>
+              <span class="category-name">{{ diff.name }}</span>
+              @if (diffEnabled) {
+              <svg class="category-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              }
+            </button>
+            }
+          </div>
+          }
+
+          @if (activeConfigTab === 'weapons') {
+          <div class="tab-section-header">
+            <div>
+              <span class="tab-section-title">Weapons</span>
+              <span class="tab-section-subtitle">Filter by type and lethality</span>
+            </div>
+            <div class="tab-section-actions">
+              <span class="category-config-count">{{ enabledWeaponCount }} weapons</span>
+              <button class="toggle-all-btn" (click)="toggleAllWeaponTypes()">
+                {{ allWeaponTypesEnabled ? 'Deselect All' : 'Select All' }}
+              </button>
+            </div>
+          </div>
+          <div class="lethal-toggles">
+            <button class="lethal-btn" [class.enabled]="allowLethal" (click)="toggleLethal('lethal')">
+              <span class="lethal-dot lethal"></span>
+              Lethal
+              @if (allowLethal) {<svg class="category-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>}
+            </button>
+            <button class="lethal-btn" [class.enabled]="allowNonLethal" (click)="toggleLethal('nonLethal')">
+              <span class="lethal-dot non-lethal"></span>
+              Less Lethal
+              @if (allowNonLethal) {<svg class="category-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>}
+            </button>
+          </div>
+          <div class="category-list">
+            @for (wtype of allWeaponTypes; track wtype) {
+              @let wtEnabled = isWeaponTypeEnabled(wtype);
+            <button
+              class="category-toggle-btn"
+              [class.enabled]="wtEnabled"
+              [class.disabled-category]="!wtEnabled"
+              (click)="toggleWeaponType(wtype)"
+            >
+              <span class="category-name">{{ wtype }}</span>
+              <span class="category-map-count">{{ getWeaponsCountForType(wtype) }}</span>
+              @if (wtEnabled) {
+              <svg class="category-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              }
+            </button>
+            }
+          </div>
+          @if (pinnedWeapon) {
+          <div class="pin-strip">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            <span>Pinned: <strong>{{ pinnedWeapon.name }}</strong></span>
+            <button class="pin-clear-btn" (click)="pinWeapon(pinnedWeapon!)">✕</button>
+          </div>
+          }
+          <button class="pin-collapse-toggle" (click)="weaponListExpanded = !weaponListExpanded">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"
+              [style.transform]="weaponListExpanded ? 'rotate(180deg)' : 'rotate(0)'"
+              style="transition: transform 0.2s ease">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            {{ weaponListExpanded ? 'Hide' : 'Pin a specific weapon' }}
+            @if (!weaponListExpanded && pinnedWeapon) { <span class="collapse-pin-hint">· {{ pinnedWeapon.name }}</span> }
+          </button>
+          @if (weaponListExpanded) {
+          <div class="pin-map-list">
+            @for (w of filteredWeapons; track w.id) {
+            <button
+              class="pin-item-btn square"
+              [class.pinned]="pinnedWeapon?.id === w.id"
+              (click)="pinWeapon(w)"
+              [title]="'Pin ' + w.name"
+            >
+              @if (pinnedWeapon?.id === w.id) {
+              <svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              }
+              {{ w.name }}
+            </button>
+            }
+          </div>
+          }
+          }
+
+          @if (activeConfigTab === 'armor') {
+          <div class="tab-section-header">
+            <div>
+              <span class="tab-section-title">Armor</span>
+              <span class="tab-section-subtitle">Toggle armor on/off or restrict to specific types</span>
+            </div>
+            <button class="done-btn" [class.off]="!armorEnabled" (click)="toggleArmorEnabled()">
+              {{ armorEnabled ? 'Armor ON' : 'Armor OFF' }}
+            </button>
+          </div>
+          @if (isLocked('armor') && pinnedArmor) {
+            <div class="pin-strip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <span>Locked from result: <strong>{{ getArmorTypeName(pinnedArmor.type) }}</strong></span>
+            </div>
+          }
+          <div class="category-list">
+            @for (atype of allArmorTypes; track atype.id) {
+              @let isNoArmor = atype.id === 'no_armor';
+              @let isResultLocked = isLocked('armor') && !!pinnedArmor;
+              @let isPinnedType = isResultLocked && pinnedArmor!.type === atype.id;
+              @let atEnabled = isPinnedType || (!isResultLocked && (isArmorTypeEnabled(atype.id) || (!armorEnabled && isNoArmor)));
+              @let isClickable = !isResultLocked && (armorEnabled || isNoArmor);
+            <button
+              class="category-toggle-btn"
+              [class.enabled]="atEnabled"
+              [class.disabled-category]="!atEnabled"
+              [class.armor-locked]="(!armorEnabled && !isNoArmor) || (isResultLocked && !isPinnedType)"
+              (click)="isClickable ? (armorEnabled ? toggleArmorType(atype.id) : toggleArmorEnabled()) : null"
+            >
+              <span class="category-name">{{ atype.name }}</span>
+              @if (isPinnedType) {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              } @else if (atEnabled) {
+              <svg class="category-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              }
+            </button>
+            }
+          </div>
+          }
+
+        </div>
+
+        <div class="config-panel-footer">
+          <button class="done-btn" (click)="showCategoryConfig = false">Done</button>
+        </div>
+
       </div>
       }
 
@@ -100,8 +329,27 @@
       }
 
       <div class="challenge-content">
+        @if (!result && !isRolling && enabledWeaponCount === 0) {
+        <div class="no-weapon-warning">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          No weapons available. Adjust weapon filters to roll.
+        </div>
+        }
+        @if (!result && !isRolling && allLocked) {
+        <div class="no-weapon-warning all-locked-warning">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          All fields are locked — unlock at least one to re-roll.
+        </div>
+        }
         @if (!result && !isRolling) {
-        <button class="roll-button" (click)="rollChallenge()">
+        <button class="roll-button" (click)="rollChallenge()" [disabled]="!canRoll">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"></path>
           </svg>
@@ -120,6 +368,13 @@
         <div class="challenge-result">
           <div class="unified-card">
             <div class="unified-card-section armor-section">
+              <button class="lock-btn" [class.locked]="isLocked('armor')" (click)="toggleLock('armor')" title="Lock armor">
+                @if (isLocked('armor')) {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                } @else {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>
+                }
+              </button>
               <div class="armor-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M12 2l-8 4v6c0 5.5 3.5 9.5 8 11 4.5-1.5 8-5.5 8-11V6l-8-4z"></path>
@@ -146,6 +401,13 @@
             </div>
 
             <div class="unified-card-section map-section" (click)="navigateToMap(result.map)">
+              <button class="lock-btn map-lock-btn" [class.locked]="isLocked('map')" (click)="$event.stopPropagation(); toggleLock('map')" title="Lock map">
+                @if (isLocked('map')) {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                } @else {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>
+                }
+              </button>
               @if (result.map.preview_picture) {
               <img [src]="result.map.preview_picture" [alt]="result.map.name" class="map-preview">
               }
@@ -171,6 +433,14 @@
                   </div>
                   }
                 </div>
+                <div class="difficulty-group">
+                  <button class="lock-btn difficulty-lock-btn" [class.locked]="isLocked('difficulty')" (click)="$event.stopPropagation(); toggleLock('difficulty')" title="Lock difficulty">
+                    @if (isLocked('difficulty')) {
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    } @else {
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>
+                    }
+                  </button>
                 <div class="map-difficulty" [style.background-color]="result.difficulty.color">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     @if (result.difficulty.id === 'casual') {
@@ -192,10 +462,18 @@
                   </svg>
                   <span>{{ result.difficulty.name }}</span>
                 </div>
+                </div>
               </div>
             </div>
 
             <div class="unified-card-section weapon-section">
+              <button class="lock-btn" [class.locked]="isLocked('weapon')" (click)="toggleLock('weapon')" title="Lock weapon">
+                @if (isLocked('weapon')) {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                } @else {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>
+                }
+              </button>
               <img [src]="result.weapon.picture" [alt]="result.weapon.name" class="weapon-image"
                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
               <div class="weapon-placeholder" style="display: none;">
@@ -212,7 +490,16 @@
           </div>
         </div>
 
-        <button class="roll-again-button" (click)="rollChallenge()">
+        @if (allLocked) {
+        <div class="no-weapon-warning all-locked-warning roll-again-warning">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          All fields are locked — unlock at least one to re-roll.
+        </div>
+        }
+        <button class="roll-again-button" (click)="rollChallenge()" [disabled]="allLocked">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"></path>
           </svg>
