@@ -217,6 +217,13 @@
   font-size: 11px;
 }
 
+.tab-lock-bage {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: --var(--color-primary-lighter)
+}
+
 .tab-diff-dots {
   display: flex;
   gap: 3px;

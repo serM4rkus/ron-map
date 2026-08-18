@@ -288,12 +288,15 @@ export class RandomChallengeComponent implements OnDestroy {
   }
 
   isLocked(field: 'map' | 'weapon' | 'difficulty' | 'armor'): boolean {
+    if (field === "difficulty") {
+      return this.enabledDifficulties.size === 1;
+    }
     return this.lockedFields.has(field);
   }
 
   toggleLock(field: 'map' | 'weapon' | 'difficulty' | 'armor'): void {
     if (!this.result) return;
-    if (this.lockedFields.has(field)) {
+    if (this.isLocked(field)) {
       this.lockedFields.delete(field);
       if (field === 'map') this.pinnedMap = null;
       else if (field === 'weapon') this.pinnedWeapon = null;

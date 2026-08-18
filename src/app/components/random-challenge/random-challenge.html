@@ -77,6 +77,11 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l-8 4v6c0 5.5 3.5 9.5 8 11 4.5-1.5 8-5.5 8-11V6l-8-4z"></path></svg>
             Armor
             @if (!armorEnabled) { <span class="tab-off-badge">OFF</span> }
+            @else if (isLocked('armor')) {
+              <span class="tab-pin-bage tab-lock-bage">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </span>
+            }
           </button>
         </div>
 
@@ -272,20 +277,30 @@
               {{ armorEnabled ? 'Armor ON' : 'Armor OFF' }}
             </button>
           </div>
+          @if (isLocked('armor') && pinnedArmor) {
+            <div class="pin-strip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <span>Locked from result: <strong>{{ getArmorTypeName(pinnedArmor.type) }}</strong></span>
+            </div>
+          }
           <div class="category-list">
             @for (atype of allArmorTypes; track atype.id) {
               @let isNoArmor = atype.id === 'no_armor';
-              @let atEnabled = isArmorTypeEnabled(atype.id) || (!armorEnabled && isNoArmor);
-              @let isClickable = armorEnabled || isNoArmor;
+              @let isResultLocked = isLocked('armor') && !!pinnedArmor;
+              @let isPinnedType = isResultLocked && pinnedArmor!.type === atype.id;
+              @let atEnabled = isPinnedType || (!isResultLocked && (isArmorTypeEnabled(atype.id) || (!armorEnabled && isNoArmor)));
+              @let isClickable = !isResultLocked && (armorEnabled || isNoArmor);
             <button
               class="category-toggle-btn"
               [class.enabled]="atEnabled"
               [class.disabled-category]="!atEnabled"
-              [class.armor-locked]="!armorEnabled && !isNoArmor"
+              [class.armor-locked]="(!armorEnabled && !isNoArmor) || (isResultLocked && !isPinnedType)"
               (click)="isClickable ? (armorEnabled ? toggleArmorType(atype.id) : toggleArmorEnabled()) : null"
             >
               <span class="category-name">{{ atype.name }}</span>
-              @if (atEnabled) {
+              @if (isPinnedType) {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              } @else if (atEnabled) {
               <svg class="category-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
