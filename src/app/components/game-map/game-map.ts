@@ -80,6 +80,9 @@ export class GameMapComponent implements OnInit, OnDestroy {
   private touchStartX = 0;
   private touchStartY = 0;
   private touchMoved = false;
+  private drawingTouchId: number | null = null;
+  private isTouchDrawingGesture = false;
+  private pinchTouchIds: number[] = [];
 
   private readonly destroy$ = new Subject<void>();
 
@@ -88,6 +91,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
   private mouseUpListener?: (e: MouseEvent) => void;
   private touchMoveListener?: (e: TouchEvent) => void;
   private touchEndListener?: (e: TouchEvent) => void;
+  private touchCancelListener?: () => void;
   private listenersAttached = false;
 
   constructor(
@@ -222,7 +226,11 @@ export class GameMapComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.detachMouseListeners();
+    if (this.isTouchDrawingGesture || this.mapInteractionService.getState().isTouching) {
+      this.finishTouchGesture();
+    } else {
+      this.detachMouseListeners();
+    }
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -238,11 +246,17 @@ export class GameMapComponent implements OnInit, OnDestroy {
     this.mouseUpListener = (e: MouseEvent) => this.handleMouseUp(e);
     this.touchMoveListener = (e: TouchEvent) => this.handleTouchMove(e);
     this.touchEndListener = (e: TouchEvent) => this.handleTouchEnd(e);
+    this.touchCancelListener = () => {
+      if (this.isTouchDrawingGesture || this.mapInteractionService.getState().isTouching) {
+        this.finishTouchGesture();
+      }
+    };
 
     document.addEventListener('mousemove', this.mouseMoveListener);
     document.addEventListener('mouseup', this.mouseUpListener);
     document.addEventListener('touchmove', this.touchMoveListener, { passive: false });
     document.addEventListener('touchend', this.touchEndListener);
+    document.addEventListener('touchcancel', this.touchCancelListener);
 
     this.listenersAttached = true;
   }
@@ -271,6 +285,11 @@ export class GameMapComponent implements OnInit, OnDestroy {
     if (this.touchEndListener) {
       document.removeEventListener('touchend', this.touchEndListener);
       this.touchEndListener = undefined;
+    }
+
+    if (this.touchCancelListener) {
+      document.removeEventListener('touchcancel', this.touchCancelListener);
+      this.touchCancelListener = undefined;
     }
 
     this.listenersAttached = false;
@@ -613,6 +632,8 @@ export class GameMapComponent implements OnInit, OnDestroy {
 
   // Mouse Events for panning and drawing
   onMouseDown(event: MouseEvent): void {
+    if (this.isTouchDrawingGesture) return;
+
     if (event.button === 0) {
       // Attach listeners only when needed
       this.attachMouseListeners();
@@ -638,6 +659,8 @@ export class GameMapComponent implements OnInit, OnDestroy {
    * Only called when listeners are attached (not globally)
    */
   private handleMouseMove(event: MouseEvent): void {
+    if (this.isTouchDrawingGesture) return;
+
     if (this.isDrawing && this.isDrawingMode) {
       const container = this.mapViewerComponent?.mapContainer?.nativeElement as HTMLElement | undefined;
       const rect = this.getTopImageRect(container);
@@ -656,29 +679,35 @@ export class GameMapComponent implements OnInit, OnDestroy {
    * Only called when listeners are attached (not globally)
    */
   private handleMouseUp(event: MouseEvent): void {
+    if (this.isTouchDrawingGesture) return;
+
     // Detach listeners when mouse is released
     this.detachMouseListeners();
 
-    if (this.isDrawing) {
-      if (this.currentMap && this.currentMapMetadata) {
-        const visibleLayer = this.currentMap.layers?.find(l => l.visible);
-        if (visibleLayer) {
-          const drawing = this.drawingService.finishDrawing(this.currentMapMetadata.id, visibleLayer.id);
-          if (drawing && !this.isEraserMode) {
-            this.drawnLines.push(drawing);
-            this.cdr.markForCheck();
-          } else if (this.isEraserMode) {
-            // Reload drawings after erasing
-            this.loadDrawingsForCurrentMap();
-          }
-        }
-      }
-    }
+    this.finishDrawing();
 
     // Handle pan end and check if it was a click (no movement)
     const wasClick = this.mapInteractionService.endPan();
     if (wasClick && !this.showMarkerForm) {
       this.gameMapService.selectMarker(null);
+    }
+  }
+
+  private finishDrawing(): void {
+    if (!this.isDrawing) return;
+
+    const visibleLayer = this.currentMap?.layers?.find(layer => layer.visible);
+    if (!visibleLayer || !this.currentMapMetadata) {
+      this.drawingService.cancelDrawing();
+      return;
+    }
+
+    const drawing = this.drawingService.finishDrawing(this.currentMapMetadata.id, visibleLayer.id);
+    if (drawing && !this.isEraserMode) {
+      this.drawnLines.push(drawing);
+      this.cdr.markForCheck();
+    } else if (this.isEraserMode) {
+      this.loadDrawingsForCurrentMap();
     }
   }
 
@@ -705,7 +734,27 @@ export class GameMapComponent implements OnInit, OnDestroy {
 
   // Touch Events for mobile support
   onTouchStart(event: TouchEvent): void {
+    if (this.showMarkerForm) return;
+
     this.attachMouseListeners();
+
+    if (this.isTouchDrawingGesture || (this.isDrawingMode && !this.mapInteractionService.getState().isTouching)) {
+      const startsStroke = !this.isTouchDrawingGesture && event.touches.length === 1;
+      this.isTouchDrawingGesture = true;
+      if (startsStroke) {
+        const touch = event.touches[0];
+        const container = this.mapViewerComponent?.mapContainer?.nativeElement as HTMLElement | undefined;
+        const rect = this.getTopImageRect(container);
+        if (rect && rect.width > 0 && rect.height > 0) {
+          this.drawingTouchId = touch.identifier;
+          this.drawingService.startDrawing(touch.clientX, touch.clientY, rect);
+        }
+      } else {
+        this.updateTouchDrawing(event.touches);
+      }
+      if (event.cancelable) event.preventDefault();
+      return;
+    }
 
     // Store touch start position
     if (event.touches.length === 1) {
@@ -714,13 +763,17 @@ export class GameMapComponent implements OnInit, OnDestroy {
       this.touchMoved = false;
     }
 
-    if (!this.showMarkerForm) {
-      this.mapInteractionService.startTouch(event.touches);
-      // Don't preventDefault on touchstart to allow clicks on markers
-    }
+    this.mapInteractionService.startTouch(event.touches);
+    // Don't preventDefault on touchstart to allow clicks on markers
   }
 
   private handleTouchMove(event: TouchEvent): void {
+    if (this.isTouchDrawingGesture) {
+      this.updateTouchDrawing(event.touches);
+      if (event.cancelable) event.preventDefault();
+      return;
+    }
+
     // Check if touch has moved significantly
     if (event.touches.length === 1) {
       const deltaX = Math.abs(event.touches[0].clientX - this.touchStartX);
@@ -739,12 +792,53 @@ export class GameMapComponent implements OnInit, OnDestroy {
     }
   }
 
-  private handleTouchEnd(event: TouchEvent): void {
-    if (event.touches.length > 0) {
-      this.mapInteractionService.updateTouch(event.touches);
+  private updateTouchDrawing(touches: TouchList): void {
+    const touch = Array.from(touches).find(touch => touch.identifier === this.drawingTouchId);
+    if (touch && touches.length === 1 && this.isDrawing && this.isDrawingMode) {
+      const container = this.mapViewerComponent?.mapContainer?.nativeElement as HTMLElement | undefined;
+      const rect = this.getTopImageRect(container);
+      if (rect && rect.width > 0 && rect.height > 0) {
+        this.drawingService.continueDrawing(touch.clientX, touch.clientY, rect);
+      }
       return;
     }
 
+    this.finishDrawing();
+    this.drawingTouchId = null;
+
+    if (touches.length === 2) {
+      const sameTouches = this.pinchTouchIds.length === 2 &&
+        Array.from(touches).every(touch => this.pinchTouchIds.includes(touch.identifier));
+      if (sameTouches && this.mapInteractionService.getState().initialPinchDistance > 0) {
+        this.mapInteractionService.updateTouch(touches);
+      } else {
+        this.pinchTouchIds = Array.from(touches, touch => touch.identifier);
+        this.mapInteractionService.startTouch(touches);
+      }
+    } else if (this.pinchTouchIds.length > 0) {
+      this.pinchTouchIds = [];
+      this.mapInteractionService.endTouch();
+    }
+  }
+
+  private handleTouchEnd(event: TouchEvent): void {
+    if (event.touches.length > 0) {
+      if (this.isTouchDrawingGesture) {
+        this.updateTouchDrawing(event.touches);
+      } else {
+        this.mapInteractionService.updateTouch(event.touches);
+      }
+      return;
+    }
+
+    this.finishTouchGesture();
+  }
+
+  private finishTouchGesture(): void {
+    if (this.isTouchDrawingGesture) this.finishDrawing();
+    this.drawingTouchId = null;
+    this.isTouchDrawingGesture = false;
+    this.pinchTouchIds = [];
     this.detachMouseListeners();
     this.mapInteractionService.endTouch();
 
